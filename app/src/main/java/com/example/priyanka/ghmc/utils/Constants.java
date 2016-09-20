@@ -2,9 +2,7 @@
 package com.example.priyanka.ghmc.utils;
 
 
-/**
- * Created by Priyanka on 16-03-2016.
- */
+
 public class Constants {
 
     public static final long DEFAULT_LONG_VALUE = -2;
