@@ -1,3 +1,95 @@
 <resources>
     <string name="app_name">GHMC</string>
+    <string name="action_settings">Settings</string>
+
+    <!--json file names-->
+    <string name="login_json">login.json</string>
+    <!--keys-->
+    <string name="login_uname">UserName</string>
+    <string name="login_pwd">Password</string>
+    <string name="login_login">Login</string>
+    <string name="please_wait">Please Wait!</string>
+    <!--domain name-->
+    <string name="domain_name">smartcircle</string>
+
+    <!--Validation-->
+    <string name="login_validation_uname_empty">Please enter user name</string>
+    <string name="login_validation_pnum_empty">Please enter phone number</string>
+    <string name="login_validation_pnum_size">Please enter valid phone number</string>
+    <string name="event_id_validation">Please enter valid Event ID</string>
+    <string name="store_name_validation">Please enter valid Store Name</string>
+    <string name="signup_validation_fname_empty">Please enter first name</string>
+    <string name="signup_validation_lname_empty">Please enter last name</string>
+    <string name="signup_validation_email_empty">Please enter email address</string>
+    <string name="signup_validation_email_invalid">Please enter a valid email</string>
+    <string name="signup_validation_password_empty">Please enter password</string>
+    <string name="signup_validation_cpassword_empty">Please confirm password</string>
+    <string name="signup_validation_pass_size">Please enter minimum 6 characters</string>
+    <string name="signup_validation_cpassword_mismatch">Password and Confirm password didn\'t match</string>
+
+    <string name="owner_no_hint">Enter Owners phone #</string>
+    <string name="password_hint">Password</string>
+    <string name="event_id_hint">Enter Event ID Here</string>
+    <string name="store_name_hint">Enter Store Name Here</string>
+    <string name="login_bold"><b>LOGIN</b></string>
+    <string name="Email_hint">Email Address</string>
+    <string name="list_of_shows">List of Shows</string>
+    <string name="title_photos">Photos</string>
+    <string name="select_show">Please select the show you have been assigned to support </string>
+    <string name="title_activity_splash">SplashActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_event_introduction">EventIntroductionActivity</string>
+    <string name="title_activity_chat">Chat</string>
+    <string name="send">Send</string>
+    <string name="yet_to_submit">YET TO SUBMIT</string>
+    <string name="awaiting_approval">AWAITING APPROVAL</string>
+    <string name="rejected"><![CDATA[<h8>REJECTED!</h8>]]></string>
+    <string name="resubmitted"><![CDATA[<h8>RESUBMITTED!</h8>]]></string>
+    <string name="failed_to_upload"><![CDATA[<h8>FAILED!</h8>]]></string>
+    <string name="approved">APPROVED</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ok">OK</string>
+    <string name="title_activity_picture_detail">PictureDetailActivity</string>
+    <string name="title_activity_show_alert">ShowAlertActivity</string>
+    <string name="title_activity_show_alert_activity_vb">ShowAlertActivityVB</string>
+    <string name="no_events">No events available, Please contact owner!!!</string>
+    <string name="permission_helper_message">Please enable your location permissions</string>
+    <string name="gps_helper_message">Please enable your location</string>
+    <string name="logging_out">Logging out, Please wait !!!</string>
+
+    <!--snack bar strings-->
+    <string name="snackbar_action_settings">Go to Settings</string>
+    <string name="home_snackbar_location">Enable Location to start tracking</string>
+    <string name="home_snackbar_settings">You have chosen to never ask again, please change from settings</string>
+    <string name="snackbar_action_allow">Allow</string>
+
+    <!--gps check-->
+    <string name="gps_network_title">Location Services Disabled</string>
+    <string name="gps_network_not_enabled">Please enable your GPS!</string>
+    <string name="open_location_settings">go to settings</string>
+    <string name="Cancel">Cancel</string>
+    <string name="please_wait_loading_pictures">Please Wait, Loading photos!!!</string>
+
+
+    <!--signup strings-->
+    <string name="signup_bold"><b>SIGN UP</b></string>
+    <string name="signup_fn">First Name</string>
+    <string name="signup_ln">Last Name</string>
+    <string name="signup_pn">Phone Number</string>
+    <string name="signup_opn">Owner Phone Number</string>
+    <string name="signup_pass">Password</string>
+    <string name="signup_con_pass">Confirm Password</string>
+    <string name="signup_ea">Email Address</string>
+    <string name="signup_alert_title">THANK YOU!</string>
+    <string name="signup_alert_status">A confirmation email has been sent. Please click on the link in email and confirm your email address</string>
+
+    <string name="et_forgotpwd_hint">Registered Email Address</string>
+    <string name="tv_forgotpwd_msg">We will send a link to your registered email using which you will be able to create a new password</string>
+    <string name="reset_success">Password Reset success</string>
+    <string name="help_info">A reset password link is sent to you via email. Please click the link in the email and follow instructions</string>
+
+
 </resources>
