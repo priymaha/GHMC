@@ -3,16 +3,21 @@
     package="com.example.priyanka.ghmc">
 
     <application
+        android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+
         android:theme="@style/AppTheme">
         <activity android:name=".activity.SignupActivity" />
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Transparent">
+            android:theme="@style/Theme.Transparent"></activity>
+
+        <activity android:name=".activity.GrievancePostActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
