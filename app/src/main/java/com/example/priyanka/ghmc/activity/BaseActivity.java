@@ -7,9 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.priyanka.ghmc.utils.AppPreferences;
 
-/**
- * Created by madhuri on 3/7/16.
- */
+
 public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

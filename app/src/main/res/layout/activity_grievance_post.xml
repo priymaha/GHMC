@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <!--Put form controls here-->
+        <TextView
+            android:id="@+id/TextViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/posttitle"
+            android:textSize="10pt">
+        </TextView>
+        <EditText
+            android:id="@+id/EditTextName"
+            android:layout_height="wrap_content"
+            android:hint="@string/postname"
+            android:inputType="textPersonName"
+            android:layout_width="fill_parent">
+        </EditText>
+        <Spinner
+            android:id="@+id/SpinnerFeedbackType"
+            android:layout_height="wrap_content"
+            android:prompt="@string/feedbacktype"
+            android:layout_width="match_parent"
+            android:entries="@array/feedbacktypelist">
+        </Spinner>
+        <EditText
+            android:id="@+id/EditTextFeedbackBody"
+            android:layout_height="wrap_content"
+            android:hint="@string/postdescription"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:layout_width="match_parent">
+        </EditText>
+        <Button
+            android:id="@+id/ButtonSendFeedback"
+            android:layout_height="wrap_content"
+            android:text="@string/postbutton"
+            android:onClick="sendPost"
+            android:layout_width="match_parent">
+        </Button>
+    </LinearLayout>
+</ScrollView>

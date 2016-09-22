@@ -90,6 +90,14 @@
     <string name="tv_forgotpwd_msg">We will send a link to your registered email using which you will be able to create a new password</string>
     <string name="reset_success">Password Reset success</string>
     <string name="help_info">A reset password link is sent to you via email. Please click the link in the email and follow instructions</string>
+    <string name="feedbacktype">feedback</string>
+    <string name="feedbacktype1">Praise</string>
+    <string name="feedbacktype2">Gripe</string>
+    <string name="feedbacktype3">Suggestion</string>
+    <string name="feedbacktype4">Bug</string>
 
-
+    <string name="postname">Post Name</string>
+    <string name="postdescription">Describe Here</string>
+    <string name="postbutton">Post Grievance</string>
+    <string name="posttitle">Grievance Form</string>
 </resources>
