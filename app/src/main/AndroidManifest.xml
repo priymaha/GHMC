@@ -25,6 +25,9 @@
         <activity
             android:name=".activity.HomeActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GrievancePostActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

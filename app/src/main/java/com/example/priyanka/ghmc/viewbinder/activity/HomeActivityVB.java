@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.priyanka.ghmc.R;
+import com.example.priyanka.ghmc.activity.GrievancePostActivity;
 
 /**
  * Created by sahul on 9/21/16.
@@ -51,8 +52,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
            mGrievanceIV.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
-                   //gotoToGrievance();
-                   Toast.makeText(activity,"gotoToGrievance",Toast.LENGTH_LONG).show();
+                   gotoGrievance();
                }
            });
         }
@@ -75,6 +75,12 @@ public class HomeActivityVB extends BaseActivityViewBinder {
                 }
             });
         }
+    }
+
+
+    public void gotoGrievance(){
+        Intent intent = new Intent(activity, GrievancePostActivity.class);
+        activity.startActivity(intent);
     }
 
     @Override
