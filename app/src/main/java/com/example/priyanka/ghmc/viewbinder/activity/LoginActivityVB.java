@@ -24,7 +24,9 @@ import android.widget.TextView;
 import com.example.priyanka.ghmc.R;
 import com.example.priyanka.ghmc.activity.HomeActivity;
 import com.example.priyanka.ghmc.activity.SignupActivity;
+import com.example.priyanka.ghmc.utils.AppUtils;
 import com.example.priyanka.ghmc.utils.UIValidator;
+import com.keeptraxinc.utils.helper.NetworkInfo;
 
 /**
  * Created by sahul on 9/20/16.
@@ -134,7 +136,7 @@ public class LoginActivityVB extends BaseActivityViewBinder{
         hideKeyBoard();
         if (validData()) {
 
-            /*if (NetworkInfo.isNetworkAvailable(context)) {
+            if (NetworkInfo.isNetworkAvailable(context)) {
                 if (AppUtils.isInternetAccessible(activity)) {
                     signInUser();
                 } else {
@@ -142,11 +144,15 @@ public class LoginActivityVB extends BaseActivityViewBinder{
                 }
             } else {
                 AppUtils.showWiFiSettingsAlert(context);
-            }*/
-            Intent intent = new Intent(activity, HomeActivity.class);
-            activity.startActivity(intent);
-            finishActivity();
+            }
+
         }
+    }
+
+    public void signInUser(){
+        Intent intent = new Intent(activity, HomeActivity.class);
+        activity.startActivity(intent);
+        finishActivity();
     }
 
     private boolean validData() {

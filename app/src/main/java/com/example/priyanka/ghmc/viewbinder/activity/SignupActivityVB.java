@@ -24,7 +24,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.priyanka.ghmc.R;
+import com.example.priyanka.ghmc.utils.AppUtils;
 import com.example.priyanka.ghmc.utils.UIValidator;
+import com.example.priyanka.ghmc.utils.UrlBuilder;
+import com.keeptraxinc.sdk.KeepTrax;
+import com.keeptraxinc.sdk.impl.KeepTraxImpl;
+import com.keeptraxinc.utils.helper.NetworkInfo;
+
+import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 import org.json.JSONObject;
 
@@ -126,7 +133,7 @@ public class SignupActivityVB extends BaseActivityViewBinder{
     public void signupClicked() {
         hideKeyBoard();
         if (validData()) {
-            /*if (NetworkInfo.isNetworkAvailable(context)) {
+            if (NetworkInfo.isNetworkAvailable(context)) {
                 if (AppUtils.isInternetAccessible(activity)) {
                     signupUser();
                 } else {
@@ -134,8 +141,7 @@ public class SignupActivityVB extends BaseActivityViewBinder{
                 }
             } else {
                 AppUtils.showWiFiSettingsAlert(context);
-            }*/
-            signupUser();
+            }
         }
     }
 
@@ -144,14 +150,14 @@ public class SignupActivityVB extends BaseActivityViewBinder{
     }
 
     private void signupUser() {
-        /*dialog = ProgressDialog.show(activity, "", "Authenticating");
+        dialog = ProgressDialog.show(activity, "", "Authenticating");
         try {
             String domainName = context.getResources().getString(R.string.domain_name);
             String firstName = mFirstNameET.getText().toString().trim();
             String lastName = mLastNameET.getText().toString().trim();
             String emailAddress = mEmailET.getText().toString().trim();
             String repPhoneNum = mPhoneET.getText().toString().trim().replaceAll("[()\\s-]", "");
-            String ownerPhoneNum = "";
+            String ownerPhoneNum = "1234567890";
             String password = mPasswordET.getText().toString().trim();
             HashMap<String,Object> parameters = new HashMap<>();
             HashMap<String,String> extras = new HashMap<>();
@@ -178,8 +184,7 @@ public class SignupActivityVB extends BaseActivityViewBinder{
         } catch (Exception e) {
             dialog.dismiss();
             showShortToast("Signup failed");
-        }*/
-        showSuccessAlert();
+        }
     }
 
     private void showSuccessAlert() {
