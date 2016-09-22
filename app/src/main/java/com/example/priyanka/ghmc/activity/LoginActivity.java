@@ -1,17 +1,15 @@
 package com.example.priyanka.ghmc.activity;
 
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.priyanka.ghmc.viewbinder.activity.SignupActivityVB;
+import com.example.priyanka.ghmc.R;
+import com.example.priyanka.ghmc.viewbinder.activity.LoginActivityVB;
 
-/**
- * Created by sahul on 9/20/16.
- */
-
-public class SignupActivity extends BaseActivity{
-    private SignupActivityVB viewBinder = null;
+public class LoginActivity extends BaseActivity {
+    private LoginActivityVB viewBinder = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +18,7 @@ public class SignupActivity extends BaseActivity{
     }
 
     private void initViewBinder() {
-        viewBinder = new SignupActivityVB(this);
+        viewBinder = new LoginActivityVB(this);
     }
 
     @Override
@@ -39,5 +37,11 @@ public class SignupActivity extends BaseActivity{
     protected void onResume() {
         super.onResume();
         viewBinder.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        viewBinder = null;
     }
 }

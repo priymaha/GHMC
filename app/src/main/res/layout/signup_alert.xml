@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/status_alert_background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/signup_alert_ll"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/signup_alert_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColor="#101010"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="@string/signup_alert_title"/>
+
+        <TextView
+            android:id="@+id/signup_alert_status_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="#101010"
+            android:textSize="12dp"
+            android:text="@string/signup_alert_status"/>
+
+        <ImageView
+            android:id="@+id/signup_alert_status_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/img_email_sent"/>
+
+        <Button
+            android:id="@+id/signup_alert_ok_b"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="OK"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+</LinearLayout>
