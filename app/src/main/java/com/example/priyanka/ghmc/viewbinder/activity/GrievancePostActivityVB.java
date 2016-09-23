@@ -5,9 +5,16 @@ package com.example.priyanka.ghmc.viewbinder.activity;
 import android.content.Intent;;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.widget.Toast;
 
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.priyanka.ghmc.R;
+import com.example.priyanka.ghmc.utils.VolleySingleton;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -49,7 +56,20 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder {
 
     @Override
     public void onInitFinish() {
-
+        RequestQueue requestQueue = VolleySingleton.getInstance().getmRequestQueue();
+        StringRequest request = new StringRequest(Request.Method.GET, "http://sci.keeptraxapp.com/api/v4/events/57e4d4363cc64a4d3e681b13?access_token=GOpb7HFPRG1wnfBsfQmgpkkwYRqUtG3NnKRTz1OYShTxowYYPI20WIYLUz4F6MmX",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(activity,response, Toast.LENGTH_LONG).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(activity,error.toString(),Toast.LENGTH_LONG).show();
+            }
+        });
+        requestQueue.add(request);
     }
 
 
