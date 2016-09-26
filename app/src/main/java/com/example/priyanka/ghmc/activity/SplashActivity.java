@@ -11,9 +11,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.priyanka.ghmc.R;
+import com.example.priyanka.ghmc.utils.UrlBuilder;
+import com.keeptraxinc.cachemanager.dao.User;
+import com.keeptraxinc.sdk.KeepTrax;
+import com.keeptraxinc.sdk.impl.KeepTraxImpl;
+import com.keeptraxinc.utils.logger.Logger;
 
 public class SplashActivity extends AppCompatActivity {
     Boolean mBackPress = false;
+    private static final String LOG_TAG = SplashActivity.class.getSimpleName();
+    //q7nt8q5b
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +42,20 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 if (!mBackPress) {
-                    gotoLogin();
+                    String url = UrlBuilder.getUrl(SplashActivity.this);
+                    KeepTrax keepTrax = KeepTraxImpl.getInstance(SplashActivity.this, url, UrlBuilder.getApiKey(SplashActivity.this));
+                    final User user = keepTrax.getUser();
+                    try {
+                        Logger.debug(SplashActivity.this,LOG_TAG,"versionName "+getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (user != null) {
+                        gotoHome();
+                    } else {
+                        gotoLogin();
+                    }
                 }
             }
 
@@ -47,6 +67,12 @@ public class SplashActivity extends AppCompatActivity {
 
     private void gotoLogin() {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void gotoHome() {
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
         finish();
     }

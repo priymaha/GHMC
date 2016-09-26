@@ -1,11 +1,14 @@
 package com.example.priyanka.ghmc.viewbinder.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -24,9 +27,15 @@ import android.widget.TextView;
 import com.example.priyanka.ghmc.R;
 import com.example.priyanka.ghmc.activity.HomeActivity;
 import com.example.priyanka.ghmc.activity.SignupActivity;
+import com.example.priyanka.ghmc.utils.AppPreferences;
 import com.example.priyanka.ghmc.utils.AppUtils;
+import com.example.priyanka.ghmc.utils.Constants;
 import com.example.priyanka.ghmc.utils.UIValidator;
+import com.example.priyanka.ghmc.utils.UrlBuilder;
+import com.keeptraxinc.sdk.KeepTrax;
+import com.keeptraxinc.sdk.impl.KeepTraxImpl;
 import com.keeptraxinc.utils.helper.NetworkInfo;
+import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 /**
  * Created by sahul on 9/20/16.
@@ -42,6 +51,8 @@ public class LoginActivityVB extends BaseActivityViewBinder{
     private AlphaAnimation viewClick;
     private EditText mEmailET;
     private Button mOkB;
+    private ProgressDialog dialog;
+    private KeepTrax keepTrax;
 
     public LoginActivityVB(AppCompatActivity activity) {
         super(activity);
@@ -149,10 +160,54 @@ public class LoginActivityVB extends BaseActivityViewBinder{
         }
     }
 
-    public void signInUser(){
+    private void signInUser() {
+        gotoHome();
+        /*dialog = ProgressDialog.show(activity, "", "Authenticating");
+        try {
+            String domainName = context.getResources().getString(R.string.domain_name);
+            String userName = mUserNameET.getText().toString().trim();
+            String password = mPasswordET.getText().toString().trim();
+            String url = UrlBuilder.getUrl(context);
+            KeepTrax keepTrax = KeepTraxImpl.getInstance(context, url, UrlBuilder.getApiKey(context));
+            String deviceId = Settings.Secure.getString(activity.getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+            String uuid = deviceId + userName;
+            keepTrax.login(domainName, userName, password, uuid, new VoidCallback() {
+                @Override
+                public void onSuccess() {
+                    dialog.dismiss();
+                    initSdk();
+                    AppPreferences.saveValue("LOGIN", true, context);
+                    gotoHome();
+                }
+
+                @Override
+                public void onError(Throwable t) {
+                    dialog.dismiss();
+                    showShortToast(t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+            dialog.dismiss();
+            showShortToast("Login failed");
+        }*/
+    }
+
+    private void initSdk() {
+        keepTrax = KeepTraxImpl.getInstance(activity, UrlBuilder.getUrl(activity), UrlBuilder.getApiKey(activity));
+        saveAppPreferences();
+
+    }
+
+    private void gotoHome() {
         Intent intent = new Intent(activity, HomeActivity.class);
         activity.startActivity(intent);
         finishActivity();
+    }
+
+    private void saveAppPreferences() {
+        String userName = mUserNameET.getText().toString().trim();
+        AppPreferences.saveValue(Constants.EMAIL_ID, userName, context);
     }
 
     private boolean validData() {
@@ -196,7 +251,7 @@ public class LoginActivityVB extends BaseActivityViewBinder{
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     if (UIValidator.isValidEmail(mEmailET)) {
                         dialog.dismiss();
-                        //resetPassword(mEmailET.getText().toString().trim());
+                        resetPassword(mEmailET.getText().toString().trim());
                     } else {
                         mEmailET.setError(context.getResources().getString(R.string.signup_validation_email_invalid));
                     }
@@ -210,13 +265,43 @@ public class LoginActivityVB extends BaseActivityViewBinder{
             public void onClick(View v) {
                 if (UIValidator.isValidEmail(mEmailET)) {
                     dialog.dismiss();
-                    //resetPassword(mEmailET.getText().toString().trim());
+                    resetPassword(mEmailET.getText().toString().trim());
                 } else {
                     mEmailET.setError(context.getResources().getString(R.string.signup_validation_email_invalid));
                 }
             }
         });
         dialog.show();
+    }
+
+    private void resetPassword(String email) {
+        String url = UrlBuilder.getUrl(context);
+        KeepTrax keepTrax = KeepTraxImpl.getInstance(context, url, UrlBuilder.getApiKey(context));
+        keepTrax.resetPassword(email, new VoidCallback() {
+            @Override
+            public void onSuccess() {
+                showResetPasswordSuccess();
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                showShortToast(t.getMessage());
+            }
+        });
+    }
+
+    private void showResetPasswordSuccess() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+        builder.setTitle(activity.getResources().getString(R.string.reset_success))
+                .setMessage(activity.getResources().getString(R.string.help_info))
+                .setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        android.app.AlertDialog alert = builder.create();
+        alert.show();
     }
 
 }
