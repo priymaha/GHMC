@@ -1,15 +1,26 @@
 package com.example.priyanka.ghmc.viewbinder.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.priyanka.ghmc.R;
 import com.example.priyanka.ghmc.activity.GrievancePostActivity;
+import com.example.priyanka.ghmc.activity.LoginActivity;
+import com.example.priyanka.ghmc.utils.AppPreferences;
+import com.example.priyanka.ghmc.utils.Constants;
+import com.example.priyanka.ghmc.utils.UrlBuilder;
+import com.keeptraxinc.sdk.KeepTrax;
+import com.keeptraxinc.sdk.impl.KeepTraxImpl;
+import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 /**
  * Created by sahul on 9/21/16.
@@ -17,9 +28,10 @@ import com.example.priyanka.ghmc.activity.GrievancePostActivity;
 
 public class HomeActivityVB extends BaseActivityViewBinder {
 
-    private ImageView mGrievanceIV;
-    private ImageView mVolunteerIV;
-    private ImageView mPointsIV;
+    private TextView mGrievanceTV;
+    private TextView mVolunteerTV;
+    private TextView mPointsTV;
+    private  String mUserName;
 
     public  HomeActivityVB(AppCompatActivity activity) {
         super(activity);
@@ -36,9 +48,9 @@ public class HomeActivityVB extends BaseActivityViewBinder {
     }
     @Override
     public void initViews() {
-        mGrievanceIV = (ImageView) contentView.findViewById(R.id.home_grievance_iv);
-        mVolunteerIV = (ImageView) contentView.findViewById(R.id.home_volunteer_iv);
-        mPointsIV = (ImageView) contentView.findViewById(R.id.home_points_iv);
+        mGrievanceTV = (TextView) contentView.findViewById(R.id.home_grievance_tv);
+        mVolunteerTV = (TextView) contentView.findViewById(R.id.home_volunteer_tv);
+        mPointsTV = (TextView) contentView.findViewById(R.id.home_points_tv);
     }
 
     @Override
@@ -48,8 +60,8 @@ public class HomeActivityVB extends BaseActivityViewBinder {
 
     @Override
     public void initViewListeners() {
-        if (mGrievanceIV != null) {
-           mGrievanceIV.setOnClickListener(new View.OnClickListener() {
+        if (mGrievanceTV != null) {
+            mGrievanceTV.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
                    gotoGrievance();
@@ -57,8 +69,8 @@ public class HomeActivityVB extends BaseActivityViewBinder {
            });
         }
 
-        if (mVolunteerIV != null) {
-            mVolunteerIV.setOnClickListener(new View.OnClickListener() {
+        if (mVolunteerTV != null) {
+            mVolunteerTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //gotoVolunteer();
@@ -67,8 +79,8 @@ public class HomeActivityVB extends BaseActivityViewBinder {
             });
         }
 
-        if (mPointsIV != null) {
-            mPointsIV.setOnClickListener(new View.OnClickListener() {
+        if (mPointsTV != null) {
+            mPointsTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(activity,"Participate in the social activities to earn points",Toast.LENGTH_LONG).show();
@@ -85,12 +97,54 @@ public class HomeActivityVB extends BaseActivityViewBinder {
 
     @Override
     public void onInitFinish() {
-
+        /*mUserName = AppPreferences.getValue(Constants.USER_NAME, context);
+        showShortToast(mUserName);*/
     }
 
     @Override
     public boolean handleOptionsSelected(int itemId) {
-        return false;
+        switch (itemId) {
+            case R.id.about:
+                Toast.makeText(activity,"version 1.0",Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.logout:
+                logoutFromApp();
+                return true;
+            default:
+                return true;
+        }
+    }
+
+    public void logoutFromApp(){
+        /*KeepTrax keepTrax = KeepTraxImpl.getInstance(context, UrlBuilder.getUrl(context), UrlBuilder.getApiKey(context));
+        keepTrax.logout(true, new VoidCallback() {
+            @Override
+            public void onSuccess() {
+                AppPreferences.deletePref(activity);
+                navigateToLogin(context);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                AppPreferences.deletePref(activity);
+                navigateToLogin(context);
+            }
+        });*/
+        AppPreferences.deletePref(activity);
+        navigateToLogin(context);
+    }
+
+    private static void navigateToLogin(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+    }
+
+
+    public boolean handleOptionsMenu(Menu menu) {
+        MenuInflater inflater = activity.getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override
@@ -102,4 +156,5 @@ public class HomeActivityVB extends BaseActivityViewBinder {
     public void onBackPressed() {
 
     }
+
 }
