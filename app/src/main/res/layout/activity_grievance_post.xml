@@ -1,180 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ScrollView01"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:scrollbars="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout
+        android:id="@+id/takepic_actionbar_fl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="@dimen/actionbar_height"
+        android:background="@color/statusbar_color">
 
-        <FrameLayout
-            android:id="@+id/takepic_actionbar_fl"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/actionbar_height"
-            android:background="@color/statusbar_color">
-
-            <TextView
-                android:id="@+id/takepic_actionbar_tv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/report_grievance"
-                android:textColor="#FFFFFF"
-                android:textSize="@dimen/actionbar_text_size" />
-
-
-        </FrameLayout>
-
-        <LinearLayout
-            android:id="@+id/form"
+        <TextView
+            android:id="@+id/takepic_actionbar_tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/takepic_actionbar_fl"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:text="@string/report_grievance"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/actionbar_text_size" />
 
-            <!--Put form controls here-->
+    </FrameLayout>
 
+    <LinearLayout
+        android:id="@+id/form"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/EditTextName"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/postname"
-                android:inputType="textPersonName"
-                android:layout_marginTop="10dp"
-                android:background="@null"></EditText>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E0E0E0"
-                android:layout_marginTop="2dp"/>
-
-            <Spinner
-                android:id="@+id/SpinnerFeedbackType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:entries="@array/feedbacktypelist"
-                android:prompt="@string/feedbacktype"></Spinner>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E0E0E0"
-                android:layout_marginTop="2dp"/>
-
-            <EditText
-                android:id="@+id/EditTextFeedbackBody"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="@string/postdescription"
-                android:inputType="textMultiLine"
-                
-                android:background="@null"></EditText>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E0E0E0"
-                android:layout_marginTop="2dp"/>
-            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <RelativeLayout
-                    android:id="@+id/rl_photogrid_parent"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/grid_size"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/photo_grid_border"
-                    android:padding="5dp"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/tv_watermark"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Take Pic"
-                        android:textColor="#d4d4d4"
-                        android:textSize="@dimen/water_mark"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_details"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/cam_img_border"
-                        android:padding="1dp"
-                        android:src="@drawable/ico_cam" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rl_photogrid_bitmap"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/grid_size"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/photo_grid_border"
-                    android:padding="5dp"
-                    android:visibility="visible">
-
-                    <ImageView
-                        android:id="@+id/bitmap_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ico_cam" />
+        <!--Put form controls here-->
 
 
-                    <!--<ImageView
-                        android:id="@+id/imageAlert"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#99000000"
-                        android:padding="1dp"
-                        android:src="@drawable/ico_cam" />
-            -->
+        <EditText
+            android:id="@+id/EditTextName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:hint="@string/postname"
+            android:inputType="textPersonName"></EditText>
 
-                </RelativeLayout>
-            </FrameLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_bottom"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/form"
-            android:orientation="horizontal">
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:background="#E0E0E0" />
 
-            <Button
-                android:id="@+id/cancel"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#0D5078"
-                android:text="CANCEL"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+        <Spinner
+            android:id="@+id/SpinnerFeedbackType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:entries="@array/feedbacktypelist"
+            android:prompt="@string/feedbacktype"></Spinner>
 
-        </LinearLayout>
-    </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:background="#E0E0E0" />
+
+        <EditText
+            android:id="@+id/EditTextFeedbackBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:hint="@string/postdescription"
+
+            android:inputType="textMultiLine"></EditText>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:background="#E0E0E0" />
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/rl_photogrid_parent"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/grid_size"
+                android:layout_margin="5dp"
+                android:background="@drawable/photo_grid_border"
+                android:padding="5dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_watermark"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Take Pic"
+                    android:textColor="#d4d4d4"
+                    android:textSize="@dimen/water_mark"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/ll_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/cam_img_border"
+                    android:padding="1dp"
+                    android:src="@drawable/ico_cam" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_photogrid_bitmap"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/grid_size"
+                android:layout_margin="5dp"
+                android:background="@drawable/photo_grid_border"
+                android:padding="5dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/bitmap_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ico_cam" />
 
 
-</ScrollView>
+                <!--<ImageView
+                    android:id="@+id/imageAlert"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#99000000"
+                    android:padding="1dp"
+                    android:src="@drawable/ico_cam" />
+        -->
+
+            </RelativeLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/form"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#0D5078"
+            android:text="CANCEL"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#17C800"
+            android:text="SUBMIT"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>
