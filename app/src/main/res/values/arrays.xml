@@ -2,6 +2,7 @@
 <resources>
 
     <string-array name="feedbacktypelist">
+        <item>@string/feedbacktype0</item>
         <item>@string/feedbacktype1</item>
         <item>@string/feedbacktype2</item>
         <item>@string/feedbacktype3</item>

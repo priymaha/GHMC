@@ -22,7 +22,7 @@ public class VolleySingleton {
         return sInstance;
 
     }
-    public RequestQueue getmRequestQueue(){
+    public RequestQueue getRequestQueue(){
         return mRequestQueue;
     }
 }

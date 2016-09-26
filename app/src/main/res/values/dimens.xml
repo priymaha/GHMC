@@ -3,4 +3,38 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Page indicator -->
+    <dimen name="default_circle_indicator_radius">4dp</dimen>
+    <dimen name="default_circle_indicator_stroke_width">1dp</dimen>
+
+    <dimen name="grid_size">175dp</dimen>
+    <dimen name="water_mark">58sp</dimen>
+    <dimen name="bitmap_status">14sp</dimen>
+    <dimen name="grid_margin_bottom">60dp</dimen>
+
+    <!-- chat dimens -->
+    <dimen name="chat_bubble_padding">10dp</dimen>
+    <dimen name="list_item_paddingLeft">10dp</dimen>
+    <dimen name="list_item_paddingBottom">10dp</dimen>
+    <dimen name="list_item_marginTop">5dp</dimen>
+
+    <!-- event introduction screen -->
+    <dimen name="event_bottombar_height">60dp</dimen>
+
+    <!--action bar dimens-->
+    <dimen name="actionbar_height">48dp</dimen>
+    <dimen name="actionbar_text_size">20sp</dimen>
+    <dimen name="actionbar_logout_size">16sp</dimen>
+    <dimen name="actionbar_margin_right">10dp</dimen>
+
+    <!--home hint text-->
+    <dimen name="home_user_hint_assigned_shows">12sp</dimen>
+
+    <!--home loading dimens-->
+    <dimen name="loading_text_size">16sp</dimen>
+    <dimen name="loading_layout_margin_top">20dp</dimen>
+    <dimen name="wait_layout_margin_top">5dp</dimen>
+
+
 </resources>

@@ -91,6 +91,7 @@
     <string name="reset_success">Password Reset success</string>
     <string name="help_info">A reset password link is sent to you via email. Please click the link in the email and follow instructions</string>
     <string name="feedbacktype">feedback</string>
+    <string name="feedbacktype0">Type Of Issue</string>
     <string name="feedbacktype1">Praise</string>
     <string name="feedbacktype2">Gripe</string>
     <string name="feedbacktype3">Suggestion</string>
@@ -100,4 +101,5 @@
     <string name="postdescription">Describe Here</string>
     <string name="postbutton">Post Grievance</string>
     <string name="posttitle">Grievance Form</string>
+    <string name="report_grievance">Report Grievance</string>
 </resources>
