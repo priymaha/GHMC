@@ -1,8 +1,18 @@
 package com.example.priyanka.ghmc.viewbinder.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -12,19 +22,39 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.example.priyanka.ghmc.R;
+import com.example.priyanka.ghmc.utils.CameraHelper;
+import com.example.priyanka.ghmc.utils.Constants;
+import com.example.priyanka.ghmc.utils.UrlBuilder;
 import com.example.priyanka.ghmc.utils.VolleySingleton;
+import com.keeptraxinc.cachemanager.dao.Document;
+import com.keeptraxinc.sdk.KeepTrax;
+import com.keeptraxinc.sdk.impl.KeepTraxImpl;
+import com.keeptraxinc.utils.helper.DateUtils;
+import com.keeptraxinc.utils.logger.Logger;
+import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-;
+import static com.example.priyanka.ghmc.utils.ChangeOrientationUtils.changeOrientation;
 
-public class GrievancePostActivityVB extends BaseActivityViewBinder {
+public class GrievancePostActivityVB extends BaseActivityViewBinder implements View.OnClickListener {
+    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+    private static final String LOG_TAG = GrievancePostActivityVB.class.getSimpleName();
     private RequestQueue requestQueue;
-
+    private Uri fileUri = null;
+    private ExifInterface exif;
+    private RelativeLayout rlParent;
+    private ImageView bitmap_image;
+    private LinearLayout llDetails;
+    private FrameLayout rl_photogrid;
+    private RelativeLayout rl_photogrid_bitmap;
+    private Button cancel, submit;
 
     public GrievancePostActivityVB(AppCompatActivity activity) {
         super(activity);
@@ -47,7 +77,13 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder {
 
     @Override
     public void initViews() {
-
+        rlParent = (RelativeLayout) contentView.findViewById(R.id.rl_photogrid_parent);
+        rl_photogrid_bitmap = (RelativeLayout) contentView.findViewById(R.id.rl_photogrid_bitmap);
+        rl_photogrid = (FrameLayout) contentView.findViewById(R.id.rl_photogrid);
+        llDetails = (LinearLayout) contentView.findViewById(R.id.ll_bottom);
+        bitmap_image = (ImageView) contentView.findViewById(R.id.bitmap_image);
+        cancel = (Button) llDetails.findViewById(R.id.cancel);
+        submit = (Button) llDetails.findViewById(R.id.submit);
     }
 
     @Override
@@ -57,7 +93,9 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder {
 
     @Override
     public void initViewListeners() {
-
+        rl_photogrid.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+        submit.setOnClickListener(this);
     }
 
     @Override
@@ -140,8 +178,14 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int responseCode, Intent data) {
-
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+//                photoAfterTime = new Date().getTime();
+                previewCapturedImage();
+//                CameraHelper.deleteLatestImageFromCam(context, photoBeforeTime, photoAfterTime);
+            }
+        }
     }
 
 
@@ -167,5 +211,103 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder {
 
     }
 
+    private void captureImage() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        fileUri = CameraHelper.getOutputMediaFileUri(context);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        // start the image capture Intent
+        activity.startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+    }
 
+    /*
+   * Display image from a path to ImageView
+   */
+    private void previewCapturedImage() {
+        createPhoto();
+
+    }
+
+    /*private void updatePhoto() throws JSONException {
+        String[] path = fileUri.getPath().split("/");
+        String name = path[path.length - 1];
+        if (!name.equals(photo.getName())) {
+            File imageFile = new File(context.getExternalFilesDir(null) + "/" + photo.getLocalUrl());
+            if (imageFile.exists()) {
+                imageFile.delete();
+            }
+
+        }
+        photo.setLocalUrl(path[path.length - 2] + "/" + path[path.length - 1]);   // Setting the local path in photo model
+        photo.setTime(DateUtils.getISOTime(System.currentTimeMillis()));
+        photo.setName(name);
+        photo.setType(Constants.IMAGE_JPEG);
+
+        try {
+            exif = new ExifInterface(fileUri.getPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Logger.debug(null, LOG_TAG, "ORIENTATION OF PHOTO " + exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0));
+        changeOrientation(fileUri.getPath());
+        savePhoto();
+
+
+    }*/
+
+    private void createPhoto() {
+        KeepTrax keepTrax = KeepTraxImpl.getInstance(activity, UrlBuilder.getUrl(context), UrlBuilder.getApiKey(context));
+        final Document photo = (Document) keepTrax.createModel(Document.NAME);
+        final String[] path = fileUri.getPath().split("/");
+        photo.setLocalUrl(path[path.length - 2] + "/" + path[path.length - 1]);   // Setting the local path in photo model
+        photo.setTime(DateUtils.getISOTime(System.currentTimeMillis()));
+        String name = path[path.length - 1];
+        photo.setName(name);
+        photo.setType(Constants.IMAGE_JPEG);
+
+
+        try {
+            exif = new ExifInterface(fileUri.getPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Logger.debug(null, LOG_TAG, "ORIENTATION OF PHOTO " + exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0));
+        changeOrientation(fileUri.getPath());
+        savePhoto(photo);
+
+    }
+
+    private void savePhoto(Document photo) {
+        photo.save(new VoidCallback() {
+            @Override
+            public void onSuccess() {
+                rl_photogrid_bitmap.setVisibility(View.VISIBLE);
+                rlParent.setVisibility(View.GONE);
+                Glide.with(context)
+                        .load(fileUri.getPath())
+                        .skipMemoryCache(true)
+                        .into(bitmap_image);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        if (view == rl_photogrid) {
+            captureImage();
+        } else if (view == cancel) {
+
+        }else if (view == submit){
+            postEvent();
+        }
+
+    }
 }

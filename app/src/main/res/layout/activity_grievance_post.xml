@@ -33,12 +33,14 @@
 
         <EditText
             android:id="@+id/EditTextName"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@null"
             android:hint="@string/postname"
-            android:inputType="textPersonName"></EditText>
+            android:inputType="textPersonName"
+            android:paddingLeft="10dp"
+            android:textColorHint="#000000"></EditText>
 
         <View
             android:layout_width="match_parent"
@@ -50,7 +52,7 @@
             android:id="@+id/SpinnerFeedbackType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:entries="@array/feedbacktypelist"
             android:prompt="@string/feedbacktype"></Spinner>
 
@@ -64,30 +66,43 @@
             android:id="@+id/EditTextFeedbackBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@null"
             android:hint="@string/postdescription"
-
-            android:inputType="textMultiLine"></EditText>
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:maxLines="10"
+            android:minLines="1"
+            android:paddingLeft="10dp"
+            android:textColorHint="#000000"></EditText>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="2dp"
             android:background="#E0E0E0" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/rl_photogrid"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
 
             <RelativeLayout
                 android:id="@+id/rl_photogrid_parent"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/grid_size"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/photo_grid_border"
-                android:padding="5dp"
-                android:visibility="gone">
+
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_watermark"
@@ -96,16 +111,9 @@
                     android:gravity="center"
                     android:text="Take Pic"
                     android:textColor="#d4d4d4"
-                    android:textSize="@dimen/water_mark"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
-                    android:id="@+id/ll_details"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/image"
@@ -121,12 +129,12 @@
 
             <RelativeLayout
                 android:id="@+id/rl_photogrid_bitmap"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/grid_size"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/photo_grid_border"
-                android:padding="5dp"
-                android:visibility="visible">
+
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/bitmap_image"
@@ -136,15 +144,6 @@
                     android:src="@drawable/ico_cam" />
 
 
-                <!--<ImageView
-                    android:id="@+id/imageAlert"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#99000000"
-                    android:padding="1dp"
-                    android:src="@drawable/ico_cam" />
-        -->
-
             </RelativeLayout>
         </FrameLayout>
     </LinearLayout>
@@ -153,7 +152,6 @@
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@+id/form"
         android:orientation="horizontal">
 
         <Button

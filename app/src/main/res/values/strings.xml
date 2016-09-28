@@ -97,8 +97,8 @@
     <string name="feedbacktype3">Suggestion</string>
     <string name="feedbacktype4">Bug</string>
 
-    <string name="postname">Post Name</string>
-    <string name="postdescription">Describe Here</string>
+    <string name="postname">Title</string>
+    <string name="postdescription">Short description...</string>
     <string name="postbutton">Post Grievance</string>
     <string name="posttitle">Grievance Form</string>
     <string name="report_grievance">Report Grievance</string>
