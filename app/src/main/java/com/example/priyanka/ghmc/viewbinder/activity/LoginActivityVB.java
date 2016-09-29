@@ -161,8 +161,8 @@ public class LoginActivityVB extends BaseActivityViewBinder{
     }
 
     private void signInUser() {
-        gotoHome();
-        /*dialog = ProgressDialog.show(activity, "", "Authenticating");
+//        gotoHome();
+        dialog = ProgressDialog.show(activity, "", "Authenticating");
         try {
             String domainName = context.getResources().getString(R.string.domain_name);
             String userName = mUserNameET.getText().toString().trim();
@@ -190,7 +190,7 @@ public class LoginActivityVB extends BaseActivityViewBinder{
         } catch (Exception e) {
             dialog.dismiss();
             showShortToast("Login failed");
-        }*/
+        }
     }
 
     private void initSdk() {

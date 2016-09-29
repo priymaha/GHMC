@@ -1,11 +1,18 @@
 package com.example.priyanka.ghmc.viewbinder.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -28,13 +35,27 @@ import com.example.priyanka.ghmc.utils.CameraHelper;
 import com.example.priyanka.ghmc.utils.Constants;
 import com.example.priyanka.ghmc.utils.UrlBuilder;
 import com.example.priyanka.ghmc.utils.VolleySingleton;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+
+import android.location.Location;
+
 import com.keeptraxinc.cachemanager.dao.Document;
+
+import com.keeptraxinc.cachemanager.dao.Event;
+import com.keeptraxinc.cachemanager.dao.EventDao;
+import com.keeptraxinc.cachemanager.query.WhereClause;
+import com.keeptraxinc.cachemanager.query.WhereSimple;
 import com.keeptraxinc.sdk.KeepTrax;
 import com.keeptraxinc.sdk.impl.KeepTraxImpl;
 import com.keeptraxinc.utils.helper.DateUtils;
 import com.keeptraxinc.utils.logger.Logger;
+import com.strongloop.android.loopback.callbacks.ObjectCallback;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
+import com.strongloop.android.remoting.JsonUtil;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -43,7 +64,8 @@ import java.util.Map;
 
 import static com.example.priyanka.ghmc.utils.ChangeOrientationUtils.changeOrientation;
 
-public class GrievancePostActivityVB extends BaseActivityViewBinder implements View.OnClickListener {
+public class GrievancePostActivityVB extends BaseActivityViewBinder implements
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     private static final String LOG_TAG = GrievancePostActivityVB.class.getSimpleName();
     private RequestQueue requestQueue;
@@ -55,6 +77,9 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements V
     private FrameLayout rl_photogrid;
     private RelativeLayout rl_photogrid_bitmap;
     private Button cancel, submit;
+    protected GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+
 
     public GrievancePostActivityVB(AppCompatActivity activity) {
         super(activity);
@@ -102,16 +127,41 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements V
     public void onInitFinish() {
         requestQueue = VolleySingleton.getInstance().getRequestQueue();
         postEvent();
-        getEvent();
+        getPostedEvent();
+        /* build google API client to use location services */
+        buildGoogleApiClient();
     }
+
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(activity)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
 
     private void postEvent() {
         Map<String, String> params = new HashMap<String, String>();
-        params.put("start", "2016-09-23T00:10:00.000Z");
-        params.put("end", "2016-09-23T14:10:00.000Z");
+        params.put("start", DateUtils.getISOTime(System.currentTimeMillis()));
+        params.put("end", DateUtils.getISOTime(System.currentTimeMillis() + (30 * 60 * 1000)));
         params.put("name", "P_V_1");
         params.put("event", "123456");
-        params.put("imageUrl", "https://pbs.twimg.com/profile_images/2326463999/smartride_logo_facebook-03.jpg");
         params.put("status", "Approved");
         params.put("retailer", "Kroger - Atlanta");
         params.put("store", "426");
@@ -124,6 +174,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements V
                     @Override
                     public void onResponse(JSONObject response) {
                         Toast.makeText(activity, response.toString(), Toast.LENGTH_LONG).show();
+                        parseResponse(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -144,7 +195,33 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements V
 
     }
 
-    private void getEvent() {
+    private void parseResponse(JSONObject response)  {
+        String eventId = null;
+        try {
+            eventId = response.getString("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        getEvent(eventId);
+
+    }
+    private void getEvent(String eventId) {
+        KeepTrax keepTrax = KeepTraxImpl.getInstance(activity, UrlBuilder.getUrl(context), UrlBuilder.getApiKey(context));
+        WhereClause wc = WhereSimple.eq(EventDao.Properties.Id.name, eventId);
+        keepTrax.getOneModel(Event.NAME, wc, null, new ObjectCallback<Event>() {
+            @Override
+            public void onSuccess(Event currentEvent) {
+                setEventExtras(currentEvent);
+
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+        });
+    }
+    private void getPostedEvent() {
         StringRequest request = new StringRequest(Request.Method.GET, "http://sci.keeptraxapp.com/api/v4/events/57e4d4363cc64a4d3e681b13",
                 new Response.Listener<String>() {
                     @Override
@@ -302,12 +379,76 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements V
     @Override
     public void onClick(View view) {
         if (view == rl_photogrid) {
+//            Log.e ("time ",DateUtils.getISOTime(System.currentTimeMillis()));
             captureImage();
         } else if (view == cancel) {
 
-        }else if (view == submit){
+        } else if (view == submit) {
             postEvent();
         }
 
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        // Provides a simple way of getting a device's location and is well suited for
+        // applications that do not require a fine-grained location and that do not need location
+        // updates. Gets the best and most recent location currently available, which may be null
+        // in rare cases when a location is not available.
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+    }
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
+        // onConnectionFailed.
+        Log.i(LOG_TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+    }
+    /*
+    * Called by Google Play services if the connection to GoogleApiClient drops because of an
+    * error.
+    */
+    public void onDisconnected() {
+        Log.i(LOG_TAG, "Disconnected");
+    }
+    @Override
+    public void onConnectionSuspended(int cause) {
+        // The connection to Google Play services was lost for some reason. We call connect() to
+        // attempt to re-establish the connection.
+        Log.i(LOG_TAG, "Connection suspended");
+        mGoogleApiClient.connect();
+    }
+
+    private void setEventExtras(Event event) {
+        JSONObject jsonObject = null;
+        try {
+            if (event.getExtensions() != null && !event.getExtensions().isEmpty()) {
+                jsonObject = new JSONObject(event.getExtensions());
+                if (mLastLocation != null) {
+                    jsonObject.put(Constants.LATITUDE, String.valueOf(mLastLocation.getLatitude()));
+                    jsonObject.put(Constants.LONGITUDE, String.valueOf(mLastLocation.getLongitude()));
+                }
+
+
+            } else {
+                jsonObject = new JSONObject();
+                jsonObject.put(Constants.LATITUDE, String.valueOf(mLastLocation.getLatitude()));
+                jsonObject.put(Constants.LONGITUDE, String.valueOf(mLastLocation.getLongitude()));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        event.setExtensions(JsonUtil.fromJson(jsonObject));
+        event.setExtras(jsonObject.toString());
     }
 }
