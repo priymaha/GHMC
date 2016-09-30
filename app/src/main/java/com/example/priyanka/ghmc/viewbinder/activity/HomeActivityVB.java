@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.priyanka.ghmc.R;
 import com.example.priyanka.ghmc.activity.GrievancePostActivity;
+import com.example.priyanka.ghmc.activity.GrievanceStatusActivity;
 import com.example.priyanka.ghmc.activity.LoginActivity;
 import com.example.priyanka.ghmc.utils.AppPreferences;
 import com.example.priyanka.ghmc.utils.Constants;
@@ -91,7 +92,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
 
 
     public void gotoGrievance(){
-        Intent intent = new Intent(activity, GrievancePostActivity.class);
+        Intent intent = new Intent(activity, GrievanceStatusActivity.class);
         activity.startActivity(intent);
     }
 

@@ -79,6 +79,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
     private Button cancel, submit;
     protected GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
+    private Document photo;
 
 
     public GrievancePostActivityVB(AppCompatActivity activity) {
@@ -126,8 +127,8 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
     @Override
     public void onInitFinish() {
         requestQueue = VolleySingleton.getInstance().getRequestQueue();
-        postEvent();
-        getPostedEvent();
+//        postEvent();
+//        getPostedEvent();
         /* build google API client to use location services */
         buildGoogleApiClient();
     }
@@ -167,7 +168,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         params.put("store", "426");
         params.put("region", "SUWANEE");
         params.put("enterpriseId", "57c3d95ec9738d252654b331");
-        params.put("userId", "57c7fbf13cc64a4d3e68143a");
+        params.put("userId", "57c3ff2f9f6d991628d9d2fe");
         JSONObject jsonObj = new JSONObject(params);
         JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.POST, "http://sci.keeptraxapp.com/api/v4/events", jsonObj,
                 new Response.Listener<JSONObject>() {
@@ -187,7 +188,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/json");
                 params.put("X-Product-Key", "OWJlMjFjODlmNTgwZTZjNjNjNDdkMTRkZTkzZmJkYmE6MDc1YWFiMTUwZGNiNDljNTIyYTAxNTM0YTQ2MmVlMjkyYWVjNjkwYg==");
-                params.put("Authorization", "v951tVFjntBaB1vb28x1czCBBhFqH12o5m6YHaCZG00IDHChWZPW6fZkJH0hW1gy");
+                params.put("Authorization", "kVhlwZc9lAtxUr90ynZ5bvM2hnuBsJYvmiPC8Ykpzl7Igu5a7JBfMR4gX593ECou");
                 return params;
             }
         };
@@ -210,8 +211,19 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         WhereClause wc = WhereSimple.eq(EventDao.Properties.Id.name, eventId);
         keepTrax.getOneModel(Event.NAME, wc, null, new ObjectCallback<Event>() {
             @Override
-            public void onSuccess(Event currentEvent) {
+            public void onSuccess(final Event currentEvent) {
                 setEventExtras(currentEvent);
+                currentEvent.save(new VoidCallback() {
+                    @Override
+                    public void onSuccess() {
+                        addDocument(currentEvent);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+
+                    }
+                });
 
             }
 
@@ -221,6 +233,11 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
             }
         });
     }
+
+    private void addDocument(Event currentEvent) {
+        currentEvent.addDocument(photo,null);
+    }
+
     private void getPostedEvent() {
         StringRequest request = new StringRequest(Request.Method.GET, "http://sci.keeptraxapp.com/api/v4/events/57e4d4363cc64a4d3e681b13",
                 new Response.Listener<String>() {
@@ -239,7 +256,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/json");
                 params.put("X-Product-Key", "OWJlMjFjODlmNTgwZTZjNjNjNDdkMTRkZTkzZmJkYmE6MDc1YWFiMTUwZGNiNDljNTIyYTAxNTM0YTQ2MmVlMjkyYWVjNjkwYg==");
-                params.put("Authorization", "v951tVFjntBaB1vb28x1czCBBhFqH12o5m6YHaCZG00IDHChWZPW6fZkJH0hW1gy");
+                params.put("Authorization", "kVhlwZc9lAtxUr90ynZ5bvM2hnuBsJYvmiPC8Ykpzl7Igu5a7JBfMR4gX593ECou");
                 return params;
             }
         };
@@ -334,7 +351,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
 
     private void createPhoto() {
         KeepTrax keepTrax = KeepTraxImpl.getInstance(activity, UrlBuilder.getUrl(context), UrlBuilder.getApiKey(context));
-        final Document photo = (Document) keepTrax.createModel(Document.NAME);
+        photo = (Document) keepTrax.createModel(Document.NAME);
         final String[] path = fileUri.getPath().split("/");
         photo.setLocalUrl(path[path.length - 2] + "/" + path[path.length - 1]);   // Setting the local path in photo model
         photo.setTime(DateUtils.getISOTime(System.currentTimeMillis()));
