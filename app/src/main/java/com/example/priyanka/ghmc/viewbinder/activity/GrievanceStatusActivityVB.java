@@ -18,7 +18,7 @@ import com.example.priyanka.ghmc.adapter.GrievanceStatusFragmentAdapter;
  */
 
 public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements ActionBar.TabListener {
-    ViewPager viewPager = null;
+    ViewPager viewPager ;
     ActionBar actionBar;
     public GrievanceStatusActivityVB(AppCompatActivity activity) {
         super(activity);
@@ -42,6 +42,8 @@ public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements
     @Override
     public void initViews() {
         viewPager = (ViewPager) contentView.findViewById(R.id.pager);
+        createTabs();
+        setViewPagerAdapter();
 
     }
 
@@ -52,13 +54,27 @@ public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements
 
     @Override
     public void initViewListeners() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                actionBar.setSelectedNavigationItem(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
     public void onInitFinish() {
-        createTabs();
-        setViewPagerAdapter();
+
     }
 
     private void createTabs() {
@@ -99,7 +115,7 @@ public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
-
+        viewPager.setCurrentItem(tab.getPosition());
     }
 
     @Override
