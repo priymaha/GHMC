@@ -1,6 +1,7 @@
 package com.example.priyanka.ghmc.viewbinder.activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -55,6 +56,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
     boolean gps_enabled;
     private boolean checkStoragePermission;
     boolean isLocationEnabled = false;
+    private ProgressDialog dialog;
 
     public  HomeActivityVB(AppCompatActivity activity) {
         super(activity);
@@ -141,22 +143,23 @@ public class HomeActivityVB extends BaseActivityViewBinder {
     }
 
     public void logoutFromApp(){
-        /*KeepTrax keepTrax = KeepTraxImpl.getInstance(context, UrlBuilder.getUrl(context), UrlBuilder.getApiKey(context));
+        dialog = ProgressDialog.show(activity, "", "Please wait");
+        KeepTrax keepTrax = KeepTraxImpl.getInstance(context, UrlBuilder.getUrl(context), UrlBuilder.getApiKey(context));
         keepTrax.logout(true, new VoidCallback() {
             @Override
             public void onSuccess() {
                 AppPreferences.deletePref(activity);
                 navigateToLogin(context);
+                dialog.dismiss();
             }
 
             @Override
             public void onError(Throwable t) {
                 AppPreferences.deletePref(activity);
                 navigateToLogin(context);
+                dialog.dismiss();
             }
-        });*/
-        AppPreferences.deletePref(activity);
-        navigateToLogin(context);
+        });
     }
 
     private static void navigateToLogin(Context context) {
