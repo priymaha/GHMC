@@ -35,6 +35,7 @@ import com.example.priyanka.ghmc.utils.UrlBuilder;
 import com.keeptraxinc.sdk.KeepTrax;
 import com.keeptraxinc.sdk.impl.KeepTraxImpl;
 import com.keeptraxinc.utils.helper.NetworkInfo;
+import com.keeptraxinc.utils.logger.Logger;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 /**
@@ -53,6 +54,7 @@ public class LoginActivityVB extends BaseActivityViewBinder{
     private Button mOkB;
     private ProgressDialog dialog;
     private KeepTrax keepTrax;
+    private final String LOG_TAG = getClass().getSimpleName();
 
     public LoginActivityVB(AppCompatActivity activity) {
         super(activity);
@@ -141,6 +143,16 @@ public class LoginActivityVB extends BaseActivityViewBinder{
         mPasswordET.setTypeface(mUserNameET.getTypeface());
         mSignupText2TV.setPaintFlags(mSignupText2TV.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         mForgotPasswordTV.setPaintFlags(mSignupText2TV.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        loadDataInViews();
+    }
+
+    public void loadDataInViews() {
+        String email = AppPreferences.getValue(Constants.EMAIL_ID, context);
+        Logger.debug(context, LOG_TAG, " email : " + email);
+        if (email != null) {
+            mUserNameET.setText(email);
+        }
     }
 
     public void signInClicked() {
