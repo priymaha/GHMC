@@ -49,4 +49,6 @@ dependencies {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
     }
+    compile 'com.afollestad:sectioned-recyclerview:0.2.3'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
 }

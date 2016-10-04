@@ -18,8 +18,8 @@ import com.example.priyanka.ghmc.adapter.GrievanceStatusFragmentAdapter;
  */
 
 public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements ActionBar.TabListener {
-    ViewPager viewPager ;
-    ActionBar actionBar;
+    private ViewPager viewPager;
+    private ActionBar actionBar;
     public GrievanceStatusActivityVB(AppCompatActivity activity) {
         super(activity);
     }
@@ -54,7 +54,7 @@ public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements
 
     @Override
     public void initViewListeners() {
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
