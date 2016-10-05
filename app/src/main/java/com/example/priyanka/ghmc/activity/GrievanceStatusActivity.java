@@ -2,7 +2,11 @@ package com.example.priyanka.ghmc.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import com.example.priyanka.ghmc.R;
 import com.example.priyanka.ghmc.viewbinder.activity.GrievancePostActivityVB;
 import com.example.priyanka.ghmc.viewbinder.activity.GrievanceStatusActivityVB;
 
@@ -29,6 +33,17 @@ public class GrievanceStatusActivity extends BaseActivity {
         viewBinder.onResume();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        viewBinder.handleOptionsMenu(menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        viewBinder.handleOptionsSelected(item.getItemId());
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

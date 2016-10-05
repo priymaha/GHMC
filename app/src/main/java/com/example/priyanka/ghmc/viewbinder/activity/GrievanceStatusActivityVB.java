@@ -1,6 +1,5 @@
 package com.example.priyanka.ghmc.viewbinder.activity;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 
 import android.support.v4.app.FragmentManager;
@@ -9,8 +8,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.priyanka.ghmc.R;
+import com.example.priyanka.ghmc.activity.GrievancePostActivity;
+import com.example.priyanka.ghmc.activity.GrievanceStatusActivity;
 import com.example.priyanka.ghmc.adapter.GrievanceStatusFragmentAdapter;
 
 /**
@@ -31,12 +36,18 @@ public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements
         if (contentView != null) {
             activity.setContentView(contentView);
         }
-       /* try {
-            activity.getSupportActionBar().hide();
-        } catch (NullPointerException npe) {
+        activity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        activity.getSupportActionBar().setCustomView(R.layout.status_layout);
+//        activity.getSupportActionBar().setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.ico_cam));
+        activity.getSupportActionBar().getCustomView().setOnClickListener(new View.OnClickListener() {
 
-        }*/
-
+            @Override
+            public void onClick(View view) {
+                // your code here
+                Intent intent = new Intent (activity, GrievancePostActivity.class);
+                activity.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -99,14 +110,26 @@ public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements
 
     @Override
     public boolean handleOptionsSelected(int itemId) {
-        return false;
+        switch (itemId) {
+            case R.id.action_grievance:
+                Toast.makeText(activity,"version 1.0",Toast.LENGTH_LONG).show();
+                return true;
+
+            default:
+                return true;
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int responseCode, Intent data) {
 
     }
-
+    public boolean handleOptionsMenu(Menu menu) {
+       /* MenuInflater inflater = activity.getMenuInflater();
+        inflater.inflate(R.menu.add_grievance, menu);
+        return true;*/
+        return false;
+    }
     @Override
     public void onBackPressed() {
 
@@ -125,6 +148,10 @@ public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+
+    }
+    public void toolbarClick(){
+        Toast.makeText(activity,"hello",Toast.LENGTH_LONG).show();
 
     }
 }
