@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        populateSampleData();
+//        populateSampleData();
 
 
         RecyclerView my_recycler_view = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void populateSampleData() {
+  /*  private void populateSampleData() {
 
         for (int i = 1; i <= 10; i++) {
 
@@ -86,6 +86,6 @@ public class MainActivity extends AppCompatActivity {
             allSampleData.add(dm);
 
         }
-    }
+    }*/
 }
 

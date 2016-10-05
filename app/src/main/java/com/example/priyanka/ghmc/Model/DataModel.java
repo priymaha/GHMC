@@ -12,13 +12,13 @@ public class DataModel {
 
 
     private String headerTitle;
-    private ArrayList<String> allItemsInSection;
+    private ArrayList<GrievanceStatusModel> allItemsInSection;
 
 
     public DataModel() {
 
     }
-    public DataModel(String headerTitle, ArrayList<String> allItemsInSection) {
+    public DataModel(String headerTitle, ArrayList<GrievanceStatusModel> allItemsInSection) {
         this.headerTitle = headerTitle;
         this.allItemsInSection = allItemsInSection;
     }
@@ -33,11 +33,11 @@ public class DataModel {
         this.headerTitle = headerTitle;
     }
 
-    public ArrayList<String> getAllItemsInSection() {
+    public ArrayList<GrievanceStatusModel> getAllItemsInSection() {
         return allItemsInSection;
     }
 
-    public void setAllItemsInSection(ArrayList<String> allItemsInSection) {
+    public void setAllItemsInSection(ArrayList<GrievanceStatusModel> allItemsInSection) {
         this.allItemsInSection = allItemsInSection;
     }
 
