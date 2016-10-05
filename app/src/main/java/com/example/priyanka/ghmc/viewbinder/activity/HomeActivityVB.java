@@ -18,17 +18,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.priyanka.ghmc.R;
-import com.example.priyanka.ghmc.activity.GrievancePostActivity;
 import com.example.priyanka.ghmc.activity.GrievanceStatusActivity;
 import com.example.priyanka.ghmc.activity.LoginActivity;
+import com.example.priyanka.ghmc.activity.EventDetailActivity;
 import com.example.priyanka.ghmc.utils.AppPreferences;
 import com.example.priyanka.ghmc.utils.AppUtils;
-import com.example.priyanka.ghmc.utils.Constants;
 import com.example.priyanka.ghmc.utils.InstallVerifier;
 import com.example.priyanka.ghmc.utils.PermissionsHelper;
 import com.example.priyanka.ghmc.utils.UrlBuilder;
@@ -108,7 +106,9 @@ public class HomeActivityVB extends BaseActivityViewBinder {
             mPointsTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(activity,"Participate in the social activities to earn points",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(activity, EventDetailActivity.class);
+                    activity.startActivity(intent);
+                    //Toast.makeText(activity,"Participate in the social activities to earn points",Toast.LENGTH_LONG).show();
                 }
             });
         }

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#3589E1">
+
+        <TextView
+            android:id="@+id/detail_actionbar_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Event Detail"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+
+    </FrameLayout>
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        tools:context=".MainActivity" />
+
+    <TextView
+        android:id="@+id/detail_date_tv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="2dp"
+        android:background="#E2E4E3"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text=" SUNDAY, SEPTEMBER 25"
+        android:textColor="#646464"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/detail_category_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:text="Environment &amp; Clean Hyderabad"
+        android:textColor="#222222" />
+
+    <TextView
+        android:id="@+id/detail_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="Clean Hussain Sagar"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/detail_partcipantcount_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:text="243 members going"
+        android:textColor="#73CC00" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/detail_info_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5dp"
+                android:padding="10dp"
+                android:text="With the magic of HTML5 you can get colors from any image with this simple online tool. To use this new color tool it's recomended that you upgrade your web browser to the latest version."
+                android:textColor="#222222" />
+
+            <ImageView
+                android:id="@+id/detail_pic_iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/detail_join_b"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#EE1C25"
+        android:text="JOIN US"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+</LinearLayout>

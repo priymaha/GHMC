@@ -35,20 +35,22 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile(name: 'keeptrax', ext: 'aar')
-    compile('com.strongloop:loopback-sdk-android:1.5.+');
-    compile('de.greenrobot:greendao:2.0.0');
+    compile('io.socket:socket.io-client:0.7.0') {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
+    compile 'com.strongloop:loopback-sdk-android:1.5.+'
+    compile 'de.greenrobot:greendao:2.0.0'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.google.code.gson:gson:2.4'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.google.android.gms:play-services:9.4.0'
-    testCompile 'junit:junit:4.12'
     compile 'com.android.volley:volley:1.0.0'
-    compile('io.socket:socket.io-client:0.7.0') {
-        // excluding org.json which is provided by Android
-        exclude group: 'org.json', module: 'json'
-    }
     compile 'com.afollestad:sectioned-recyclerview:0.2.3'
     compile 'com.android.support:recyclerview-v7:24.2.1'
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:multidex:+'
+    compile "com.squareup.picasso:picasso:2.4.0"
 }
