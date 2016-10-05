@@ -10,13 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.priyanka.ghmc.Model.DataModel;
-import com.example.priyanka.ghmc.Model.GrievanceStatusModel;
+import com.example.priyanka.ghmc.model.DataModel;
+import com.example.priyanka.ghmc.model.GrievanceStatusModel;
 import com.example.priyanka.ghmc.R;
 import com.example.priyanka.ghmc.adapter.RecyclerViewSectionAdapter;
 import com.example.priyanka.ghmc.utils.DividerItemDecoration;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

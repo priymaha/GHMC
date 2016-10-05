@@ -1,4 +1,4 @@
-package com.example.priyanka.ghmc.Model;
+package com.example.priyanka.ghmc.model;
 
 /**
  * Created by Priyanka on 03/10/16.

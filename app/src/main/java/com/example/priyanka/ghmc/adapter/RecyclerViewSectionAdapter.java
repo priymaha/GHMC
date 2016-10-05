@@ -13,8 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
-import com.example.priyanka.ghmc.Model.DataModel;
-import com.example.priyanka.ghmc.Model.GrievanceStatusModel;
+import com.example.priyanka.ghmc.model.DataModel;
+import com.example.priyanka.ghmc.model.GrievanceStatusModel;
 import com.example.priyanka.ghmc.R;
 
 import java.util.ArrayList;
