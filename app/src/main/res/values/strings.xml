@@ -102,4 +102,7 @@
     <string name="postbutton">Post Grievance</string>
     <string name="posttitle">Grievance Form</string>
     <string name="report_grievance">Report Grievance</string>
+    <string name="grievance_post_title_empty">Please enter title</string>
+    <string name="grievance_post_description_empty">Please enter description</string>
+
 </resources>

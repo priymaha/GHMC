@@ -2,6 +2,7 @@ package com.example.priyanka.ghmc.viewbinder.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.ExifInterface;
@@ -15,11 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -31,8 +35,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.example.priyanka.ghmc.R;
+import com.example.priyanka.ghmc.utils.AppUtils;
 import com.example.priyanka.ghmc.utils.CameraHelper;
 import com.example.priyanka.ghmc.utils.Constants;
+import com.example.priyanka.ghmc.utils.UIValidator;
 import com.example.priyanka.ghmc.utils.UrlBuilder;
 import com.example.priyanka.ghmc.utils.VolleySingleton;
 import com.google.android.gms.common.ConnectionResult;
@@ -50,6 +56,7 @@ import com.keeptraxinc.cachemanager.query.WhereSimple;
 import com.keeptraxinc.sdk.KeepTrax;
 import com.keeptraxinc.sdk.impl.KeepTraxImpl;
 import com.keeptraxinc.utils.helper.DateUtils;
+import com.keeptraxinc.utils.helper.NetworkInfo;
 import com.keeptraxinc.utils.logger.Logger;
 import com.strongloop.android.loopback.callbacks.ObjectCallback;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
@@ -80,6 +87,8 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
     protected GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private Document photo;
+    private EditText grievanceTitle,grievanceDescription;
+    private Spinner grievanceType;
 
 
     public GrievancePostActivityVB(AppCompatActivity activity) {
@@ -104,6 +113,9 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
     @Override
     public void initViews() {
         rlParent = (RelativeLayout) contentView.findViewById(R.id.rl_photogrid_parent);
+        grievanceTitle = (EditText) contentView.findViewById(R.id.grievanceTitle);
+        grievanceDescription = (EditText) contentView.findViewById(R.id.feedbackBody);
+        grievanceType = (Spinner) contentView.findViewById(R.id.feedbackType);
         rl_photogrid_bitmap = (RelativeLayout) contentView.findViewById(R.id.rl_photogrid_bitmap);
         rl_photogrid = (FrameLayout) contentView.findViewById(R.id.rl_photogrid);
         llDetails = (LinearLayout) contentView.findViewById(R.id.ll_bottom);
@@ -160,13 +172,10 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
     private void postEvent() {
         Map<String, String> params = new HashMap<String, String>();
         params.put("start", DateUtils.getISOTime(System.currentTimeMillis()));
-        params.put("end", DateUtils.getISOTime(System.currentTimeMillis() + (30 * 60 * 1000)));
-        params.put("name", "P_V_1");
+        params.put("end", DateUtils.getISOTime(System.currentTimeMillis() + (30 * 24 * 60 * 60 * 1000)));
+        params.put("name", grievanceTitle.getText().toString() );
         params.put("event", "123456");
         params.put("status", "Approved");
-        params.put("retailer", "Kroger - Atlanta");
-        params.put("store", "426");
-        params.put("region", "SUWANEE");
         params.put("enterpriseId", "57c3d95ec9738d252654b331");
         params.put("userId", "57c3ff2f9f6d991628d9d2fe");
         JSONObject jsonObj = new JSONObject(params);
@@ -401,7 +410,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         } else if (view == cancel) {
 
         } else if (view == submit) {
-            postEvent();
+            submitClicked();
         }
 
     }
@@ -452,13 +461,15 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
             if (event.getExtensions() != null && !event.getExtensions().isEmpty()) {
                 jsonObject = new JSONObject(event.getExtensions());
                 if (mLastLocation != null) {
+                    jsonObject.put(Constants.GRIEVANCE_TYPE,grievanceType.getSelectedItem().toString());
+                    jsonObject.put(Constants.GRIEVANCE_DESCRIPTION,grievanceDescription.getText().toString());
                     jsonObject.put(Constants.LATITUDE, String.valueOf(mLastLocation.getLatitude()));
                     jsonObject.put(Constants.LONGITUDE, String.valueOf(mLastLocation.getLongitude()));
                 }
-
-
             } else {
                 jsonObject = new JSONObject();
+                jsonObject.put(Constants.GRIEVANCE_TYPE,grievanceType.getSelectedItem().toString());
+                jsonObject.put(Constants.GRIEVANCE_DESCRIPTION,grievanceDescription.getText().toString());
                 jsonObject.put(Constants.LATITUDE, String.valueOf(mLastLocation.getLatitude()));
                 jsonObject.put(Constants.LONGITUDE, String.valueOf(mLastLocation.getLongitude()));
             }
@@ -467,5 +478,23 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         }
         event.setExtensions(JsonUtil.fromJson(jsonObject));
         event.setExtras(jsonObject.toString());
+    }
+    public void submitClicked() {
+        if (validData()) {
+
+            if (NetworkInfo.isNetworkAvailable(context)) {
+                if (AppUtils.isInternetAccessible(activity)) {
+                    postEvent();
+                } else {
+                    AppUtils.showNoInternetAccessibleAlert(context);
+                }
+            } else {
+                AppUtils.showWiFiSettingsAlert(context);
+            }
+
+        }
+    }
+    private boolean validData() {
+        return !UIValidator.isError(context, grievanceTitle, grievanceType,grievanceDescription);
     }
 }
