@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_grievance"
-        android:icon="@drawable/ico_cam"
+        android:icon="@drawable/ic_actionbar_add"
         android:title="@string/report_grievance"
         app:showAsAction="ifRoom"/>
 

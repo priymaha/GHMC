@@ -2,6 +2,8 @@ package com.example.priyanka.ghmc.viewbinder.activity;
 
 import android.content.Intent;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 
@@ -101,6 +103,7 @@ public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements
 
         actionBar.addTab(openTab);
         actionBar.addTab(closedTab);
+        activity.getSupportActionBar().setStackedBackgroundDrawable(new ColorDrawable(Color.parseColor("#1779DC")));
     }
 
     private void setViewPagerAdapter() {

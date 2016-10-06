@@ -71,19 +71,19 @@ public class GrievanceStatusFragment extends Fragment implements ClickListener{
 
     private void populateSampleData() {
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 4; i++) {
 
             DataModel dm = new DataModel();
 
-            dm.setHeaderTitle("Section " + i);
+            dm.setHeaderTitle("THURSDAY, OCTOBER " + i);
 
             ArrayList<GrievanceStatusModel> singleItem = new ArrayList<>();
-            for (int j = 1; j <= 4; j++) {
+            for (int j = 1; j <= 2; j++) {
                 GrievanceStatusModel grievanceStatusModel = new GrievanceStatusModel();
-                grievanceStatusModel.time = "00:00 AM";
-                grievanceStatusModel.type = "Environment";
-                grievanceStatusModel.title="Save Nature";
-                grievanceStatusModel.members ="10";
+                grievanceStatusModel.time = "10:00 AM";
+                grievanceStatusModel.type = "Environment & Clean Hyderabad";
+                grievanceStatusModel.title="Clean Hussain Sagar";
+                grievanceStatusModel.members="243 members going";
                 singleItem.add(grievanceStatusModel);
             }
 
