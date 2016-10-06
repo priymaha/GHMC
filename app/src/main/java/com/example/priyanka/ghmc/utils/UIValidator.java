@@ -110,7 +110,8 @@ public class UIValidator {
             grievanceTitle.setError(context.getResources().getString(R.string.grievance_post_title_empty));
             result = true;
         } else if (grievanceType.getSelectedItemPosition() == 0) {
-            ((TextView)grievanceType.getSelectedView()).setError("");
+            ((TextView)grievanceType.getSelectedView()).setError(context.getResources().getString(R.string.grievance_post_type_empty));
+            result = true;
 
         } else if (grievanceDescription.getText().toString().trim().isEmpty()) {
             grievanceDescription.setError(context.getResources().getString(R.string.grievance_post_description_empty));
