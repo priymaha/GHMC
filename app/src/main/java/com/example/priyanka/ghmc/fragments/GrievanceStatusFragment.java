@@ -1,6 +1,7 @@
 package com.example.priyanka.ghmc.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.priyanka.ghmc.activity.EventDetailActivity;
+import com.example.priyanka.ghmc.listener.ClickListener;
 import com.example.priyanka.ghmc.model.DataModel;
 import com.example.priyanka.ghmc.model.GrievanceStatusModel;
 import com.example.priyanka.ghmc.R;
@@ -23,7 +26,7 @@ import java.util.List;
  * Created by Priyanka on 30/09/16.
  */
 
-public class GrievanceStatusFragment extends Fragment {
+public class GrievanceStatusFragment extends Fragment implements ClickListener{
     private RecyclerView recyclerView;
     List<DataModel> allSampleData;
     public static GrievanceStatusFragment newInstance() {
@@ -62,6 +65,7 @@ public class GrievanceStatusFragment extends Fragment {
 
         recyclerView.setLayoutManager(manager);
         adapter.setLayoutManager(manager);
+        adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -88,5 +92,11 @@ public class GrievanceStatusFragment extends Fragment {
             allSampleData.add(dm);
 
         }
+    }
+
+    @Override
+    public void itemClicked(View view, int position) {
+        Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+        getActivity().startActivity(intent);
     }
 }

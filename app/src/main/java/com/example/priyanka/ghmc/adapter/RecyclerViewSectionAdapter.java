@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
+import com.example.priyanka.ghmc.listener.ClickListener;
 import com.example.priyanka.ghmc.model.DataModel;
 import com.example.priyanka.ghmc.model.GrievanceStatusModel;
 import com.example.priyanka.ghmc.R;
@@ -26,6 +27,7 @@ public class RecyclerViewSectionAdapter extends SectionedRecyclerViewAdapter<Rec
 
 
     private List<DataModel> allData = Collections.emptyList();
+    private ClickListener clickListener;
 
 
     public RecyclerViewSectionAdapter(List<DataModel> data) {
@@ -94,7 +96,7 @@ public class RecyclerViewSectionAdapter extends SectionedRecyclerViewAdapter<Rec
 
 
     // SectionViewHolder Class for Sections
-    public static class SectionViewHolder extends RecyclerView.ViewHolder {
+    public  class SectionViewHolder extends RecyclerView.ViewHolder {
         final TextView sectionTitle;
         public SectionViewHolder(View itemView) {
             super(itemView);
@@ -103,7 +105,7 @@ public class RecyclerViewSectionAdapter extends SectionedRecyclerViewAdapter<Rec
     }
 
     // ItemViewHolder Class for Items in each Section
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+    public  class ItemViewHolder extends RecyclerView.ViewHolder {
         final TextView itemTitle;
         final ImageView itemImage;
         final TextView itemTime;
@@ -111,7 +113,7 @@ public class RecyclerViewSectionAdapter extends SectionedRecyclerViewAdapter<Rec
         final TextView membersJoined;
 
 
-        public ItemViewHolder(View itemView) {
+        public ItemViewHolder(final View itemView) {
             super(itemView);
             itemTitle = (TextView) itemView.findViewById(R.id.status_title);
             itemTime = (TextView) itemView.findViewById(R.id.status_time);
@@ -122,10 +124,16 @@ public class RecyclerViewSectionAdapter extends SectionedRecyclerViewAdapter<Rec
                 @Override
                 public void onClick(View v) {
 
-                    Toast.makeText(v.getContext(), itemTitle.getText(), Toast.LENGTH_SHORT).show();
+                   if (clickListener != null){
+                       clickListener.itemClicked(itemView,getAdapterPosition());
+                   }
 
                 }
             });
         }
+    }
+
+    public void setClickListener (ClickListener clickListener){
+        this.clickListener = clickListener;
     }
 }
