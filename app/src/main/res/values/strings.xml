@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GHMC</string>
+    <string name="app_name">Smart Citizen</string>
     <string name="action_settings">Settings</string>
 
     <!--json file names-->
