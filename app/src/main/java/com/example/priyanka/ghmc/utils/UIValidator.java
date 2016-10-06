@@ -2,8 +2,10 @@ package com.example.priyanka.ghmc.utils;
 
 import android.content.Context;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.priyanka.ghmc.R;
 
@@ -102,7 +104,7 @@ public class UIValidator {
         return result;
     }
 
-    public static boolean isError(Context context, EditText grievanceTitle, Spinner grievanceType, EditText grievanceDescription) {
+    public static boolean isError(Context context, EditText grievanceTitle, Spinner grievanceType, EditText grievanceDescription, ImageView grievanceImage) {
 
         boolean result = false;
 
@@ -110,11 +112,14 @@ public class UIValidator {
             grievanceTitle.setError(context.getResources().getString(R.string.grievance_post_title_empty));
             result = true;
         } else if (grievanceType.getSelectedItemPosition() == 0) {
-            ((TextView)grievanceType.getSelectedView()).setError(context.getResources().getString(R.string.grievance_post_type_empty));
+            ((TextView) grievanceType.getSelectedView()).setError(context.getResources().getString(R.string.grievance_post_type_empty));
             result = true;
 
         } else if (grievanceDescription.getText().toString().trim().isEmpty()) {
             grievanceDescription.setError(context.getResources().getString(R.string.grievance_post_description_empty));
+            result = true;
+        } else if (null == grievanceImage.getDrawable()) {
+            Toast.makeText(context,"Add Photo",Toast.LENGTH_LONG).show();
             result = true;
         }
 

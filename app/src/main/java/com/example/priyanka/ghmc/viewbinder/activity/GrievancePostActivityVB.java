@@ -495,6 +495,6 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         }
     }
     private boolean validData() {
-        return !UIValidator.isError(context, grievanceTitle, grievanceType,grievanceDescription);
+        return !UIValidator.isError(context, grievanceTitle, grievanceType,grievanceDescription,bitmap_image);
     }
 }
