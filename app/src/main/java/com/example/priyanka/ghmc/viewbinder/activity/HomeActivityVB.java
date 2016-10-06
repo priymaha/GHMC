@@ -45,7 +45,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
     private TextView mGrievanceTV;
     private TextView mVolunteerTV;
     private TextView mPointsTV;
-    private  String mUserName;
+    private String mUserName;
     PermissionsHelper permissionsHelper;
     private static final String LOG_TAG = HomeActivityVB.class.getSimpleName();
     private Boolean newInstallation;
@@ -56,7 +56,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
     boolean isLocationEnabled = false;
     private ProgressDialog dialog;
 
-    public  HomeActivityVB(AppCompatActivity activity) {
+    public HomeActivityVB(AppCompatActivity activity) {
         super(activity);
     }
 
@@ -69,6 +69,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
             activity.setContentView(contentView);
         }
     }
+
     @Override
     public void initViews() {
         mGrievanceTV = (TextView) contentView.findViewById(R.id.home_grievance_tv);
@@ -85,11 +86,11 @@ public class HomeActivityVB extends BaseActivityViewBinder {
     public void initViewListeners() {
         if (mGrievanceTV != null) {
             mGrievanceTV.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   gotoGrievance();
-               }
-           });
+                @Override
+                public void onClick(View view) {
+                    gotoGrievance();
+                }
+            });
         }
 
         if (mVolunteerTV != null) {
@@ -97,7 +98,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
                 @Override
                 public void onClick(View view) {
                     //gotoVolunteer();
-                    Toast.makeText(activity,"gotoVolunteer",Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "gotoVolunteer", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -106,16 +107,14 @@ public class HomeActivityVB extends BaseActivityViewBinder {
             mPointsTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(activity, EventDetailActivity.class);
-                    activity.startActivity(intent);
-                    //Toast.makeText(activity,"Participate in the social activities to earn points",Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Participate in the social activities to earn points", Toast.LENGTH_LONG).show();
                 }
             });
         }
     }
 
 
-    public void gotoGrievance(){
+    public void gotoGrievance() {
         Intent intent = new Intent(activity, GrievanceStatusActivity.class);
         activity.startActivity(intent);
     }
@@ -132,7 +131,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
     public boolean handleOptionsSelected(int itemId) {
         switch (itemId) {
             case R.id.about:
-                Toast.makeText(activity,"version 1.0",Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "version 1.0", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.logout:
                 logoutFromApp();
@@ -142,7 +141,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
         }
     }
 
-    public void logoutFromApp(){
+    public void logoutFromApp() {
         dialog = ProgressDialog.show(activity, "", "Please wait");
         KeepTrax keepTrax = KeepTraxImpl.getInstance(context, UrlBuilder.getUrl(context), UrlBuilder.getApiKey(context));
         keepTrax.logout(true, new VoidCallback() {
@@ -290,7 +289,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
         }
     }
 
-    public void onPrerequisitesDone(){
+    public void onPrerequisitesDone() {
 
         showShortToast("onPrerequisitesDone");
         mGrievanceTV.setEnabled(true);
