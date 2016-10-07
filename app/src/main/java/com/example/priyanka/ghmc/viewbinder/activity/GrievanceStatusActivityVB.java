@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.priyanka.ghmc.R;
@@ -41,11 +42,10 @@ public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements
         activity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         activity.getSupportActionBar().setCustomView(R.layout.status_layout);
 //        activity.getSupportActionBar().setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.ico_cam));
-        activity.getSupportActionBar().getCustomView().setOnClickListener(new View.OnClickListener() {
+        activity.getSupportActionBar().getCustomView().findViewById(R.id.customIv).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                // your code here
                 Intent intent = new Intent (activity, GrievancePostActivity.class);
                 activity.startActivity(intent);
             }
