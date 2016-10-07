@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.priyanka.ghmc">
+    package="com.example.priyanka.SmartCitizen">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name=".utils.MyApplication"
+        android:name="com.example.priyanka.SmartCitizen.utils.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SignupActivity" />
+        <activity android:name="com.example.priyanka.SmartCitizen.activity.SignupActivity" />
         <activity
-            android:name=".activity.SplashActivity"
+            android:name="com.example.priyanka.SmartCitizen.activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
@@ -24,16 +24,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.LoginActivity"
+            android:name="com.example.priyanka.SmartCitizen.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.HomeActivity"
+            android:name="com.example.priyanka.SmartCitizen.activity.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.GrievancePostActivity"
+            android:name="com.example.priyanka.SmartCitizen.activity.GrievancePostActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.GrievanceStatusActivity"
+            android:name="com.example.priyanka.SmartCitizen.activity.GrievanceStatusActivity"
             android:screenOrientation="portrait" />
 
         <meta-data
@@ -41,7 +41,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activity.EventDetailActivity"
+            android:name="com.example.priyanka.SmartCitizen.activity.EventDetailActivity"
             android:screenOrientation="portrait"/>
     </application>
 
