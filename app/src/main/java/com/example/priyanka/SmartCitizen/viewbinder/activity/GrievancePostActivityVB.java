@@ -167,6 +167,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
 
 
     private void postEvent() {
+        JSONObject jsonObject = null;
         Map<String, String> params = new HashMap<String, String>();
         params.put("start", DateUtils.getISOTime(System.currentTimeMillis()));
         params.put("end", DateUtils.getISOTime(System.currentTimeMillis() + (30 * 24 * 60 * 60 * 1000)));
@@ -175,6 +176,15 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         params.put("status", "Approved");
         params.put("enterpriseId", "57c3d95ec9738d252654b331");
         params.put("userId", "57c3ff2f9f6d991628d9d2fe");
+        jsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.PHOTO_INDEX, 1);
+            jsonObject.put(Constants.STATUS, 1);
+            params.put("extras",jsonObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         JSONObject jsonObj = new JSONObject(params);
         JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.POST, "http://sci.keeptraxapp.com/api/v4/events", jsonObj,
                 new Response.Listener<JSONObject>() {

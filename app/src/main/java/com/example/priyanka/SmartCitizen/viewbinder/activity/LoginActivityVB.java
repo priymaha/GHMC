@@ -30,11 +30,22 @@ import com.example.priyanka.SmartCitizen.utils.AppUtils;
 import com.example.priyanka.SmartCitizen.utils.Constants;
 import com.example.priyanka.SmartCitizen.utils.UIValidator;
 import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
+import com.keeptraxinc.cachemanager.PageToken;
+import com.keeptraxinc.cachemanager.dao.Enterprise;
+import com.keeptraxinc.cachemanager.dao.Event;
+import com.keeptraxinc.cachemanager.dao.EventDao;
+import com.keeptraxinc.cachemanager.query.ListCallback;
+import com.keeptraxinc.cachemanager.query.WhereClause;
+import com.keeptraxinc.cachemanager.query.WhereSimple;
 import com.keeptraxinc.sdk.KeepTrax;
 import com.keeptraxinc.sdk.impl.KeepTraxImpl;
+import com.keeptraxinc.utils.helper.DateUtils;
 import com.keeptraxinc.utils.helper.NetworkInfo;
 import com.keeptraxinc.utils.logger.Logger;
+import com.strongloop.android.loopback.callbacks.ObjectCallback;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
+
+import java.util.List;
 
 /**
  * Created by sahul on 9/20/16.
@@ -188,7 +199,8 @@ public class LoginActivityVB extends BaseActivityViewBinder{
                     dialog.dismiss();
                     initSdk();
                     AppPreferences.saveValue("LOGIN", true, context);
-                    gotoHome();
+//                    gotoHome();
+                    getEvents();
                 }
 
                 @Override
@@ -203,6 +215,51 @@ public class LoginActivityVB extends BaseActivityViewBinder{
         }
     }
 
+    private void getEnterpriseEvents(final Enterprise enterprise) {
+        WhereClause wc = WhereSimple.le(EventDao.Properties.Start.name, DateUtils.getISOTime(System.currentTimeMillis()))
+                .and(WhereSimple.ge(EventDao.Properties.End.name, DateUtils.getISOTime(System.currentTimeMillis()))
+
+                        .and(WhereSimple.ne(EventDao.Properties.Status.name, Constants.EVENT_STATUS_COMPLETED)));
+        enterprise.getEvents(wc, null, null, new ListCallback<Event>() {
+            @Override
+            public void onSuccess(PageToken pageToken, List<Event> list) {
+                if (list != null && !list.isEmpty()) {
+//                    populateSampleData (list);
+                    gotoHome();
+
+                } else {
+
+
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+            }
+        });
+    }
+
+    private void getEvents() {
+        if (keepTrax.getUser() != null) {
+
+            keepTrax.getUser().getEnterprise(new ObjectCallback<Enterprise>() {
+                @Override
+                public void onSuccess(Enterprise enterprise) {
+                    if (enterprise != null) {
+                        getEnterpriseEvents(enterprise);
+                    } else {
+
+                    }
+                }
+
+                @Override
+                public void onError(Throwable t) {
+
+                }
+            });
+        }
+    }
     private void initSdk() {
         keepTrax = KeepTraxImpl.getInstance(activity, UrlBuilder.getUrl(activity), UrlBuilder.getApiKey(activity));
         saveAppPreferences();

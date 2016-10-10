@@ -93,13 +93,12 @@ public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements
         ActionBar.Tab openTab = actionBar.newTab();
         openTab.setText ("Open ");
         openTab.setTabListener(this);
-
-      /*  ActionBar.Tab closedTab = actionBar.newTab();
+        ActionBar.Tab closedTab = actionBar.newTab();
         closedTab.setText ("Closed ");
-        closedTab.setTabListener(this)*/;
+        closedTab.setTabListener(this);
 
         actionBar.addTab(openTab);
-//        actionBar.addTab(closedTab);
+        actionBar.addTab(closedTab);
         activity.getSupportActionBar().setStackedBackgroundDrawable(new ColorDrawable(Color.parseColor("#1779DC")));
     }
 

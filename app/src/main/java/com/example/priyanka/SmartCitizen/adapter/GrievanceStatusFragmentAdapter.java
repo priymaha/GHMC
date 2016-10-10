@@ -29,7 +29,7 @@ public class GrievanceStatusFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 1;
+        return 2;
     }
 /* Commenting code for scrollable tabs*/
    /* @Override

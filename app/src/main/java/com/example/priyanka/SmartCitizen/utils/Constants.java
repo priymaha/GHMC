@@ -68,6 +68,8 @@ public class Constants {
     public static final String LATITUDE = "latitude";
     public static final String GRIEVANCE_TYPE = "grievance_type";
     public static final String GRIEVANCE_DESCRIPTION = "grievance_description";
+    public static final String MEMBERS_GOING = "members_going";
+
 
 
 }

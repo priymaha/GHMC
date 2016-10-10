@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +32,9 @@ import com.keeptraxinc.sdk.impl.KeepTraxImpl;
 import com.keeptraxinc.utils.helper.DateUtils;
 import com.strongloop.android.loopback.callbacks.ObjectCallback;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Priyanka on 30/09/16.
@@ -45,10 +44,10 @@ public class GrievanceStatusFragment extends Fragment implements ClickListener {
     private RecyclerView recyclerView;
     private List<DataModel> allSampleData;
     private KeepTrax keepTrax;
+    private GrievanceStatusModel dummyGrievanceStatusModel = new GrievanceStatusModel();
 
     public static GrievanceStatusFragment newInstance() {
         GrievanceStatusFragment fragment = new GrievanceStatusFragment();
-
         return fragment;
     }
 
@@ -64,15 +63,12 @@ public class GrievanceStatusFragment extends Fragment implements ClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initialization();
-//        populateSampleData(list);
-        getEvents();
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        getEvents();
+        getEvents();
     }
 
     private void initialization() {
@@ -92,6 +88,7 @@ public class GrievanceStatusFragment extends Fragment implements ClickListener {
     }
 
     private void getEnterpriseEvents(final Enterprise enterprise) {
+        final List<Event> responseEvents = new ArrayList<Event>();
         WhereClause wc = WhereSimple.le(EventDao.Properties.Start.name, DateUtils.getISOTime(System.currentTimeMillis()))
                 .and(WhereSimple.ge(EventDao.Properties.End.name, DateUtils.getISOTime(System.currentTimeMillis()))
 
@@ -99,12 +96,11 @@ public class GrievanceStatusFragment extends Fragment implements ClickListener {
         enterprise.getEvents(wc, null, null, new ListCallback<Event>() {
             @Override
             public void onSuccess(PageToken pageToken, List<Event> list) {
-                if (list != null && !list.isEmpty()) {
-                    populateSampleData (list);
-
-                } else {
-
-
+                if (list != null && !list.isEmpty()){
+                    responseEvents.addAll(list);
+                    populateSampleData(responseEvents);
+                }else if (list != null && list.isEmpty()) {
+                    populateSampleData(responseEvents);
                 }
             }
 
@@ -139,32 +135,55 @@ public class GrievanceStatusFragment extends Fragment implements ClickListener {
     private void populateSampleData(List<Event> list) {
 
         int size = list.size();
-        for (int i = 0; i <= size; i++) {
+        if (size != 0) {
+            for (int i = 0; i < size; i++) {
+                DataModel dm = new DataModel();
+                dm.setHeaderTitle(list.get(i).getStart());
+//            dm.setHeaderTitle("THURSDAY, OCTOBER " + i);
+//            Log.e ("Time",DateFormat.getInstance().format(list.get(i).getStart()));
+                ArrayList<GrievanceStatusModel> singleItem = new ArrayList<>();
 
-            DataModel dm = new DataModel();
+                for (int j = i; j <size; j++) {
+                    if (list.get(i).getStart() == list.get(j).getStart()) {
 
-            dm.setHeaderTitle(list.get(i).getStart());
-            dm.setHeaderTitle("THURSDAY, OCTOBER " + i);
-            Log.e ("Time",DateFormat.getInstance().format(list.get(i).getStart()));
+                        GrievanceStatusModel grievanceStatusModel = new GrievanceStatusModel();
 
-            ArrayList<GrievanceStatusModel> singleItem = new ArrayList<>();
-            for (int j = 1; j <= 2; j++) {
-                GrievanceStatusModel grievanceStatusModel = new GrievanceStatusModel();
+                        grievanceStatusModel.time = "10:00 AM";
+                        grievanceStatusModel.type = list.get(i).getExtras();
+                        grievanceStatusModel.title = list.get(i).getName();
+                        grievanceStatusModel.members = "243 members going";
 
-                grievanceStatusModel.time = "10:00 AM";
-                grievanceStatusModel.type = "Environment & Clean Hyderabad";
-                grievanceStatusModel.title="Clean Hussain Sagar";
-                grievanceStatusModel.members="243 members going";
+                        singleItem.add(grievanceStatusModel);
+                    } else {
+                        break;
+                    }
+                }
 
-                singleItem.add(grievanceStatusModel);
+                dm.setAllItemsInSection(singleItem);
+
+                allSampleData.add(dm);
+
             }
 
-            dm.setAllItemsInSection(singleItem);
-
-            allSampleData.add(dm);
-
+            loadAdapter();
         }
-        loadAdapter();
+    }
+
+    private void getEventExtras(Event event) {
+
+        if (event != null && event.getExtensions() != null && !event.getExtensions().isEmpty()) {
+            Map<String, Object> map = (Map<String, Object>) event.getExtensions();
+            try {
+                if (map.containsKey(Constants.GRIEVANCE_TYPE)) {
+                    dummyGrievanceStatusModel.type = (String) map.get(Constants.GRIEVANCE_TYPE);
+                }
+                if (map.containsKey(Constants.MEMBERS_GOING)) {
+                    dummyGrievanceStatusModel.members = (String) map.get(Constants.MEMBERS_GOING);
+                }
+
+            } catch (Exception e) {
+            }
+        }
     }
 
     @Override

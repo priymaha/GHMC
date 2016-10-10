@@ -290,8 +290,8 @@ public class HomeActivityVB extends BaseActivityViewBinder {
     }
 
     public void onPrerequisitesDone() {
-        getKeepTraxInstance();
-        keepTrax.start();
+       /* getKeepTraxInstance();
+        keepTrax.start();*/
         showShortToast("onPrerequisitesDone");
         mGrievanceTV.setEnabled(true);
     }
