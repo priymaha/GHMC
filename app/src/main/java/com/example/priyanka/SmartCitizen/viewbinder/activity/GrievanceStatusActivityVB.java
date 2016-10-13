@@ -58,7 +58,6 @@ public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements
         }
         activity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         activity.getSupportActionBar().setCustomView(R.layout.status_layout);
-//        activity.getSupportActionBar().setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.ico_cam));
         activity.getSupportActionBar().getCustomView().findViewById(R.id.customIv).setOnClickListener(new View.OnClickListener() {
 
             @Override
