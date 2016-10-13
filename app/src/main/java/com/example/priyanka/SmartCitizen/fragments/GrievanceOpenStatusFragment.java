@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.priyanka.SmartCitizen.R;
 import com.example.priyanka.SmartCitizen.activity.EventDetailActivity;
@@ -17,6 +18,8 @@ import com.example.priyanka.SmartCitizen.adapter.RecyclerViewSectionAdapter;
 import com.example.priyanka.SmartCitizen.listener.ClickListener;
 import com.example.priyanka.SmartCitizen.model.DataModel;
 import com.example.priyanka.SmartCitizen.model.GrievanceStatusModel;
+import com.example.priyanka.SmartCitizen.utils.AppPreferences;
+import com.example.priyanka.SmartCitizen.utils.Constants;
 import com.example.priyanka.SmartCitizen.utils.DividerItemDecoration;
 import com.example.priyanka.SmartCitizen.utils.Globals;
 import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
@@ -32,6 +35,7 @@ import java.util.List;
 
 public class GrievanceOpenStatusFragment extends Fragment implements ClickListener {
     private RecyclerView recyclerView;
+    private TextView mEventAvailableTV;
     private List<DataModel> allSampleData;
     private KeepTrax keepTrax;
     private GrievanceStatusModel dummyGrievanceStatusModel = new GrievanceStatusModel();
@@ -46,6 +50,7 @@ public class GrievanceOpenStatusFragment extends Fragment implements ClickListen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_grievance_status, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.my_recycler_view);
+        mEventAvailableTV = (TextView) layout.findViewById(R.id.grievance_noevents_tv);
         return layout;
     }
 
@@ -58,11 +63,15 @@ public class GrievanceOpenStatusFragment extends Fragment implements ClickListen
     @Override
     public void onResume() {
         super.onResume();
-        Globals.populateAdapterDataSet();
-        if (Globals.allSampleData.size() > 0) {
-            loadAdapter();
+        if (AppPreferences.getBooleanValue(Constants.NO_SHOWS, getActivity())) {
+            mEventAvailableTV.setVisibility(View.VISIBLE);
+        } else {
+            mEventAvailableTV.setVisibility(View.GONE);
+            Globals.populateAdapterDataSet();
+            if (Globals.allSampleData.size() > 0) {
+                loadAdapter();
+            }
         }
-
     }
 
     private void initialization() {
@@ -80,7 +89,6 @@ public class GrievanceOpenStatusFragment extends Fragment implements ClickListen
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
     }
-
 
     @Override
     public void itemClicked(View view, int position) {

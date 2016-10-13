@@ -77,14 +77,16 @@ public class Globals {
         }
     }
 
-    public static void getEnterpriseEvents(final Enterprise enterprise, WhereClause whereClause) {
+    public static void getEnterpriseEvents(final Enterprise enterprise, WhereClause whereClause, final Context context) {
         Globals.allGrievance.clear();
         enterprise.getEvents(whereClause, null, null, new ListCallback<Event>() {
             @Override
             public void onSuccess(PageToken pageToken, List<Event> list) {
-                if (list != null && !list.isEmpty()) {
+                if (list != null && !list.isEmpty()){
+                    AppPreferences.saveValue(Constants.NO_SHOWS, false, context);
                     Globals.allGrievance.addAll(list);
-                } else if (list != null && list.isEmpty()) {
+                }else if (list != null && list.isEmpty()) {
+                    AppPreferences.saveValue(Constants.NO_SHOWS, true, context);
                 }
             }
 
@@ -95,7 +97,7 @@ public class Globals {
         });
     }
 
-    public static void getEvents(Context context, final WhereClause whereClause) {
+    public static void getEvents(final Context context, final WhereClause whereClause) {
         getKeepTraxInstance(context);
         if (keepTrax.getUser() != null) {
 
@@ -103,7 +105,7 @@ public class Globals {
                 @Override
                 public void onSuccess(Enterprise enterprise) {
                     if (enterprise != null) {
-                        getEnterpriseEvents(enterprise,whereClause);
+                        getEnterpriseEvents(enterprise,whereClause,context);
                     } else {
 
                     }

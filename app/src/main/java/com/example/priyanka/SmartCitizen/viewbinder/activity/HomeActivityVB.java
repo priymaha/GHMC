@@ -31,12 +31,7 @@ import com.example.priyanka.SmartCitizen.utils.Globals;
 import com.example.priyanka.SmartCitizen.utils.InstallVerifier;
 import com.example.priyanka.SmartCitizen.utils.PermissionsHelper;
 import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
-import com.keeptraxinc.cachemanager.PageToken;
-import com.keeptraxinc.cachemanager.dao.Enterprise;
-import com.keeptraxinc.cachemanager.dao.Event;
 import com.keeptraxinc.cachemanager.dao.EventDao;
-import com.keeptraxinc.cachemanager.dao.UserDao;
-import com.keeptraxinc.cachemanager.query.ListCallback;
 import com.keeptraxinc.cachemanager.query.WhereClause;
 import com.keeptraxinc.cachemanager.query.WhereSimple;
 import com.keeptraxinc.sdk.KeepTrax;
@@ -44,11 +39,8 @@ import com.keeptraxinc.sdk.impl.KeepTraxImpl;
 import com.keeptraxinc.utils.helper.DateUtils;
 import com.keeptraxinc.utils.helper.NetworkInfo;
 import com.keeptraxinc.utils.logger.Logger;
-import com.strongloop.android.loopback.callbacks.ObjectCallback;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by sahul on 9/21/16.
@@ -141,10 +133,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
 
     @Override
     public void onInitFinish() {
-        /*mUserName = AppPreferences.getValue(Constants.USER_NAME, context);
-        showShortToast(mUserName);*/
-
-        mGrievanceTV.setEnabled(false);
+       mGrievanceTV.setEnabled(false);
     }
 
     @Override
@@ -209,8 +198,6 @@ public class HomeActivityVB extends BaseActivityViewBinder {
             }
         } else {
             AppUtils.showWiFiSettingsAlert(context);
-           /* mUserInfoTV.setVisibility(View.VISIBLE);
-            mUserInfoTV.setText("No Internet Connection");*/
         }
     }
 
@@ -315,7 +302,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
     private WhereClause getWhereClause() {
         WhereClause wc = WhereSimple.le(EventDao.Properties.Start.name, DateUtils.getISOTime(System.currentTimeMillis()))
                         .and(WhereSimple.eq(EventDao.Properties.UserId.name, keepTrax.getUser().getId()))
-                        .and(WhereSimple.eq(EventDao.Properties.Status.name, Constants.EVENT_STATUS_COMPLETED));
+                        .and(WhereSimple.eq(EventDao.Properties.Status.name, Constants.CREATED));
         return wc;
     }
 

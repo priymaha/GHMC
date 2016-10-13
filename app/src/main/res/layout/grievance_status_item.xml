@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
@@ -34,8 +34,8 @@
                 android:gravity="center_vertical"
                 android:text="Clean Hussain Sagar"
                 android:textColor="#222222"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/status_time"
@@ -44,8 +44,8 @@
                 android:layout_weight=".25"
                 android:gravity="center_vertical"
                 android:text="10:00 AM"
-                android:textSize="18sp"
-                android:textColor="#666666" />
+                android:textColor="#666666"
+                android:textSize="18sp" />
 
             <ImageView
                 android:id="@+id/status_iv"
@@ -60,9 +60,10 @@
             android:id="@+id/members_joined"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="243 members going"
             android:textColor="#77cb00"
-            android:layout_marginTop="10dp"/>
+            android:visibility="gone"/>
     </LinearLayout>
 
     <View
