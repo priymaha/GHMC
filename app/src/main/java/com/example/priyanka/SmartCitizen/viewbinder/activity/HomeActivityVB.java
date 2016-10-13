@@ -26,14 +26,28 @@ import com.example.priyanka.SmartCitizen.activity.GrievanceStatusActivity;
 import com.example.priyanka.SmartCitizen.activity.LoginActivity;
 import com.example.priyanka.SmartCitizen.utils.AppPreferences;
 import com.example.priyanka.SmartCitizen.utils.AppUtils;
+import com.example.priyanka.SmartCitizen.utils.Constants;
+import com.example.priyanka.SmartCitizen.utils.Globals;
 import com.example.priyanka.SmartCitizen.utils.InstallVerifier;
 import com.example.priyanka.SmartCitizen.utils.PermissionsHelper;
 import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
+import com.keeptraxinc.cachemanager.PageToken;
+import com.keeptraxinc.cachemanager.dao.Enterprise;
+import com.keeptraxinc.cachemanager.dao.Event;
+import com.keeptraxinc.cachemanager.dao.EventDao;
+import com.keeptraxinc.cachemanager.query.ListCallback;
+import com.keeptraxinc.cachemanager.query.WhereClause;
+import com.keeptraxinc.cachemanager.query.WhereSimple;
 import com.keeptraxinc.sdk.KeepTrax;
 import com.keeptraxinc.sdk.impl.KeepTraxImpl;
+import com.keeptraxinc.utils.helper.DateUtils;
 import com.keeptraxinc.utils.helper.NetworkInfo;
 import com.keeptraxinc.utils.logger.Logger;
+import com.strongloop.android.loopback.callbacks.ObjectCallback;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sahul on 9/21/16.
@@ -294,6 +308,8 @@ public class HomeActivityVB extends BaseActivityViewBinder {
         keepTrax.start();*/
         showShortToast("onPrerequisitesDone");
         mGrievanceTV.setEnabled(true);
+        getKeepTraxInstance();
+        getEvents();
     }
     private void getKeepTraxInstance() {
         if (keepTrax != null) {
@@ -373,5 +389,47 @@ public class HomeActivityVB extends BaseActivityViewBinder {
             //location permission is not allowed, show snack bar
             showLocationPermissionSnackBar();
         }
+    }    private void getEnterpriseEvents(final Enterprise enterprise) {
+        final List<Event> responseEvents = new ArrayList<Event>();
+        WhereClause wc = WhereSimple.le(EventDao.Properties.Start.name, DateUtils.getISOTime(System.currentTimeMillis()))
+                .and(WhereSimple.ge(EventDao.Properties.End.name, DateUtils.getISOTime(System.currentTimeMillis()))
+
+                        .and(WhereSimple.ne(EventDao.Properties.Status.name, Constants.EVENT_STATUS_COMPLETED)));
+        enterprise.getEvents(wc, null, null, new ListCallback<Event>() {
+            @Override
+            public void onSuccess(PageToken pageToken, List<Event> list) {
+                if (list != null && !list.isEmpty()){
+                    Globals.allGrievance.addAll(list);
+                }else if (list != null && list.isEmpty()) {
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+            }
+        });
     }
+
+    private void getEvents() {
+        if (keepTrax.getUser() != null) {
+
+            keepTrax.getUser().getEnterprise(new ObjectCallback<Enterprise>() {
+                @Override
+                public void onSuccess(Enterprise enterprise) {
+                    if (enterprise != null) {
+                        getEnterpriseEvents(enterprise);
+                    } else {
+
+                    }
+                }
+
+                @Override
+                public void onError(Throwable t) {
+
+                }
+            });
+        }
+    }
+
 }

@@ -4,7 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.priyanka.SmartCitizen.fragments.GrievanceStatusFragment;
+import com.example.priyanka.SmartCitizen.fragments.GrievanceClosedStatusFragment;
+import com.example.priyanka.SmartCitizen.fragments.GrievanceOpenStatusFragment;
 
 /**
  * Created by Priyanka on 30/09/16.
@@ -19,11 +20,11 @@ public class GrievanceStatusFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return GrievanceStatusFragment.newInstance();
+                return GrievanceOpenStatusFragment.newInstance();
             case 1:
-                return GrievanceStatusFragment.newInstance();
+                return GrievanceClosedStatusFragment.newInstance();
             default:
-                return GrievanceStatusFragment.newInstance();
+                return GrievanceOpenStatusFragment.newInstance();
         }
     }
 

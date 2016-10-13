@@ -199,8 +199,8 @@ public class LoginActivityVB extends BaseActivityViewBinder{
                     dialog.dismiss();
                     initSdk();
                     AppPreferences.saveValue("LOGIN", true, context);
-//                    gotoHome();
-                    getEvents();
+                    gotoHome();
+//                    getEvents();
                 }
 
                 @Override

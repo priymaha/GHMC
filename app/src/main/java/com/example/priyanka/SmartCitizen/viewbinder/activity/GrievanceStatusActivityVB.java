@@ -17,6 +17,24 @@ import android.widget.Toast;
 import com.example.priyanka.SmartCitizen.R;
 import com.example.priyanka.SmartCitizen.activity.GrievancePostActivity;
 import com.example.priyanka.SmartCitizen.adapter.GrievanceStatusFragmentAdapter;
+import com.example.priyanka.SmartCitizen.model.DataModel;
+import com.example.priyanka.SmartCitizen.utils.Constants;
+import com.example.priyanka.SmartCitizen.utils.Globals;
+import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
+import com.keeptraxinc.cachemanager.PageToken;
+import com.keeptraxinc.cachemanager.dao.Enterprise;
+import com.keeptraxinc.cachemanager.dao.Event;
+import com.keeptraxinc.cachemanager.dao.EventDao;
+import com.keeptraxinc.cachemanager.query.ListCallback;
+import com.keeptraxinc.cachemanager.query.WhereClause;
+import com.keeptraxinc.cachemanager.query.WhereSimple;
+import com.keeptraxinc.sdk.KeepTrax;
+import com.keeptraxinc.sdk.impl.KeepTraxImpl;
+import com.keeptraxinc.utils.helper.DateUtils;
+import com.strongloop.android.loopback.callbacks.ObjectCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Priyanka on 30/09/16.
@@ -25,6 +43,8 @@ import com.example.priyanka.SmartCitizen.adapter.GrievanceStatusFragmentAdapter;
 public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements ActionBar.TabListener {
     private ViewPager viewPager;
     private ActionBar actionBar;
+    private KeepTrax keepTrax;
+
     public GrievanceStatusActivityVB(AppCompatActivity activity) {
         super(activity);
     }
@@ -84,7 +104,8 @@ public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements
 
     @Override
     public void onInitFinish() {
-
+      /*  initialization();
+getEvents();*/
     }
 
     private void createTabs() {
@@ -153,4 +174,6 @@ public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements
         Toast.makeText(activity,"hello",Toast.LENGTH_LONG).show();
 
     }
+
+
 }

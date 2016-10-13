@@ -69,7 +69,6 @@ public class Constants {
     public static final String GRIEVANCE_TYPE = "grievance_type";
     public static final String GRIEVANCE_DESCRIPTION = "grievance_description";
     public static final String MEMBERS_GOING = "members_going";
-
-
-
+    public static final String HEADER_FORMAT = "EEEE, MMMM dd ";
+    public static final String TIME_FORMAT = "hh:mm a";
 }

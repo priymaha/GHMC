@@ -9,6 +9,9 @@ import com.keeptraxinc.utils.logger.Logger;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -66,5 +69,20 @@ public class AppUtils {
         if (!AppPreferences.isApplicationInBackground(context)) {
             Toast.makeText(context , " Please connect to internet" , Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public static String getFormattedDate(String isoDate, String format) {
+        Date date = null;
+        try {
+            SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'");
+            date = dt.parse(isoDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // *** same for the format String below
+        SimpleDateFormat dt1 = new SimpleDateFormat(format);
+        return dt1.format(date);
+
     }
 }
