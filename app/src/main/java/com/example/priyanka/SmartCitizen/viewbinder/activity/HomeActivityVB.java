@@ -35,6 +35,7 @@ import com.keeptraxinc.cachemanager.PageToken;
 import com.keeptraxinc.cachemanager.dao.Enterprise;
 import com.keeptraxinc.cachemanager.dao.Event;
 import com.keeptraxinc.cachemanager.dao.EventDao;
+import com.keeptraxinc.cachemanager.dao.UserDao;
 import com.keeptraxinc.cachemanager.query.ListCallback;
 import com.keeptraxinc.cachemanager.query.WhereClause;
 import com.keeptraxinc.cachemanager.query.WhereSimple;
@@ -55,23 +56,29 @@ import java.util.List;
 
 public class HomeActivityVB extends BaseActivityViewBinder {
 
+    private static final String LOG_TAG = HomeActivityVB.class.getSimpleName();
+    PermissionsHelper permissionsHelper;
+    LocationManager locationManager;
+    boolean gps_enabled;
+    boolean isLocationEnabled = false;
     private TextView mGrievanceTV;
     private TextView mVolunteerTV;
     private TextView mPointsTV;
     private String mUserName;
-    PermissionsHelper permissionsHelper;
-    private static final String LOG_TAG = HomeActivityVB.class.getSimpleName();
     private Boolean newInstallation;
     private Boolean mAlreadyEnabled = false;
-    LocationManager locationManager;
-    boolean gps_enabled;
     private boolean checkStoragePermission;
-    boolean isLocationEnabled = false;
     private ProgressDialog dialog;
     private KeepTrax keepTrax;
 
     public HomeActivityVB(AppCompatActivity activity) {
         super(activity);
+    }
+
+    private static void navigateToLogin(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
     }
 
     @Override
@@ -127,7 +134,6 @@ public class HomeActivityVB extends BaseActivityViewBinder {
         }
     }
 
-
     public void gotoGrievance() {
         Intent intent = new Intent(activity, GrievanceStatusActivity.class);
         activity.startActivity(intent);
@@ -174,13 +180,6 @@ public class HomeActivityVB extends BaseActivityViewBinder {
             }
         });
     }
-
-    private static void navigateToLogin(Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        context.startActivity(intent);
-    }
-
 
     public boolean handleOptionsMenu(Menu menu) {
         MenuInflater inflater = activity.getMenuInflater();
@@ -309,14 +308,25 @@ public class HomeActivityVB extends BaseActivityViewBinder {
         showShortToast("onPrerequisitesDone");
         mGrievanceTV.setEnabled(true);
         getKeepTraxInstance();
-        getEvents();
+
+        Globals.getEvents(activity,getWhereClause());
     }
+
+    private WhereClause getWhereClause() {
+        WhereClause wc = WhereSimple.le(EventDao.Properties.Start.name, DateUtils.getISOTime(System.currentTimeMillis()))
+                .and(WhereSimple.ge(EventDao.Properties.End.name, DateUtils.getISOTime(System.currentTimeMillis()))
+                        .and(WhereSimple.ge(UserDao.Properties.Id.name, keepTrax.getUser().getImageUrl()))
+                        .and(WhereSimple.ne(EventDao.Properties.Status.name, Constants.CREATED)));
+        return wc;
+    }
+
     private void getKeepTraxInstance() {
         if (keepTrax != null) {
             return;
         }
         keepTrax = KeepTraxImpl.getInstance(activity, UrlBuilder.getUrl(activity), UrlBuilder.getApiKey(activity));
     }
+
     public void showLocationPermissionSnackBar() {
 
         Snackbar snackbar = Snackbar
@@ -389,47 +399,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
             //location permission is not allowed, show snack bar
             showLocationPermissionSnackBar();
         }
-    }    private void getEnterpriseEvents(final Enterprise enterprise) {
-        final List<Event> responseEvents = new ArrayList<Event>();
-        WhereClause wc = WhereSimple.le(EventDao.Properties.Start.name, DateUtils.getISOTime(System.currentTimeMillis()))
-                .and(WhereSimple.ge(EventDao.Properties.End.name, DateUtils.getISOTime(System.currentTimeMillis()))
-
-                        .and(WhereSimple.ne(EventDao.Properties.Status.name, Constants.EVENT_STATUS_COMPLETED)));
-        enterprise.getEvents(wc, null, null, new ListCallback<Event>() {
-            @Override
-            public void onSuccess(PageToken pageToken, List<Event> list) {
-                if (list != null && !list.isEmpty()){
-                    Globals.allGrievance.addAll(list);
-                }else if (list != null && list.isEmpty()) {
-                }
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-
-            }
-        });
     }
 
-    private void getEvents() {
-        if (keepTrax.getUser() != null) {
-
-            keepTrax.getUser().getEnterprise(new ObjectCallback<Enterprise>() {
-                @Override
-                public void onSuccess(Enterprise enterprise) {
-                    if (enterprise != null) {
-                        getEnterpriseEvents(enterprise);
-                    } else {
-
-                    }
-                }
-
-                @Override
-                public void onError(Throwable t) {
-
-                }
-            });
-        }
-    }
 
 }

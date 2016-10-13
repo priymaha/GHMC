@@ -71,4 +71,7 @@ public class Constants {
     public static final String MEMBERS_GOING = "members_going";
     public static final String HEADER_FORMAT = "EEEE, MMMM dd ";
     public static final String TIME_FORMAT = "hh:mm a";
+    public static final String CREATED = "Created";
+    public static final String STARTED = "Started";
+    public static final String ENTERPRISE = "57c3d95ec9738d252654b331";
 }
