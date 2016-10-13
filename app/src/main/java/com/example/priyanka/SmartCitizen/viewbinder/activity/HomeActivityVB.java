@@ -315,7 +315,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
     private WhereClause getWhereClause() {
         WhereClause wc = WhereSimple.le(EventDao.Properties.Start.name, DateUtils.getISOTime(System.currentTimeMillis()))
                         .and(WhereSimple.eq(EventDao.Properties.UserId.name, keepTrax.getUser().getId()))
-                        .and(WhereSimple.eq(EventDao.Properties.Status.name, Constants.CREATED));
+                        .and(WhereSimple.eq(EventDao.Properties.Status.name, Constants.EVENT_STATUS_COMPLETED));
         return wc;
     }
 
