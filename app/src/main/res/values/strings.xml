@@ -105,4 +105,5 @@
     <string name="grievance_post_title_empty">Please enter title</string>
     <string name="grievance_post_description_empty">Please enter description</string>
     <string name="grievance_post_type_empty">Please select type of grievance</string>
+    <string name="please_wait_submit_grievance">Please Wait, Submitting Grievance!!!</string>
 </resources>

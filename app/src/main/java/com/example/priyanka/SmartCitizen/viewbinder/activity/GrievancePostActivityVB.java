@@ -181,7 +181,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         params.put("enterpriseId", Constants.ENTERPRISE);
         getKeepTraxInstance(context);
         params.put("userId",keepTrax.getUser().getId());
-        jsonObject = new JSONObject();
+  /*      jsonObject = new JSONObject();
         try {
                 jsonObject.put(Constants.GRIEVANCE_TYPE, grievanceType.getSelectedItem().toString());
                 jsonObject.put(Constants.GRIEVANCE_DESCRIPTION, grievanceDescription.getText().toString());
@@ -189,11 +189,11 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
                 jsonObject.put(Constants.LATITUDE, String.valueOf(mLastLocation.getLatitude()));
                 jsonObject.put(Constants.LONGITUDE, String.valueOf(mLastLocation.getLongitude()));
             }
-            params.put("extras", jsonObject.toString());
+            params.put("extras", jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+*/
         JSONObject jsonObj = new JSONObject(params);
         JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.POST, "http://sci.keeptraxapp.com/api/v4/events", jsonObj,
                 new Response.Listener<JSONObject>() {
@@ -458,9 +458,10 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         try {
             if (event.getExtensions() != null && !event.getExtensions().isEmpty()) {
                 jsonObject = new JSONObject(event.getExtensions());
-                if (mLastLocation != null) {
+
                     jsonObject.put(Constants.GRIEVANCE_TYPE, grievanceType.getSelectedItem().toString());
                     jsonObject.put(Constants.GRIEVANCE_DESCRIPTION, grievanceDescription.getText().toString());
+                if (mLastLocation != null) {
                     jsonObject.put(Constants.LATITUDE, String.valueOf(mLastLocation.getLatitude()));
                     jsonObject.put(Constants.LONGITUDE, String.valueOf(mLastLocation.getLongitude()));
                 }
@@ -468,8 +469,10 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
                 jsonObject = new JSONObject();
                 jsonObject.put(Constants.GRIEVANCE_TYPE, grievanceType.getSelectedItem().toString());
                 jsonObject.put(Constants.GRIEVANCE_DESCRIPTION, grievanceDescription.getText().toString());
-                jsonObject.put(Constants.LATITUDE, String.valueOf(mLastLocation.getLatitude()));
-                jsonObject.put(Constants.LONGITUDE, String.valueOf(mLastLocation.getLongitude()));
+                if (mLastLocation != null) {
+                    jsonObject.put(Constants.LATITUDE, String.valueOf(mLastLocation.getLatitude()));
+                    jsonObject.put(Constants.LONGITUDE, String.valueOf(mLastLocation.getLongitude()));
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -503,12 +506,13 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
             @Override
             public void onSuccess(PageToken pageToken, final List<Event> list) {
                 if (list != null && !list.isEmpty()) {
-//                    setEventExtras(list.get(0));
+                    setEventExtras(list.get(0));
                     list.get(0).save(new VoidCallback() {
                         @Override
                         public void onSuccess() {
                             list.get(0).linkUser(keepTrax.getUser(), null);
                             addDocument(list.get(0));
+                            finishActivity();
                         }
 
                         @Override

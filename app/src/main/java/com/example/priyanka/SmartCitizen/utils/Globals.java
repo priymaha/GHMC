@@ -41,7 +41,7 @@ public class Globals {
                 dm.setHeaderTitle(AppUtils.getFormattedDate(Globals.allGrievance.get(i).getStart(), Constants.HEADER_FORMAT).toUpperCase());
                 ArrayList<GrievanceStatusModel> singleItem = new ArrayList<>();
                 for (j = i; j < size; j++) {
-                    if (Globals.allGrievance.get(i).getStart().equals(Globals.allGrievance.get(j).getStart())) {
+                    if (AppUtils.getFormattedDate(Globals.allGrievance.get(i).getStart(), Constants.HEADER_FORMAT).toUpperCase().equals(AppUtils.getFormattedDate(Globals.allGrievance.get(j).getStart(), Constants.HEADER_FORMAT).toUpperCase())) {
                         getEventExtras(Globals.allGrievance.get(j));
                         GrievanceStatusModel grievanceStatusModel = new GrievanceStatusModel();
                         grievanceStatusModel.time = (AppUtils.getFormattedDate(Globals.allGrievance.get(j).getStart(), Constants.TIME_FORMAT));

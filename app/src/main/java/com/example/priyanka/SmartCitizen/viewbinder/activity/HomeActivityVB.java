@@ -314,9 +314,8 @@ public class HomeActivityVB extends BaseActivityViewBinder {
 
     private WhereClause getWhereClause() {
         WhereClause wc = WhereSimple.le(EventDao.Properties.Start.name, DateUtils.getISOTime(System.currentTimeMillis()))
-                .and(WhereSimple.ge(EventDao.Properties.End.name, DateUtils.getISOTime(System.currentTimeMillis()))
-                        .and(WhereSimple.ge(UserDao.Properties.Id.name, keepTrax.getUser().getImageUrl()))
-                        .and(WhereSimple.ne(EventDao.Properties.Status.name, Constants.CREATED)));
+                        .and(WhereSimple.eq(EventDao.Properties.UserId.name, keepTrax.getUser().getId()))
+                        .and(WhereSimple.eq(EventDao.Properties.Status.name, Constants.CREATED));
         return wc;
     }
 
