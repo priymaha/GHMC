@@ -22,51 +22,57 @@
     </FrameLayout>
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+    <LinearLayout
         android:id="@+id/form"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <!--Put form controls here-->
-
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <EditText
             android:id="@+id/grievanceTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_marginTop="20dp"
             android:background="@null"
             android:hint="@string/postname"
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
-            android:textColorHint="#000000"></EditText>
+            android:textColorHint="#999999" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="2dp"
-            android:background="#E0E0E0" />
+            android:background="#DBDBDB" />
 
         <Spinner
             android:id="@+id/feedbackType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="30dp"
             android:entries="@array/feedbacktypelist"
-            android:prompt="@string/feedbacktype"></Spinner>
+            android:prompt="@string/feedbacktype" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="2dp"
-            android:background="#E0E0E0" />
+            android:background="#DBDBDB" />
 
         <EditText
             android:id="@+id/feedbackBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="30dp"
             android:background="@null"
             android:hint="@string/postdescription"
             android:inputType="textMultiLine"
@@ -74,20 +80,21 @@
             android:maxLines="10"
             android:minLines="1"
             android:paddingLeft="10dp"
-            android:textColorHint="#000000"></EditText>
+            android:textColorHint="#999999" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="2dp"
             android:background="#E0E0E0" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp">
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/rl_photogrid"
@@ -101,7 +108,6 @@
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/photo_grid_border"
-
                 android:visibility="visible">
 
                 <TextView
@@ -113,7 +119,6 @@
                     android:textColor="#d4d4d4"
                     android:textSize="15sp"
                     android:textStyle="bold" />
-
 
                 <ImageView
                     android:id="@+id/image"
@@ -133,18 +138,21 @@
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/photo_grid_border"
-
                 android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/bitmap_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/photo_grid_border"
                     android:scaleType="centerCrop" />
 
-
             </RelativeLayout>
+
         </FrameLayout>
+
+    </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout

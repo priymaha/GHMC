@@ -2,9 +2,11 @@ package com.example.priyanka.SmartCitizen.viewbinder.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -16,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -23,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -90,6 +94,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
     private Document photo;
     private EditText grievanceTitle, grievanceDescription;
     private Spinner grievanceType;
+    private ProgressDialog dialog;
 
 
     public GrievancePostActivityVB(AppCompatActivity activity) {
@@ -144,6 +149,18 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
 //        getPostedEvent();
         /* build google API client to use location services */
         buildGoogleApiClient();
+        grievanceType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i == 0) {
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.parseColor("#999999"));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
     }
 
 
@@ -174,7 +191,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         JSONObject jsonObject = null;
         Map<String, String> params = new HashMap<String, String>();
         params.put("start", DateUtils.getISOTime(System.currentTimeMillis()));
-        params.put("end", "2016-10-13T14:10:00.000Z");
+        params.put("end", "2016-10-14T16:10:00.000Z");
         params.put("name", grievanceTitle.getText().toString());
         params.put("event", "123456");
         params.put("status", Constants.CREATED);
@@ -205,6 +222,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
                 Toast.makeText(activity, error.toString(), Toast.LENGTH_LONG).show();
             }
         }) {
@@ -486,6 +504,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
 
             if (NetworkInfo.isNetworkAvailable(context)) {
                 if (AppUtils.isInternetAccessible(activity)) {
+                    dialog = ProgressDialog.show(activity, "", "Please wait...");
                     postEvent();
                 } else {
                     AppUtils.showNoInternetAccessibleAlert(context);
@@ -512,12 +531,13 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
                         public void onSuccess() {
                             list.get(0).linkUser(keepTrax.getUser(), null);
                             addDocument(list.get(0));
+                            dialog.dismiss();
                             finishActivity();
                         }
 
                         @Override
                         public void onError(Throwable t) {
-
+                            dialog.dismiss();
                         }
                     });
 
@@ -527,7 +547,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
 
             @Override
             public void onError(Throwable throwable) {
-
+                dialog.dismiss();
             }
         });
     }
