@@ -45,6 +45,7 @@ public class GrievanceOpenStatusFragment extends Fragment implements ClickListen
     private GrievanceStatusModel dummyGrievanceStatusModel = new GrievanceStatusModel();
     private static EventBus bus = EventBus.getDefault();
     private ProgressDialog dialog;
+    private List<DataModel> openEvents ;
 
     public static GrievanceOpenStatusFragment newInstance() {
         GrievanceOpenStatusFragment fragment = new GrievanceOpenStatusFragment();
@@ -83,12 +84,12 @@ public class GrievanceOpenStatusFragment extends Fragment implements ClickListen
     }
 
     private void initialization() {
-        Globals.allSampleData = new ArrayList<DataModel>();
+        Globals.allOpenSampleData.clear();
         keepTrax = KeepTraxImpl.getInstance(getActivity(), UrlBuilder.getUrl(getActivity()), UrlBuilder.getApiKey(getActivity()));
     }
 
     private void loadAdapter() {
-        RecyclerViewSectionAdapter adapter = new RecyclerViewSectionAdapter(Globals.allSampleData);
+        RecyclerViewSectionAdapter adapter = new RecyclerViewSectionAdapter(Globals.allOpenSampleData);
         recyclerView.addItemDecoration(
                 new DividerItemDecoration(getActivity()));
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 1);
@@ -109,8 +110,8 @@ public class GrievanceOpenStatusFragment extends Fragment implements ClickListen
         if (fetched.equals(Constants.FETCHED)){
             if (dialog.isShowing())
                 dialog.dismiss();
-            Globals.populateAdapterDataSet();
-            if (Globals.allSampleData.size() > 0) {
+            Globals.populateAdapterDataSet(Constants.CREATED);
+            if (Globals.allOpenSampleData.size() > 0) {
                 mEventAvailableTV.setVisibility(View.GONE);
                 loadAdapter();
             } else{

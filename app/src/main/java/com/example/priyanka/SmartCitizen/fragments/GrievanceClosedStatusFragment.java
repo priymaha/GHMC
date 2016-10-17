@@ -83,12 +83,12 @@ public class GrievanceClosedStatusFragment extends Fragment implements ClickList
     }
 
     private void initialization() {
-        Globals.allSampleData = new ArrayList<DataModel>();
+        Globals.allClosedSampleData.clear();
         keepTrax = KeepTraxImpl.getInstance(getActivity(), UrlBuilder.getUrl(getActivity()), UrlBuilder.getApiKey(getActivity()));
     }
 
     private void loadAdapter() {
-        RecyclerViewSectionAdapter adapter = new RecyclerViewSectionAdapter(Globals.allSampleData);
+        RecyclerViewSectionAdapter adapter = new RecyclerViewSectionAdapter(Globals.allClosedSampleData);
         recyclerView.addItemDecoration(
                 new DividerItemDecoration(getActivity()));
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 1);
@@ -109,8 +109,8 @@ public class GrievanceClosedStatusFragment extends Fragment implements ClickList
         if (fetched.equals(Constants.FETCHED)){
             if (dialog.isShowing())
                 dialog.dismiss();
-            Globals.populateAdapterDataSet();
-            if (Globals.allSampleData.size() > 0) {
+            Globals.populateAdapterDataSet(Constants.STARTED);
+            if (Globals.allClosedSampleData.size() > 0) {
                 mEventAvailableTV.setVisibility(View.GONE);
                 loadAdapter();
             } else{

@@ -9,4 +9,5 @@ public class GrievanceStatusModel {
     public String type;
     public String members;
     public String time;
+    public String status;
 }

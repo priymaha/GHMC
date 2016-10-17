@@ -28,37 +28,55 @@ import java.util.Map;
 
 public class Globals {
     public static List<Event> allGrievance = new ArrayList <Event> ();
-    public static List<DataModel> allSampleData;
+    public static List<DataModel> allOpenSampleData = new ArrayList<>();
+    public static List<DataModel> allClosedSampleData=new ArrayList<>();
 
     public static GrievanceStatusModel dummyGrievanceStatusModel = new GrievanceStatusModel();
     private static KeepTrax keepTrax;
     private static EventBus bus = EventBus.getDefault();
 
-    public static void populateAdapterDataSet() {
+    public static void populateAdapterDataSet(String status) {
         int size = Globals.allGrievance.size();
         int j;
         if (size > 0) {
-            allSampleData.clear();
+
             for (int i = 0; i < size; i++) {
-                DataModel dm = new DataModel();
-                dm.setHeaderTitle(AppUtils.getFormattedDate(Globals.allGrievance.get(i).getStart(), Constants.HEADER_FORMAT).toUpperCase());
-                ArrayList<GrievanceStatusModel> singleItem = new ArrayList<>();
+
+
+                ArrayList<GrievanceStatusModel> singleOpenItem = new ArrayList<>();
+                ArrayList<GrievanceStatusModel> singleClosedItem = new ArrayList<>();
                 for (j = i; j < size; j++) {
-                    if (AppUtils.getFormattedDate(Globals.allGrievance.get(i).getStart(), Constants.HEADER_FORMAT).toUpperCase().equals(AppUtils.getFormattedDate(Globals.allGrievance.get(j).getStart(), Constants.HEADER_FORMAT).toUpperCase())) {
+                    if (AppUtils.getFormattedDate(Globals.allGrievance.get(i).getStart(), Constants.HEADER_FORMAT).toUpperCase().equals(AppUtils.getFormattedDate(Globals.allGrievance.get(j).getStart(), Constants.HEADER_FORMAT).toUpperCase()) &&
+                            status.equals(Globals.allGrievance.get(j).getStatus())) {
                         getEventExtras(Globals.allGrievance.get(j));
                         GrievanceStatusModel grievanceStatusModel = new GrievanceStatusModel();
                         grievanceStatusModel.time = (AppUtils.getFormattedDate(Globals.allGrievance.get(j).getStart(), Constants.TIME_FORMAT));
                         grievanceStatusModel.type = dummyGrievanceStatusModel.type;
                         grievanceStatusModel.title = Globals.allGrievance.get(j).getName();
                         grievanceStatusModel.members = dummyGrievanceStatusModel.members;
-                        singleItem.add(grievanceStatusModel);
+                        grievanceStatusModel.status = Globals.allGrievance.get(j).getStatus();
+                        if (status.equals(Constants.CREATED)) {
+                            singleOpenItem.add(grievanceStatusModel);
+                        }else if (status.equals(Constants.STARTED)){
+                            singleClosedItem.add(grievanceStatusModel);
+                        }
                     } else {
                         break;
                     }
                 }
-                i = j;
-                dm.setAllItemsInSection(singleItem);
-                allSampleData.add(dm);
+                if (singleOpenItem.size() >0) {
+                    DataModel dmOpen = new DataModel();
+                    dmOpen.setHeaderTitle(AppUtils.getFormattedDate(Globals.allGrievance.get(i).getStart(), Constants.HEADER_FORMAT).toUpperCase());
+                    dmOpen.setAllItemsInSection(singleOpenItem);
+                    allOpenSampleData.add(dmOpen);
+                }
+                if (singleClosedItem.size() >0) {
+                    DataModel dmClosed = new DataModel();
+                    dmClosed.setHeaderTitle(AppUtils.getFormattedDate(Globals.allGrievance.get(i).getStart(), Constants.HEADER_FORMAT).toUpperCase());
+                    dmClosed.setAllItemsInSection(singleOpenItem);
+                    allClosedSampleData.add(dmClosed);
+                }
+                i=j;
             }
         }
     }
@@ -86,11 +104,9 @@ public class Globals {
             @Override
             public void onSuccess(PageToken pageToken, List<Event> list) {
                 if (list != null && !list.isEmpty()){
-                    AppPreferences.saveValue(Constants.NO_SHOWS, false, context);
                     Globals.allGrievance.addAll(list);
 
                 }else if (list != null && list.isEmpty()) {
-                    AppPreferences.saveValue(Constants.NO_SHOWS, true, context);
 
                 }
                 bus.post(Constants.FETCHED);
