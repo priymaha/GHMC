@@ -44,7 +44,7 @@ public class GrievanceClosedStatusFragment extends Fragment implements ClickList
     private static EventBus bus = EventBus.getDefault();
 
     private GrievanceStatusModel dummyGrievanceStatusModel = new GrievanceStatusModel();
-    private ProgressDialog dialog;
+
 
     public static GrievanceClosedStatusFragment newInstance() {
         GrievanceClosedStatusFragment fragment = new GrievanceClosedStatusFragment();
@@ -69,7 +69,7 @@ public class GrievanceClosedStatusFragment extends Fragment implements ClickList
     @Override
     public void onResume() {
         super.onResume();
-        dialog = ProgressDialog.show(getActivity(), "", "Please wait");
+
 //        mEventAvailableTV.setVisibility(View.VISIBLE);
       /*  if (AppPreferences.getBooleanValue(Constants.NO_SHOWS, getActivity())) {
             mEventAvailableTV.setVisibility(View.VISIBLE);
@@ -107,8 +107,8 @@ public class GrievanceClosedStatusFragment extends Fragment implements ClickList
     public void onEvent(String fetched) {
 //
         if (fetched.equals(Constants.FETCHED)){
-            if (dialog.isShowing())
-                dialog.dismiss();
+            if (Globals.dialog!=null && Globals.dialog.isShowing())
+                Globals.dialog.dismiss();
             Globals.populateAdapterDataSet(Constants.STARTED);
             if (Globals.allClosedSampleData.size() > 0) {
                 mEventAvailableTV.setVisibility(View.GONE);

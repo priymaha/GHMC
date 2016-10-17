@@ -44,7 +44,7 @@ public class GrievanceOpenStatusFragment extends Fragment implements ClickListen
     private KeepTrax keepTrax;
     private GrievanceStatusModel dummyGrievanceStatusModel = new GrievanceStatusModel();
     private static EventBus bus = EventBus.getDefault();
-    private ProgressDialog dialog;
+
     private List<DataModel> openEvents ;
 
     public static GrievanceOpenStatusFragment newInstance() {
@@ -70,7 +70,7 @@ public class GrievanceOpenStatusFragment extends Fragment implements ClickListen
     @Override
     public void onResume() {
         super.onResume();
-        dialog = ProgressDialog.show(getActivity(), "", "Please wait");
+
       /*  if (AppPreferences.getBooleanValue(Constants.NO_SHOWS, getActivity())) {
             mEventAvailableTV.setVisibility(View.VISIBLE);
         } else {
@@ -108,10 +108,10 @@ public class GrievanceOpenStatusFragment extends Fragment implements ClickListen
     public void onEvent(String fetched) {
 //
         if (fetched.equals(Constants.FETCHED)){
-            if (dialog.isShowing())
-                dialog.dismiss();
+            if (Globals.dialog!=null && Globals.dialog.isShowing())
+                Globals.dialog.dismiss();
             Globals.populateAdapterDataSet(Constants.CREATED);
-            if (Globals.allOpenSampleData.size() > 0) {
+            if (!Globals.allOpenSampleData.isEmpty()) {
                 mEventAvailableTV.setVisibility(View.GONE);
                 loadAdapter();
             } else{

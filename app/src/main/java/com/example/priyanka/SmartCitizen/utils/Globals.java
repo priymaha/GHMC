@@ -1,5 +1,6 @@
 package com.example.priyanka.SmartCitizen.utils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.example.priyanka.SmartCitizen.model.DataModel;
@@ -34,8 +35,10 @@ public class Globals {
     public static GrievanceStatusModel dummyGrievanceStatusModel = new GrievanceStatusModel();
     private static KeepTrax keepTrax;
     private static EventBus bus = EventBus.getDefault();
+    public static ProgressDialog dialog;
 
     public static void populateAdapterDataSet(String status) {
+
         int size = Globals.allGrievance.size();
         int j;
         if (size > 0) {
@@ -100,6 +103,7 @@ public class Globals {
 
     public static void getEnterpriseEvents(final Enterprise enterprise, WhereClause whereClause, final Context context) {
         Globals.allGrievance.clear();
+        dialog = ProgressDialog.show(context, "", "Please wait");
         enterprise.getEvents(whereClause, null, null, new ListCallback<Event>() {
             @Override
             public void onSuccess(PageToken pageToken, List<Event> list) {
@@ -111,7 +115,6 @@ public class Globals {
                 }
                 bus.post(Constants.FETCHED);
             }
-
             @Override
             public void onError(Throwable throwable) {
 
@@ -122,7 +125,6 @@ public class Globals {
     public static void getEvents(final Context context, final WhereClause whereClause) {
         getKeepTraxInstance(context);
         if (keepTrax.getUser() != null) {
-
             keepTrax.getUser().getEnterprise(new ObjectCallback<Enterprise>() {
                 @Override
                 public void onSuccess(Enterprise enterprise) {
@@ -135,7 +137,7 @@ public class Globals {
 
                 @Override
                 public void onError(Throwable t) {
-
+                    AppUtils.logoutFromApp(context);
                 }
             });
         }

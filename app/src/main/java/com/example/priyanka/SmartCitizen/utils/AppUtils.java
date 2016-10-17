@@ -1,10 +1,16 @@
 package com.example.priyanka.SmartCitizen.utils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.example.priyanka.SmartCitizen.activity.LoginActivity;
+import com.keeptraxinc.sdk.KeepTrax;
+import com.keeptraxinc.sdk.impl.KeepTraxImpl;
 import com.keeptraxinc.utils.logger.Logger;
+import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -19,7 +25,6 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class AppUtils {
-
     private Context context;
     private final String LOG_TAG = getClass().getSimpleName();
 
@@ -84,5 +89,29 @@ public class AppUtils {
         SimpleDateFormat dt1 = new SimpleDateFormat(format);
         return dt1.format(date);
 
+    }
+    public static void logoutFromApp(final Context context) {
+        final ProgressDialog dialog = ProgressDialog.show(context, "", "Please wait");
+        KeepTrax keepTrax = KeepTraxImpl.getInstance(context, UrlBuilder.getUrl(context), UrlBuilder.getApiKey(context));
+        keepTrax.logout(true, new VoidCallback() {
+            @Override
+            public void onSuccess() {
+                AppPreferences.deletePref(context);
+                navigateToLogin(context);
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                AppPreferences.deletePref(context);
+                navigateToLogin(context);
+                dialog.dismiss();
+            }
+        });
+    }
+    private static void navigateToLogin(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
     }
 }

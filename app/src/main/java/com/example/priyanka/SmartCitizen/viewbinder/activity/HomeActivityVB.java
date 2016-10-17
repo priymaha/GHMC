@@ -73,11 +73,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
         super(activity);
     }
 
-    private static void navigateToLogin(Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        context.startActivity(intent);
-    }
+
 
     @Override
     public void initContentView() {
@@ -152,32 +148,14 @@ public class HomeActivityVB extends BaseActivityViewBinder {
                 Toast.makeText(activity, "version 1.0", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.logout:
-                logoutFromApp();
+                AppUtils.logoutFromApp(activity);
                 return true;
             default:
                 return true;
         }
     }
 
-    public void logoutFromApp() {
-        dialog = ProgressDialog.show(activity, "", "Please wait");
-        KeepTrax keepTrax = KeepTraxImpl.getInstance(context, UrlBuilder.getUrl(context), UrlBuilder.getApiKey(context));
-        keepTrax.logout(true, new VoidCallback() {
-            @Override
-            public void onSuccess() {
-                AppPreferences.deletePref(activity);
-                navigateToLogin(context);
-                dialog.dismiss();
-            }
 
-            @Override
-            public void onError(Throwable t) {
-                AppPreferences.deletePref(activity);
-                navigateToLogin(context);
-                dialog.dismiss();
-            }
-        });
-    }
 
     public boolean handleOptionsMenu(Menu menu) {
         MenuInflater inflater = activity.getMenuInflater();
