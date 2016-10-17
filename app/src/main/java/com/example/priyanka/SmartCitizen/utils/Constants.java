@@ -74,4 +74,5 @@ public class Constants {
     public static final String CREATED = "Created";
     public static final String STARTED = "Started";
     public static final String ENTERPRISE = "57c3d95ec9738d252654b331";
+    public static final String FETCHED = "fetched";
 }

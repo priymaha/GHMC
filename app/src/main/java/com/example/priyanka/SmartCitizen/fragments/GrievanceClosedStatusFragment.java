@@ -1,6 +1,7 @@
 package com.example.priyanka.SmartCitizen.fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,6 +26,9 @@ import com.example.priyanka.SmartCitizen.utils.Globals;
 import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
 import com.keeptraxinc.sdk.KeepTrax;
 import com.keeptraxinc.sdk.impl.KeepTraxImpl;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +41,10 @@ public class GrievanceClosedStatusFragment extends Fragment implements ClickList
     private RecyclerView recyclerView;
     private TextView mEventAvailableTV;
     private KeepTrax keepTrax;
+    private static EventBus bus = EventBus.getDefault();
 
     private GrievanceStatusModel dummyGrievanceStatusModel = new GrievanceStatusModel();
+    private ProgressDialog dialog;
 
     public static GrievanceClosedStatusFragment newInstance() {
         GrievanceClosedStatusFragment fragment = new GrievanceClosedStatusFragment();
@@ -63,15 +69,17 @@ public class GrievanceClosedStatusFragment extends Fragment implements ClickList
     @Override
     public void onResume() {
         super.onResume();
-        if (AppPreferences.getBooleanValue(Constants.NO_SHOWS, getActivity())) {
+        dialog = ProgressDialog.show(getActivity(), "", "Please wait");
+//        mEventAvailableTV.setVisibility(View.VISIBLE);
+      /*  if (AppPreferences.getBooleanValue(Constants.NO_SHOWS, getActivity())) {
             mEventAvailableTV.setVisibility(View.VISIBLE);
         } else {
             mEventAvailableTV.setVisibility(View.GONE);
-            Globals.populateAdapterDataSet();
+           *//* Globals.populateAdapterDataSet();
             if (Globals.allSampleData.size() > 0) {
                 loadAdapter();
-            }
-        }
+            }*//*
+        }*/
     }
 
     private void initialization() {
@@ -94,5 +102,42 @@ public class GrievanceClosedStatusFragment extends Fragment implements ClickList
     public void itemClicked(View view, int position) {
         Intent intent = new Intent(getActivity(), EventDetailActivity.class);
         getActivity().startActivity(intent);
+    }
+    @Subscribe
+    public void onEvent(String fetched) {
+//
+        if (fetched.equals(Constants.FETCHED)){
+            if (dialog.isShowing())
+                dialog.dismiss();
+            Globals.populateAdapterDataSet();
+            if (Globals.allSampleData.size() > 0) {
+                mEventAvailableTV.setVisibility(View.GONE);
+                loadAdapter();
+            } else{
+                mEventAvailableTV.setVisibility(View.VISIBLE);
+            }
+        }else{
+
+        }
+
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        try {
+            bus.register(this);
+        } catch (Exception e) {
+            //if already registered
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            bus.unregister(this);
+        } catch (Exception e) {
+            //if already registered
+        }
     }
 }

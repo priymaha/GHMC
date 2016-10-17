@@ -41,6 +41,11 @@ import com.keeptraxinc.utils.helper.NetworkInfo;
 import com.keeptraxinc.utils.logger.Logger;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by sahul on 9/21/16.
@@ -62,6 +67,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
     private boolean checkStoragePermission;
     private ProgressDialog dialog;
     private KeepTrax keepTrax;
+
 
     public HomeActivityVB(AppCompatActivity activity) {
         super(activity);
@@ -101,6 +107,9 @@ public class HomeActivityVB extends BaseActivityViewBinder {
             mGrievanceTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    getKeepTraxInstance();
+                    Globals.getEvents(activity,getWhereClause());
+
                     gotoGrievance();
                 }
             });
@@ -294,9 +303,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
         keepTrax.start();*/
         showShortToast("onPrerequisitesDone");
         mGrievanceTV.setEnabled(true);
-        getKeepTraxInstance();
 
-        Globals.getEvents(activity,getWhereClause());
     }
 
     private WhereClause getWhereClause() {

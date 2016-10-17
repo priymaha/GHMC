@@ -16,6 +16,8 @@ import com.keeptraxinc.sdk.impl.KeepTraxImpl;
 import com.keeptraxinc.utils.helper.DateUtils;
 import com.strongloop.android.loopback.callbacks.ObjectCallback;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,7 @@ public class Globals {
 
     public static GrievanceStatusModel dummyGrievanceStatusModel = new GrievanceStatusModel();
     private static KeepTrax keepTrax;
+    private static EventBus bus = EventBus.getDefault();
 
     public static void populateAdapterDataSet() {
         int size = Globals.allGrievance.size();
@@ -85,9 +88,12 @@ public class Globals {
                 if (list != null && !list.isEmpty()){
                     AppPreferences.saveValue(Constants.NO_SHOWS, false, context);
                     Globals.allGrievance.addAll(list);
+
                 }else if (list != null && list.isEmpty()) {
                     AppPreferences.saveValue(Constants.NO_SHOWS, true, context);
+
                 }
+                bus.post(Constants.FETCHED);
             }
 
             @Override
