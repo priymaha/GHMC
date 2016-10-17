@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.example.priyanka.SmartCitizen.R;
+import com.example.priyanka.SmartCitizen.activity.GrievancePostActivity;
 import com.example.priyanka.SmartCitizen.utils.AppUtils;
 import com.example.priyanka.SmartCitizen.utils.CameraHelper;
 import com.example.priyanka.SmartCitizen.utils.Constants;
@@ -110,11 +112,9 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         if (contentView != null) {
             activity.setContentView(contentView);
         }
-        try {
-            activity.getSupportActionBar().hide();
-        } catch (NullPointerException npe) {
-
-        }
+        activity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        activity.getSupportActionBar().setCustomView(R.layout.status_layout);
+        activity.getSupportActionBar().getCustomView().findViewById(R.id.customIv).setVisibility(View.GONE);
     }
 
     @Override

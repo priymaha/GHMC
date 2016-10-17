@@ -4,23 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/takepic_actionbar_fl"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/actionbar_height"
-        android:background="@color/statusbar_color">
-
-        <TextView
-            android:id="@+id/takepic_actionbar_tv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/report_grievance"
-            android:textColor="#FFFFFF"
-            android:textSize="@dimen/actionbar_text_size" />
-
-    </FrameLayout>
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
