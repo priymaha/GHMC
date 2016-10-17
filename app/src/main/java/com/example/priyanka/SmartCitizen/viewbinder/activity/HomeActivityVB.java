@@ -138,7 +138,8 @@ public class HomeActivityVB extends BaseActivityViewBinder {
 
     @Override
     public void onInitFinish() {
-       mGrievanceTV.setEnabled(false);
+        mGrievanceTV.setAlpha(0.3f);
+        mGrievanceTV.setEnabled(false);
     }
 
     @Override
@@ -280,6 +281,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
        /* getKeepTraxInstance();
         keepTrax.start();*/
         showShortToast("onPrerequisitesDone");
+        mGrievanceTV.setAlpha(1f);
         mGrievanceTV.setEnabled(true);
 
     }
