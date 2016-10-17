@@ -104,7 +104,7 @@ public class UIValidator {
         return result;
     }
 
-    public static boolean isError(Context context, EditText grievanceTitle, Spinner grievanceType, EditText grievanceDescription, ImageView grievanceImage) {
+    public static boolean isError(Context context, EditText grievanceTitle, Spinner grievanceType, Spinner grievanceStatus, EditText grievanceDescription, ImageView grievanceImage) {
 
         boolean result = false;
 
@@ -113,6 +113,10 @@ public class UIValidator {
             result = true;
         } else if (grievanceType.getSelectedItemPosition() == 0) {
             ((TextView) grievanceType.getSelectedView()).setError(context.getResources().getString(R.string.grievance_post_type_empty));
+            result = true;
+
+        } else if (grievanceStatus.getSelectedItemPosition() == 0) {
+            ((TextView) grievanceStatus.getSelectedView()).setError(context.getResources().getString(R.string.grievance_post_type_empty));
             result = true;
 
         } else if (grievanceDescription.getText().toString().trim().isEmpty()) {

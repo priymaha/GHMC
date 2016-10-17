@@ -43,8 +43,9 @@
             android:background="@null"
             android:hint="@string/postname"
             android:inputType="textPersonName"
-            android:paddingLeft="10dp"
-            android:textColorHint="#999999" />
+            android:paddingLeft="8dp"
+            android:textColorHint="#999999"
+            android:textSize="18sp"/>
 
         <View
             android:layout_width="match_parent"
@@ -67,6 +68,21 @@
             android:layout_marginTop="2dp"
             android:background="#DBDBDB" />
 
+        <Spinner
+            android:id="@+id/grievance_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="30dp"
+            android:entries="@array/status"
+            android:prompt="@string/feedbacktype" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:background="#DBDBDB" />
+
         <EditText
             android:id="@+id/feedbackBody"
             android:layout_width="match_parent"
@@ -79,8 +95,9 @@
             android:lines="3"
             android:maxLines="10"
             android:minLines="1"
-            android:paddingLeft="10dp"
-            android:textColorHint="#999999" />
+            android:paddingLeft="8dp"
+            android:textColorHint="#999999"
+            android:textSize="18sp"/>
 
         <View
             android:layout_width="match_parent"
@@ -94,7 +111,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="20dp">
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/rl_photogrid"

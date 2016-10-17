@@ -94,6 +94,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
     private Document photo;
     private EditText grievanceTitle, grievanceDescription;
     private Spinner grievanceType;
+    private Spinner grievanceStatus;
     private ProgressDialog dialog;
 
 
@@ -122,6 +123,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         grievanceTitle = (EditText) contentView.findViewById(R.id.grievanceTitle);
         grievanceDescription = (EditText) contentView.findViewById(R.id.feedbackBody);
         grievanceType = (Spinner) contentView.findViewById(R.id.feedbackType);
+        grievanceStatus = (Spinner) contentView.findViewById(R.id.grievance_status);
         rl_photogrid_bitmap = (RelativeLayout) contentView.findViewById(R.id.rl_photogrid_bitmap);
         rl_photogrid = (FrameLayout) contentView.findViewById(R.id.rl_photogrid);
         llDetails = (LinearLayout) contentView.findViewById(R.id.ll_bottom);
@@ -155,10 +157,27 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
                 if(i == 0) {
                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.parseColor("#999999"));
                 }
+                ((TextView) adapterView.getChildAt(0)).setTextSize(18);
+
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+        grievanceStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i == 0) {
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.parseColor("#999999"));
+                }
+                ((TextView) adapterView.getChildAt(0)).setTextSize(18);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }
@@ -517,7 +536,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
     }
 
     private boolean validData() {
-        return !UIValidator.isError(context, grievanceTitle, grievanceType, grievanceDescription, bitmap_image);
+        return !UIValidator.isError(context, grievanceTitle, grievanceType, grievanceStatus, grievanceDescription, bitmap_image);
     }
 
     public void getEnterpriseEvents(final Enterprise enterprise, WhereClause whereClause) {

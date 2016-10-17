@@ -8,4 +8,12 @@
         <item>@string/feedbacktype3</item>
         <item>@string/feedbacktype4</item>
     </string-array>
+
+
+    <string-array name="status">
+        <item>@string/status0</item>
+        <item>@string/status1</item>
+        <item>@string/status2</item>
+        <item>@string/status3</item>
+    </string-array>
 </resources>
