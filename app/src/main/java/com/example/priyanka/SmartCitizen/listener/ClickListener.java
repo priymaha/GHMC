@@ -8,5 +8,5 @@ import android.view.View;
 
 
 public interface ClickListener{
-    void itemClicked (View view, int position);
+    void itemClicked (View view, int absolutePosition,int relativePosition);
 }

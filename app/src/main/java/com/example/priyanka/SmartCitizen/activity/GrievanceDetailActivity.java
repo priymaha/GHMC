@@ -2,10 +2,10 @@ package com.example.priyanka.SmartCitizen.activity;
 
 import android.os.Bundle;
 
-import com.example.priyanka.SmartCitizen.viewbinder.activity.EventDetailActivityVB;
+import com.example.priyanka.SmartCitizen.viewbinder.activity.GrievanceDetailActivityVB;
 
-public class EventDetailActivity extends BaseActivity {
-    private EventDetailActivityVB viewBinder = null;
+public class GrievanceDetailActivity extends BaseActivity {
+    private GrievanceDetailActivityVB viewBinder = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,7 +14,7 @@ public class EventDetailActivity extends BaseActivity {
     }
 
     private void initViewBinder() {
-        viewBinder = new EventDetailActivityVB(this);
+        viewBinder = new GrievanceDetailActivityVB(this);
     }
 
 

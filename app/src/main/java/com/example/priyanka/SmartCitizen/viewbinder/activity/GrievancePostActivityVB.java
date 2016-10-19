@@ -47,6 +47,7 @@ import com.example.priyanka.SmartCitizen.utils.Globals;
 import com.example.priyanka.SmartCitizen.utils.UIValidator;
 import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
 import com.example.priyanka.SmartCitizen.utils.VolleySingleton;
+import com.example.priyanka.SmartCitizen.view.roundedimageview.RoundedImageView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -87,7 +88,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
     private Uri fileUri = null;
     private ExifInterface exif;
     private RelativeLayout rlParent;
-    private ImageView bitmap_image;
+    private RoundedImageView bitmap_image;
     private LinearLayout llDetails;
     private FrameLayout rl_photogrid;
     private RelativeLayout rl_photogrid_bitmap;
@@ -127,7 +128,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         rl_photogrid_bitmap = (RelativeLayout) contentView.findViewById(R.id.rl_photogrid_bitmap);
         rl_photogrid = (FrameLayout) contentView.findViewById(R.id.rl_photogrid);
         llDetails = (LinearLayout) contentView.findViewById(R.id.ll_bottom);
-        bitmap_image = (ImageView) contentView.findViewById(R.id.bitmap_image);
+        bitmap_image = (RoundedImageView) contentView.findViewById(R.id.bitmap_image);
         cancel = (Button) llDetails.findViewById(R.id.cancel);
         submit = (Button) llDetails.findViewById(R.id.submit);
     }
@@ -213,7 +214,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         params.put("end", "2016-10-14T16:10:00.000Z");
         params.put("name", grievanceTitle.getText().toString());
         params.put("event", "123456");
-        params.put("status", Constants.CREATED);
+        params.put("status", grievanceStatus.getSelectedItem().toString());
         params.put("enterpriseId", Constants.ENTERPRISE);
         getKeepTraxInstance(context);
         params.put("userId",keepTrax.getUser().getId());
@@ -231,7 +232,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         }
 */
         JSONObject jsonObj = new JSONObject(params);
-        JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.POST, "http://sci.keeptraxapp.com/api/v4/events", jsonObj,
+        JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.POST, "http://52.34.54.113/api/v4/events", jsonObj,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -250,7 +251,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/json");
                 params.put("X-Product-Key", "OWJlMjFjODlmNTgwZTZjNjNjNDdkMTRkZTkzZmJkYmE6MDc1YWFiMTUwZGNiNDljNTIyYTAxNTM0YTQ2MmVlMjkyYWVjNjkwYg==");
-                params.put("Authorization", "kVhlwZc9lAtxUr90ynZ5bvM2hnuBsJYvmiPC8Ykpzl7Igu5a7JBfMR4gX593ECou");
+                params.put("Authorization", "yvK96sVX3dnafQEeh2B8K2OdIVS2MZaO5XNr1l8GlqHjj2WDueCBy2sfI7mQAhAA");
                 return params;
             }
         };
@@ -297,7 +298,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/json");
                 params.put("X-Product-Key", "OWJlMjFjODlmNTgwZTZjNjNjNDdkMTRkZTkzZmJkYmE6MDc1YWFiMTUwZGNiNDljNTIyYTAxNTM0YTQ2MmVlMjkyYWVjNjkwYg==");
-                params.put("Authorization", "kVhlwZc9lAtxUr90ynZ5bvM2hnuBsJYvmiPC8Ykpzl7Igu5a7JBfMR4gX593ECou");
+                params.put("Authorization", "yvK96sVX3dnafQEeh2B8K2OdIVS2MZaO5XNr1l8GlqHjj2WDueCBy2sfI7mQAhAA");
                 return params;
             }
         };
@@ -421,7 +422,9 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
                 rlParent.setVisibility(View.GONE);
                 Glide.with(context)
                         .load(fileUri.getPath())
+                        .asBitmap()
                         .skipMemoryCache(true)
+                        .centerCrop()
                         .into(bitmap_image);
             }
 
@@ -561,6 +564,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
                     });
 
                 } else if (list != null && list.isEmpty()) {
+                    dialog.dismiss();
                 }
             }
 

@@ -1,7 +1,6 @@
 package com.example.priyanka.SmartCitizen.fragments;
 
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,12 +13,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.priyanka.SmartCitizen.R;
-import com.example.priyanka.SmartCitizen.activity.EventDetailActivity;
+import com.example.priyanka.SmartCitizen.activity.GrievanceDetailActivity;
 import com.example.priyanka.SmartCitizen.adapter.RecyclerViewSectionAdapter;
 import com.example.priyanka.SmartCitizen.listener.ClickListener;
-import com.example.priyanka.SmartCitizen.model.DataModel;
 import com.example.priyanka.SmartCitizen.model.GrievanceStatusModel;
-import com.example.priyanka.SmartCitizen.utils.AppPreferences;
 import com.example.priyanka.SmartCitizen.utils.Constants;
 import com.example.priyanka.SmartCitizen.utils.DividerItemDecoration;
 import com.example.priyanka.SmartCitizen.utils.Globals;
@@ -28,10 +25,6 @@ import com.keeptraxinc.sdk.KeepTrax;
 import com.keeptraxinc.sdk.impl.KeepTraxImpl;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Priyanka on 30/09/16.
@@ -99,8 +92,9 @@ public class GrievanceClosedStatusFragment extends Fragment implements ClickList
     }
 
     @Override
-    public void itemClicked(View view, int position) {
-        Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+    public void itemClicked(View view, int absolutePosition,int relativePosition) {
+        Intent intent = new Intent(getActivity(), GrievanceDetailActivity.class);
+        intent.putExtra(Constants.EVENT_ID,Globals.allClosedSampleData.get(absolutePosition).getAllItemsInSection().get(relativePosition).eventId);
         getActivity().startActivity(intent);
     }
     @Subscribe

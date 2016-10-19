@@ -51,7 +51,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.example.priyanka.SmartCitizen.activity.EventDetailActivity"
+            android:name="com.example.priyanka.SmartCitizen.activity.GrievanceDetailActivity"
             android:screenOrientation="portrait"/>
     </application>
 

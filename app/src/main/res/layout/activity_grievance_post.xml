@@ -140,11 +140,11 @@
                 android:background="@drawable/photo_grid_border"
                 android:visibility="gone">
 
-                <ImageView
+                <com.example.priyanka.SmartCitizen.view.roundedimageview.RoundedImageView
                     android:id="@+id/bitmap_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/photo_grid_border"
+                    android:background="@drawable/round_corner_shows"
                     android:scaleType="centerCrop" />
 
             </RelativeLayout>

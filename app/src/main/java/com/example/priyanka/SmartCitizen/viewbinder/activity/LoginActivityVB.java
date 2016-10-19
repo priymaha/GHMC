@@ -27,13 +27,18 @@ import com.example.priyanka.SmartCitizen.activity.HomeActivity;
 import com.example.priyanka.SmartCitizen.activity.SignupActivity;
 import com.example.priyanka.SmartCitizen.utils.AppPreferences;
 import com.example.priyanka.SmartCitizen.utils.AppUtils;
+import com.example.priyanka.SmartCitizen.utils.CameraHelper;
 import com.example.priyanka.SmartCitizen.utils.Constants;
 import com.example.priyanka.SmartCitizen.utils.UIValidator;
 import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
 import com.keeptraxinc.cachemanager.PageToken;
+import com.keeptraxinc.cachemanager.dao.Document;
 import com.keeptraxinc.cachemanager.dao.Enterprise;
 import com.keeptraxinc.cachemanager.dao.Event;
 import com.keeptraxinc.cachemanager.dao.EventDao;
+import com.keeptraxinc.cachemanager.dao.Setting;
+import com.keeptraxinc.cachemanager.dao.SettingDao;
+import com.keeptraxinc.cachemanager.query.LimitClause;
 import com.keeptraxinc.cachemanager.query.ListCallback;
 import com.keeptraxinc.cachemanager.query.WhereClause;
 import com.keeptraxinc.cachemanager.query.WhereSimple;
@@ -45,6 +50,7 @@ import com.keeptraxinc.utils.logger.Logger;
 import com.strongloop.android.loopback.callbacks.ObjectCallback;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -263,7 +269,8 @@ public class LoginActivityVB extends BaseActivityViewBinder{
     private void initSdk() {
         keepTrax = KeepTraxImpl.getInstance(activity, UrlBuilder.getUrl(activity), UrlBuilder.getApiKey(activity));
         saveAppPreferences();
-
+        savePhotoPathSettings();
+        savePhotoSizeSettings();
     }
 
     private void gotoHome() {
@@ -369,6 +376,58 @@ public class LoginActivityVB extends BaseActivityViewBinder{
                 });
         android.app.AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private void savePhotoPathSettings() {
+        KeepTrax keepTrax = KeepTraxImpl.getInstance(context, UrlBuilder.getUrl(context), UrlBuilder.getApiKey(context));
+        WhereClause wc = WhereSimple.eq(SettingDao.Properties.Module.name, Document.MODULE)
+                .and(WhereSimple.eq(SettingDao.Properties.Key.name, Document.DOCUMENT_PATH));
+        keepTrax.getUser().getSettings(wc, null, new LimitClause(1), new ListCallback<Setting>() {
+            @Override
+            public void onSuccess(PageToken pageToken, List<Setting> list) {
+                if (list != null && !list.isEmpty()) {
+                } else {
+                    File file = CameraHelper.createDirIfNotExists("", context);
+                    createSettings(Document.DOCUMENT_PATH, file.getAbsolutePath() + "/");
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+            }
+        });
+
+    }
+
+    private void savePhotoSizeSettings() {
+        KeepTrax keepTrax = KeepTraxImpl.getInstance(context, UrlBuilder.getUrl(context), UrlBuilder.getApiKey(context));
+        WhereClause wc = WhereSimple.eq(SettingDao.Properties.Module.name, Document.MODULE)
+                .and(WhereSimple.eq(SettingDao.Properties.Key.name, Document.MAX_DOCUMENT_SIZE));
+        keepTrax.getUser().getSettings(wc, null, new LimitClause(1), new ListCallback<Setting>() {
+            @Override
+            public void onSuccess(PageToken pageToken, List<Setting> list) {
+                if (list != null && !list.isEmpty()) {
+                } else {
+                    createSettings(Document.MAX_DOCUMENT_SIZE, 200000+"");
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+            }
+        });
+
+    }
+
+    private void createSettings(String key, String value) {
+        KeepTrax keepTrax = KeepTraxImpl.getInstance(context, UrlBuilder.getUrl(context), UrlBuilder.getApiKey(context));
+        Setting setting = (Setting) keepTrax.createModel(Setting.NAME);
+        setting.setModule(Document.MODULE);
+        setting.setKey(key);
+        setting.setValue(value);
+        setting.save(null);
     }
 
 }

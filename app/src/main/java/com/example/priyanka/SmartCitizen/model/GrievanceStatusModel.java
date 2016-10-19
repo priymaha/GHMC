@@ -10,4 +10,5 @@ public class GrievanceStatusModel {
     public String members;
     public String time;
     public String status;
+    public long eventId;
 }

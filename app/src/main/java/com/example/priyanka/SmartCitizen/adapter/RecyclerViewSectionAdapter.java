@@ -56,7 +56,7 @@ public class RecyclerViewSectionAdapter extends SectionedRecyclerViewAdapter<Rec
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int section, int relativePosition, int absolutePosition) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int section, final int relativePosition, final int absolutePosition) {
 
         ArrayList<GrievanceStatusModel> itemsInSection = allData.get(section).getAllItemsInSection();
 
@@ -72,6 +72,16 @@ public class RecyclerViewSectionAdapter extends SectionedRecyclerViewAdapter<Rec
         itemViewHolder.itemType.setText(itemType);
         itemViewHolder.itemTime.setText(itemTime);
         itemViewHolder.membersJoined.setText(membersJoined);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (clickListener != null){
+                    clickListener.itemClicked(v,section,relativePosition);
+                }
+
+            }
+        });
 
         // Try to put a image . for sample i set background color in xml layout file
         // itemViewHolder.itemImage.setBackgroundColor(Color.parseColor("#01579b"));
@@ -97,7 +107,7 @@ public class RecyclerViewSectionAdapter extends SectionedRecyclerViewAdapter<Rec
     // SectionViewHolder Class for Sections
     public  class SectionViewHolder extends RecyclerView.ViewHolder {
         final TextView sectionTitle;
-        public SectionViewHolder(View itemView) {
+        public SectionViewHolder(final View itemView) {
             super(itemView);
             sectionTitle = (TextView) itemView.findViewById(R.id.grievance_status_date);
         }
@@ -119,16 +129,6 @@ public class RecyclerViewSectionAdapter extends SectionedRecyclerViewAdapter<Rec
             itemType = (TextView) itemView.findViewById(R.id.status_type);
             itemImage = (ImageView) itemView.findViewById(R.id.status_iv);
             membersJoined = (TextView) itemView.findViewById(R.id.members_joined);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                   if (clickListener != null){
-                       clickListener.itemClicked(itemView,getAdapterPosition());
-                   }
-
-                }
-            });
         }
     }
 

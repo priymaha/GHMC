@@ -58,6 +58,7 @@ public class Globals {
                         grievanceStatusModel.title = Globals.allGrievance.get(j).getName();
                         grievanceStatusModel.members = dummyGrievanceStatusModel.members;
                         grievanceStatusModel.status = Globals.allGrievance.get(j).getStatus();
+                        grievanceStatusModel.eventId = Globals.allGrievance.get(j).getCId();
                         if (status.equals(Constants.CREATED)) {
                             singleOpenItem.add(grievanceStatusModel);
                         }else if (status.equals(Constants.STARTED)){
@@ -117,6 +118,7 @@ public class Globals {
             }
             @Override
             public void onError(Throwable throwable) {
+                AppUtils.logoutFromApp(context);
 
             }
         });
@@ -131,7 +133,7 @@ public class Globals {
                     if (enterprise != null) {
                         getEnterpriseEvents(enterprise,whereClause,context);
                     } else {
-
+                        AppUtils.logoutFromApp(context);
                     }
                 }
 

@@ -97,9 +97,9 @@
     <string name="feedbacktype3">Suggestion</string>
     <string name="feedbacktype4">Bug</string>
     <string name="status0">Status</string>
-    <string name="status1">Open</string>
-    <string name="status2">Close</string>
-    <string name="status3">Pending</string>
+    <string name="status1">Created</string>
+    <string name="status2">Started</string>
+    <string name="status3">Approved</string>
 
     <string name="postname">Title</string>
     <string name="postdescription">Short description...</string>
