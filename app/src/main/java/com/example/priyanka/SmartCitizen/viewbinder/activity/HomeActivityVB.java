@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -83,6 +84,13 @@ public class HomeActivityVB extends BaseActivityViewBinder {
         if (contentView != null) {
             activity.setContentView(contentView);
         }
+
+        activity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        activity.getSupportActionBar().setCustomView(R.layout.status_layout);
+        activity.getSupportActionBar().getCustomView().findViewById(R.id.customIv).setVisibility(View.GONE);
+        TextView mTitleTV = (TextView) activity.getSupportActionBar().getCustomView().findViewById(R.id.ic_actionbar_title);
+        mTitleTV.setText("Smart Citizen");
+        mTitleTV.setPadding(10,0,0,0);
     }
 
     @Override

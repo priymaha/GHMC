@@ -6,11 +6,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:paddingTop="5dp"
         android:text="@string/report_grievance"
         android:textColor="#ffffff"
-        android:id="@+id/mytext"
+        android:id="@+id/ic_actionbar_title"
         android:textSize="20sp"
         android:gravity="center"/>
 

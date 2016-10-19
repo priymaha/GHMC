@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.priyanka.SmartCitizen.R;
@@ -58,6 +59,8 @@ public class GrievanceStatusActivityVB extends BaseActivityViewBinder implements
         }
         activity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         activity.getSupportActionBar().setCustomView(R.layout.status_layout);
+        TextView mTitleTV = (TextView) activity.getSupportActionBar().getCustomView().findViewById(R.id.ic_actionbar_title);
+        mTitleTV.setText("Grievance Status");
         activity.getSupportActionBar().getCustomView().findViewById(R.id.customIv).setOnClickListener(new View.OnClickListener() {
 
             @Override

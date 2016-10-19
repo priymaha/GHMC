@@ -6,23 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#3589E1">
-
-        <TextView
-            android:id="@+id/detail_actionbar_tv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Event Detail"
-            android:textColor="#fff"
-            android:textSize="20sp" />
-
-    </FrameLayout>
-
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/map"

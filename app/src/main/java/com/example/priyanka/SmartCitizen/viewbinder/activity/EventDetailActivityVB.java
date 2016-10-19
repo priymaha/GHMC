@@ -1,10 +1,13 @@
 package com.example.priyanka.SmartCitizen.viewbinder.activity;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.priyanka.SmartCitizen.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -36,6 +39,11 @@ public class EventDetailActivityVB extends BaseActivityViewBinder implements OnM
         if (contentView != null) {
             activity.setContentView(contentView);
         }
+        activity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        activity.getSupportActionBar().setCustomView(R.layout.status_layout);
+        activity.getSupportActionBar().getCustomView().findViewById(R.id.customIv).setVisibility(View.GONE);
+        TextView mTitleTV = (TextView) activity.getSupportActionBar().getCustomView().findViewById(R.id.ic_actionbar_title);
+        mTitleTV.setText("Grievance Detail");
     }
 
     @Override
@@ -44,11 +52,6 @@ public class EventDetailActivityVB extends BaseActivityViewBinder implements OnM
 
         SupportMapFragment mapFragment = (SupportMapFragment) activity.getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        try {
-            activity.getSupportActionBar().hide();
-        } catch (NullPointerException npe) {
-
-        }
     }
 
     @Override
