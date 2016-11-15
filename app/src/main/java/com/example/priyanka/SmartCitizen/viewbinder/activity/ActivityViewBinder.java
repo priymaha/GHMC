@@ -31,6 +31,7 @@ public interface ActivityViewBinder {
 
     boolean handleOptionsSelected(int itemId);
 
+
     void onResume();
 
     void onActivityResult(int requestCode, int responseCode, Intent data);
