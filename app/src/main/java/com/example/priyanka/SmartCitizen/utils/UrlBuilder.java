@@ -21,7 +21,7 @@ import com.keeptraxinc.cachemanager.CachePreferences;
  */
 public class UrlBuilder {
 
-    private static String SERVERURL = "http://52.34.54.113/api/v4/";
+    private static String SERVERURL = "http://sci.keeptraxapp.com/api/v4/";
     private static String APIKEY = "OWJlMjFjODlmNTgwZTZjNjNjNDdkMTRkZTkzZmJkYmE6Y2IyNjM0ODEzZWE0NGMxMjJjYzJiOGUwMmM5NDEyMDk1YzA5Y2MwZg==";
 
     public static String getUrl(Context context) {

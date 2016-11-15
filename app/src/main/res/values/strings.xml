@@ -101,6 +101,13 @@
     <string name="status2">Started</string>
     <string name="status3">Approved</string>
 
+    <string name="action0">Grievance</string>
+    <string name="action1">Volunteer</string>
+    <string name="action2">My Points</string>
+
+    <string name="drawer_open">Open Navigation Drawer</string>
+    <string name="drawer_close">Close Navigation Drawer</string>
+
     <string name="postname">Title</string>
     <string name="postdescription">Short description...</string>
     <string name="postbutton">Post Grievance</string>
@@ -110,4 +117,6 @@
     <string name="grievance_post_description_empty">Please enter description</string>
     <string name="grievance_post_type_empty">Please select type of grievance</string>
     <string name="please_wait_submit_grievance">Please Wait, Submitting Grievance!!!</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>

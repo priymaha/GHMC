@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,6 +100,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
     private Spinner grievanceType;
     private Spinner grievanceStatus;
     private ProgressDialog dialog;
+    private Toolbar toolbar;
 
 
     public GrievancePostActivityVB(AppCompatActivity activity) {
@@ -113,9 +115,15 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         if (contentView != null) {
             activity.setContentView(contentView);
         }
-        activity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        toolbar = (Toolbar) contentView.findViewById(R.id.toolbar);
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        activity.getSupportActionBar().setHomeButtonEnabled(true);
+
+       /* activity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         activity.getSupportActionBar().setCustomView(R.layout.status_layout);
-        activity.getSupportActionBar().getCustomView().findViewById(R.id.customIv).setVisibility(View.GONE);
+        activity.getSupportActionBar().getCustomView().findViewById(R.id.customIv).setVisibility(View.GONE);*/
     }
 
     @Override
@@ -251,7 +259,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/json");
                 params.put("X-Product-Key", "OWJlMjFjODlmNTgwZTZjNjNjNDdkMTRkZTkzZmJkYmE6MDc1YWFiMTUwZGNiNDljNTIyYTAxNTM0YTQ2MmVlMjkyYWVjNjkwYg==");
-                params.put("Authorization", "yvK96sVX3dnafQEeh2B8K2OdIVS2MZaO5XNr1l8GlqHjj2WDueCBy2sfI7mQAhAA");
+                params.put("Authorization", "3nOvf70quAatwZHo0Q6HAvqogMWHmt7jC4dUuZ739k8zcL6MfUPoJP4jaPr1yc1P");
                 return params;
             }
         };

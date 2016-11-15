@@ -31,7 +31,7 @@ public class AppPreferences {
         editor.apply();
     }
 
-    public static void saveValue(String key, boolean value, Context context) {
+    public static void setBooleanValue(String key, boolean value, Context context) {
         SharedPreferences sp = context.getSharedPreferences(APP_SHARED_PREFS, Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean(key, value);
@@ -87,7 +87,7 @@ public class AppPreferences {
     }
 
     public static void setApplicationInBackground(Boolean status, Context context) {
-        saveValue(Constants.APP_STATUS, status, context);
+        setBooleanValue(Constants.APP_STATUS, status, context);
     }
 
     public static boolean isApplicationInBackground(Context context) {

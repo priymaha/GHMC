@@ -1,4 +1,4 @@
-package com.example.priyanka.SmartCitizen.viewbinder.activity;
+package com.example.priyanka.SmartCitizen.activity;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -9,193 +9,166 @@ import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.priyanka.SmartCitizen.R;
-import com.example.priyanka.SmartCitizen.activity.HomeActivity;
+import com.example.priyanka.SmartCitizen.fragments.GrievanceStatusFragment;
+import com.example.priyanka.SmartCitizen.fragments.RewardsFragment;
+import com.example.priyanka.SmartCitizen.utils.AppPreferences;
 import com.example.priyanka.SmartCitizen.utils.AppUtils;
-import com.example.priyanka.SmartCitizen.utils.Constants;
 import com.example.priyanka.SmartCitizen.utils.InstallVerifier;
 import com.example.priyanka.SmartCitizen.utils.PermissionsHelper;
-import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
-import com.keeptraxinc.cachemanager.dao.EventDao;
-import com.keeptraxinc.cachemanager.query.WhereClause;
-import com.keeptraxinc.cachemanager.query.WhereSimple;
 import com.keeptraxinc.sdk.KeepTrax;
-import com.keeptraxinc.sdk.impl.KeepTraxImpl;
-import com.keeptraxinc.utils.helper.DateUtils;
 import com.keeptraxinc.utils.helper.NetworkInfo;
 import com.keeptraxinc.utils.logger.Logger;
 
-
-/**
- * Created by sahul on 9/21/16.
- */
-
-public class HomeActivityVB extends BaseActivityViewBinder {
-
-    private static final String LOG_TAG = HomeActivityVB.class.getSimpleName();
+public class MainActivity extends AppCompatActivity {
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    DrawerLayout mDrawerLayout;
+    NavigationView mNavigationView;
+    FragmentManager mFragmentManager;
+    FragmentTransaction mFragmentTransaction;
     PermissionsHelper permissionsHelper;
     LocationManager locationManager;
     boolean gps_enabled;
     boolean isLocationEnabled = false;
-    private TextView mGrievanceTV;
-    private TextView mVolunteerTV;
-    private TextView mPointsTV;
-    private String mUserName;
     private Boolean newInstallation;
     private Boolean mAlreadyEnabled = false;
     private boolean checkStoragePermission;
     private ProgressDialog dialog;
     private KeepTrax keepTrax;
+    private View parentLayout;
+    private Toolbar toolbar;
 
-
-    public HomeActivityVB(AppCompatActivity activity) {
-        super(activity);
-    }
-
-
+    private boolean mUserLearnedDrawer;
+    private boolean mFromSavedInstanceState;
+    public static final String KEY_USER_LEARNED_DRAWER = "user_learned_drawer";
 
     @Override
-    public void initContentView() {
-        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        LayoutInflater inflater = activity.getLayoutInflater();
-        contentView = inflater.inflate(R.layout.activity_home, null);
-        if (contentView != null) {
-            activity.setContentView(contentView);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        parentLayout = findViewById(R.id.parentLayout);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        /**
+         *Setup the DrawerLayout and NavigationView
+         */
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mNavigationView = (NavigationView) findViewById(R.id.shitstuff);
+        setSupportActionBar(toolbar);
+
+        /**
+         * Lets inflate the very first fragment
+         * Here , we are inflating the TabFragment as the first Fragment
+         */
+
+        mFragmentManager = getSupportFragmentManager();
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.containerView, new GrievanceStatusFragment()).commit();
+        /**
+         * Setup click events on the Navigation View Items.
+         */
+        mUserLearnedDrawer = AppPreferences.getBooleanValue(KEY_USER_LEARNED_DRAWER, this);
+        if (savedInstanceState != null) {
+            mFromSavedInstanceState = true;
         }
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                mDrawerLayout.closeDrawers();
 
-        activity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        activity.getSupportActionBar().setCustomView(R.layout.status_layout);
-        activity.getSupportActionBar().getCustomView().findViewById(R.id.customIv).setVisibility(View.GONE);
-        TextView mTitleTV = (TextView) activity.getSupportActionBar().getCustomView().findViewById(R.id.ic_actionbar_title);
-        mTitleTV.setText("Smart Citizen");
-        mTitleTV.setPadding(10,0,0,0);
-    }
 
-    @Override
-    public void initViews() {
-        mGrievanceTV = (TextView) contentView.findViewById(R.id.home_grievance_tv);
-        mVolunteerTV = (TextView) contentView.findViewById(R.id.home_volunteer_tv);
-        mPointsTV = (TextView) contentView.findViewById(R.id.home_points_tv);
-    }
+                if (menuItem.getItemId() == R.id.nav_item_rewards) {
+                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.containerView, new RewardsFragment()).commit();
 
-    @Override
-    public void initBackgroundColor() {
-
-    }
-
-    @Override
-    public void initViewListeners() {
-        if (mGrievanceTV != null) {
-            mGrievanceTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                  /*  getKeepTraxInstance();
-                    Globals.getEvents(activity,getWhereClause(), this.mLoadEventCallback);
-*/
-                    gotoGrievance();
                 }
-            });
-        }
 
-        if (mVolunteerTV != null) {
-            mVolunteerTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //gotoVolunteer();
-                    Toast.makeText(activity, "gotoVolunteer", Toast.LENGTH_LONG).show();
+                if (menuItem.getItemId() == R.id.nav_item_grievance) {
+                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+                    xfragmentTransaction.replace(R.id.containerView, new GrievanceStatusFragment()).commit();
                 }
-            });
-        }
 
-        if (mPointsTV != null) {
-            mPointsTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(activity, "Participate in the social activities to earn points", Toast.LENGTH_LONG).show();
+                return false;
+            }
+
+        });
+
+        /**
+         * Setup Drawer Toggle of the Toolbar
+         */
+
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name,
+                R.string.app_name){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                if (mUserLearnedDrawer) {
+                    mUserLearnedDrawer = true;
+                    AppPreferences.setBooleanValue(KEY_USER_LEARNED_DRAWER, false, MainActivity.this);
                 }
-            });
-        }
-    }
+               invalidateOptionsMenu();
+            }
 
-    public void gotoGrievance() {
-        Intent intent = new Intent(activity, HomeActivity.class);
-        activity.startActivity(intent);
-    }
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                invalidateOptionsMenu();
+            }
 
-    @Override
-    public void onInitFinish() {
-        mGrievanceTV.setAlpha(0.3f);
-        mGrievanceTV.setEnabled(false);
-    }
+        };
+        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+        };
 
-    @Override
-    public boolean handleOptionsSelected(int itemId) {
-        switch (itemId) {
-            case R.id.about:
-                Toast.makeText(activity, "version 1.0", Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.logout:
-                AppUtils.logoutFromApp(activity);
-                return true;
-            default:
-                return true;
-        }
-    }
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-
-
-    public boolean handleOptionsMenu(Menu menu) {
-        MenuInflater inflater = activity.getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int responseCode, Intent data) {
+        mDrawerToggle.syncState();
 
     }
 
-    @Override
-    public void onBackPressed() {
-
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (NetworkInfo.isNetworkAvailable(context)) {
-            if (AppUtils.isInternetAccessible(activity)) {
+        if (NetworkInfo.isNetworkAvailable(this)) {
+            if (AppUtils.isInternetAccessible(this)) {
                 checkStoragePermission = true;
                 checkGPS();
             } else {
-                AppUtils.showNoInternetAccessibleAlert(context);
+                AppUtils.showNoInternetAccessibleAlert(this);
             }
         } else {
-            AppUtils.showWiFiSettingsAlert(context);
+            AppUtils.showWiFiSettingsAlert(this);
         }
     }
 
-
     private void checkGPS() {
         if (locationManager == null)
-            locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (gps_enabled) {
             if (checkStoragePermission) {
-                PermissionsHelper helper = new PermissionsHelper(activity);
+                PermissionsHelper helper = new PermissionsHelper(this);
                 if (helper.isReadStorageAllowed()) {
                     checkRequiredPermissions();
                 } else {
@@ -208,15 +181,15 @@ public class HomeActivityVB extends BaseActivityViewBinder {
             if (isLocationEnabled)
                 return;
             isLocationEnabled = true;
-            AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
-            dialog.setMessage(activity.getResources().getString(R.string.gps_network_not_enabled));
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setMessage(getResources().getString(R.string.gps_network_not_enabled));
             dialog.setCancelable(false);
-            dialog.setPositiveButton(activity.getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
+            dialog.setPositiveButton(getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface paramDialogInterface, int paramInt) {
                     // TODO Auto-generated method stub
                     Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    activity.startActivityForResult(myIntent, 0);
+                    startActivityForResult(myIntent, 0);
                     isLocationEnabled = false;
                 }
             });
@@ -227,7 +200,7 @@ public class HomeActivityVB extends BaseActivityViewBinder {
 
     private void checkRequiredPermissions() {
         checkNewInstallProcess();
-        permissionsHelper = new PermissionsHelper(activity);
+        permissionsHelper = new PermissionsHelper(this);
         if (permissionsHelper.isLocationAllowed()) {
 
             if (!mAlreadyEnabled) {
@@ -265,50 +238,38 @@ public class HomeActivityVB extends BaseActivityViewBinder {
     private void checkNewInstallProcess() {
 
         //check if this is a new install
-        if (InstallVerifier.isUpdate(context)) {
-            Logger.debug(context, LOG_TAG, "Re-Installation, thus restart SE");
+        if (InstallVerifier.isUpdate(this)) {
+            Logger.debug(this, LOG_TAG, "Re-Installation, thus restart SE");
             newInstallation = true;
         } else {
             //make explicitely false, because after its true,
             //the subsequent HomeActivity calls should be treated this false
             newInstallation = false;
-            Logger.debug(context, LOG_TAG, "This is not install/update");
+            Logger.debug(this, LOG_TAG, "This is not install/update");
         }
     }
 
     public void onPrerequisitesDone() {
        /* getKeepTraxInstance();
         keepTrax.start();*/
-        showShortToast("onPrerequisitesDone");
+      /*  showShortToast("onPrerequisitesDone");
         mGrievanceTV.setAlpha(1f);
-        mGrievanceTV.setEnabled(true);
+        mGrievanceTV.setEnabled(true);*/
+       /* getKeepTraxInstance();
+        Globals.getEvents(this,getWhereClause());*/
 
-    }
-
-    private WhereClause getWhereClause() {
-        WhereClause wc = WhereSimple.le(EventDao.Properties.Start.name, DateUtils.getISOTime(System.currentTimeMillis()))
-                        .and(WhereSimple.eq(EventDao.Properties.UserId.name, keepTrax.getUser().getId()))
-                        .and(WhereSimple.eq(EventDao.Properties.Status.name, Constants.CREATED));
-        return wc;
-    }
-
-    private void getKeepTraxInstance() {
-        if (keepTrax != null) {
-            return;
-        }
-        keepTrax = KeepTraxImpl.getInstance(activity, UrlBuilder.getUrl(activity), UrlBuilder.getApiKey(activity));
     }
 
     public void showLocationPermissionSnackBar() {
 
         Snackbar snackbar = Snackbar
-                .make(contentView, R.string.home_snackbar_location, Snackbar.LENGTH_LONG)
+                .make(parentLayout, R.string.home_snackbar_location, Snackbar.LENGTH_LONG)
                 .setAction(R.string.snackbar_action_allow, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-                            PermissionsHelper permissionHelper = new PermissionsHelper(activity);
+                            PermissionsHelper permissionHelper = new PermissionsHelper(MainActivity.this);
                             if (permissionHelper.shouldShowRequestRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
                                 permissionHelper.requestLocationPermission();
                             } else {
@@ -331,15 +292,15 @@ public class HomeActivityVB extends BaseActivityViewBinder {
 
     public void showSettingsSnackBar() {
         Snackbar
-                .make(contentView, R.string.home_snackbar_settings, Snackbar.LENGTH_LONG)
+                .make(parentLayout, R.string.home_snackbar_settings, Snackbar.LENGTH_LONG)
                 .setAction(R.string.snackbar_action_settings, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 //open application settings screen
                                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                                        Uri.fromParts("package", context.getPackageName(), null));
+                                        Uri.fromParts("package", getPackageName(), null));
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                startActivity(intent);
                             }
                         }
                 ).show();
@@ -372,6 +333,24 @@ public class HomeActivityVB extends BaseActivityViewBinder {
             showLocationPermissionSnackBar();
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.add_grievance, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_grievance:
+                Intent intent = new Intent (this, GrievancePostActivity.class);
+                startActivity(intent);
+                return true;
 
-
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
+

@@ -5,6 +5,6 @@
         android:id="@+id/action_grievance"
         android:icon="@drawable/ic_actionbar_add"
         android:title="@string/report_grievance"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 
 </menu>

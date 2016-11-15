@@ -3,18 +3,16 @@ package com.example.priyanka.SmartCitizen.utils;
 import android.app.ProgressDialog;
 import android.content.Context;
 
+import com.example.priyanka.SmartCitizen.callback.LoadEventCallback;
 import com.example.priyanka.SmartCitizen.model.DataModel;
 import com.example.priyanka.SmartCitizen.model.GrievanceStatusModel;
 import com.keeptraxinc.cachemanager.PageToken;
 import com.keeptraxinc.cachemanager.dao.Enterprise;
 import com.keeptraxinc.cachemanager.dao.Event;
-import com.keeptraxinc.cachemanager.dao.EventDao;
 import com.keeptraxinc.cachemanager.query.ListCallback;
 import com.keeptraxinc.cachemanager.query.WhereClause;
-import com.keeptraxinc.cachemanager.query.WhereSimple;
 import com.keeptraxinc.sdk.KeepTrax;
 import com.keeptraxinc.sdk.impl.KeepTraxImpl;
-import com.keeptraxinc.utils.helper.DateUtils;
 import com.strongloop.android.loopback.callbacks.ObjectCallback;
 
 import org.greenrobot.eventbus.EventBus;
@@ -28,14 +26,14 @@ import java.util.Map;
  */
 
 public class Globals {
-    public static List<Event> allGrievance = new ArrayList <Event> ();
+    public static List<Event> allGrievance = new ArrayList<Event>();
     public static List<DataModel> allOpenSampleData = new ArrayList<>();
-    public static List<DataModel> allClosedSampleData=new ArrayList<>();
+    public static List<DataModel> allClosedSampleData = new ArrayList<>();
 
     public static GrievanceStatusModel dummyGrievanceStatusModel = new GrievanceStatusModel();
+    public static ProgressDialog dialog;
     private static KeepTrax keepTrax;
     private static EventBus bus = EventBus.getDefault();
-    public static ProgressDialog dialog;
 
     public static void populateAdapterDataSet(String status) {
 
@@ -61,26 +59,26 @@ public class Globals {
                         grievanceStatusModel.eventId = Globals.allGrievance.get(j).getCId();
                         if (status.equals(Constants.CREATED)) {
                             singleOpenItem.add(grievanceStatusModel);
-                        }else if (status.equals(Constants.STARTED)){
+                        } else if (status.equals(Constants.STARTED)) {
                             singleClosedItem.add(grievanceStatusModel);
                         }
                     } else {
                         break;
                     }
                 }
-                if (singleOpenItem.size() >0) {
+                if (singleOpenItem.size() > 0) {
                     DataModel dmOpen = new DataModel();
                     dmOpen.setHeaderTitle(AppUtils.getFormattedDate(Globals.allGrievance.get(i).getStart(), Constants.HEADER_FORMAT).toUpperCase());
                     dmOpen.setAllItemsInSection(singleOpenItem);
                     allOpenSampleData.add(dmOpen);
                 }
-                if (singleClosedItem.size() >0) {
+                if (singleClosedItem.size() > 0) {
                     DataModel dmClosed = new DataModel();
                     dmClosed.setHeaderTitle(AppUtils.getFormattedDate(Globals.allGrievance.get(i).getStart(), Constants.HEADER_FORMAT).toUpperCase());
                     dmClosed.setAllItemsInSection(singleOpenItem);
                     allClosedSampleData.add(dmClosed);
                 }
-                i=j;
+                i = j;
             }
         }
     }
@@ -102,36 +100,39 @@ public class Globals {
         }
     }
 
-    public static void getEnterpriseEvents(final Enterprise enterprise, WhereClause whereClause, final Context context) {
+    public static void getEnterpriseEvents(final Enterprise enterprise, WhereClause whereClause, final Context context, final LoadEventCallback mLoadEventCallback) {
         Globals.allGrievance.clear();
-        dialog = ProgressDialog.show(context, "", "Please wait");
+
         enterprise.getEvents(whereClause, null, null, new ListCallback<Event>() {
             @Override
             public void onSuccess(PageToken pageToken, List<Event> list) {
-                if (list != null && !list.isEmpty()){
+                if (list != null && !list.isEmpty()) {
                     Globals.allGrievance.addAll(list);
 
-                }else if (list != null && list.isEmpty()) {
+                } else if (list != null && list.isEmpty()) {
 
                 }
-                bus.post(Constants.FETCHED);
+                mLoadEventCallback.loadListOfShows();
             }
+
             @Override
             public void onError(Throwable throwable) {
+                dialog.dismiss();
                 AppUtils.logoutFromApp(context);
 
             }
         });
     }
 
-    public static void getEvents(final Context context, final WhereClause whereClause) {
+    public static void getEvents(final Context context, final WhereClause whereClause, final LoadEventCallback mLoadEventCallback) {
         getKeepTraxInstance(context);
         if (keepTrax.getUser() != null) {
+            dialog = ProgressDialog.show(context, "", "Please wait");
             keepTrax.getUser().getEnterprise(new ObjectCallback<Enterprise>() {
                 @Override
                 public void onSuccess(Enterprise enterprise) {
                     if (enterprise != null) {
-                        getEnterpriseEvents(enterprise,whereClause,context);
+                        getEnterpriseEvents(enterprise, whereClause, context, mLoadEventCallback);
                     } else {
                         AppUtils.logoutFromApp(context);
                     }
@@ -139,11 +140,16 @@ public class Globals {
 
                 @Override
                 public void onError(Throwable t) {
+                    if (dialog != null && dialog.isShowing())
+                        dialog.dismiss();
                     AppUtils.logoutFromApp(context);
                 }
             });
+        } else {
+            AppUtils.logoutFromApp(context);
         }
     }
+
     private static void getKeepTraxInstance(Context context) {
         if (keepTrax != null) {
             return;

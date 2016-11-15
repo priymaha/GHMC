@@ -16,4 +16,11 @@
         <item>@string/status2</item>
         <item>@string/status3</item>
     </string-array>
+
+
+    <string-array name="actions">
+        <item>@string/action0</item>
+        <item>@string/action1</item>
+        <item>@string/action2</item>
+    </string-array>
 </resources>

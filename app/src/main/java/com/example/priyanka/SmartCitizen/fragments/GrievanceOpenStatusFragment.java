@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,14 +36,13 @@ import java.util.List;
  */
 
 public class GrievanceOpenStatusFragment extends Fragment implements ClickListener {
+    private static EventBus bus = EventBus.getDefault();
     private RecyclerView recyclerView;
     private TextView mEventAvailableTV;
     private List<DataModel> allSampleData;
     private KeepTrax keepTrax;
     private GrievanceStatusModel dummyGrievanceStatusModel = new GrievanceStatusModel();
-    private static EventBus bus = EventBus.getDefault();
-
-    private List<DataModel> openEvents ;
+    private List<DataModel> openEvents;
 
     public static GrievanceOpenStatusFragment newInstance() {
         GrievanceOpenStatusFragment fragment = new GrievanceOpenStatusFragment();
@@ -55,6 +55,7 @@ public class GrievanceOpenStatusFragment extends Fragment implements ClickListen
         View layout = inflater.inflate(R.layout.fragment_grievance_status, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.my_recycler_view);
         mEventAvailableTV = (TextView) layout.findViewById(R.id.grievance_noevents_tv);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Open Grievances");
         return layout;
     }
 
@@ -68,16 +69,13 @@ public class GrievanceOpenStatusFragment extends Fragment implements ClickListen
     public void onResume() {
         super.onResume();
 
-      /*  if (AppPreferences.getBooleanValue(Constants.NO_SHOWS, getActivity())) {
-            mEventAvailableTV.setVisibility(View.VISIBLE);
-        } else {
+        Globals.populateAdapterDataSet(Constants.CREATED);
+        if (!Globals.allOpenSampleData.isEmpty()) {
             mEventAvailableTV.setVisibility(View.GONE);
-           *//* Globals.populateAdapterDataSet();
-            if (Globals.allSampleData.size() > 0) {
-                loadAdapter();
-            }*//*
-        }*/
-
+            loadAdapter();
+        } else {
+            mEventAvailableTV.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initialization() {
@@ -97,25 +95,26 @@ public class GrievanceOpenStatusFragment extends Fragment implements ClickListen
     }
 
     @Override
-    public void itemClicked(View view, int absolutePosition,int relativePosition) {
+    public void itemClicked(View view, int absolutePosition, int relativePosition) {
         Intent intent = new Intent(getActivity(), GrievanceDetailActivity.class);
-        intent.putExtra(Constants.EVENT_ID,Globals.allOpenSampleData.get(absolutePosition).getAllItemsInSection().get(relativePosition).eventId);
+        intent.putExtra(Constants.EVENT_ID, Globals.allOpenSampleData.get(absolutePosition).getAllItemsInSection().get(relativePosition).eventId);
         getActivity().startActivity(intent);
     }
+
     @Subscribe
     public void onEvent(String fetched) {
 //
-        if (fetched.equals(Constants.FETCHED)){
-            if (Globals.dialog!=null && Globals.dialog.isShowing())
+        if (fetched.equals(Constants.FETCHED)) {
+            if (Globals.dialog != null && Globals.dialog.isShowing())
                 Globals.dialog.dismiss();
             Globals.populateAdapterDataSet(Constants.CREATED);
             if (!Globals.allOpenSampleData.isEmpty()) {
                 mEventAvailableTV.setVisibility(View.GONE);
                 loadAdapter();
-            } else{
+            } else {
                 mEventAvailableTV.setVisibility(View.VISIBLE);
             }
-        }else{
+        } else {
 
         }
 

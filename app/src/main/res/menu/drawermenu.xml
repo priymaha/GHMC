@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/nav_item_grievance"
+        android:icon="@drawable/inbox"
+        android:title="Grievance" />
+
+    <item
+        android:id="@+id/nav_item_volunteer"
+        android:icon="@drawable/sent"
+        android:title="Volunteer" />
+
+    <item
+        android:id="@+id/nav_item_rewards"
+        android:icon="@drawable/draft"
+        android:title="Rewards" />
+
+
+    <group android:id="@+id/group_about_logout_id">
+
+        <item
+            android:icon="@drawable/settings"
+            android:title="About" />
+        <item
+            android:icon="@drawable/help"
+            android:title="Logout" />
+    </group>
+
+
+</menu>

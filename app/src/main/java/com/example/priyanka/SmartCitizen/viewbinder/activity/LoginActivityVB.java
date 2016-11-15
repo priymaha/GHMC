@@ -23,12 +23,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.priyanka.SmartCitizen.R;
-import com.example.priyanka.SmartCitizen.activity.HomeActivity;
+import com.example.priyanka.SmartCitizen.activity.MainActivity;
 import com.example.priyanka.SmartCitizen.activity.SignupActivity;
+import com.example.priyanka.SmartCitizen.callback.LoadEventCallback;
+import com.example.priyanka.SmartCitizen.controller.EntryController;
 import com.example.priyanka.SmartCitizen.utils.AppPreferences;
 import com.example.priyanka.SmartCitizen.utils.AppUtils;
 import com.example.priyanka.SmartCitizen.utils.CameraHelper;
 import com.example.priyanka.SmartCitizen.utils.Constants;
+import com.example.priyanka.SmartCitizen.utils.Globals;
 import com.example.priyanka.SmartCitizen.utils.UIValidator;
 import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
 import com.keeptraxinc.cachemanager.PageToken;
@@ -51,13 +54,14 @@ import com.strongloop.android.loopback.callbacks.ObjectCallback;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by sahul on 9/20/16.
  */
 
-public class LoginActivityVB extends BaseActivityViewBinder{
+public class LoginActivityVB extends BaseActivityViewBinder implements LoadEventCallback{
 
 
     private EditText mUserNameET, mPasswordET;
@@ -70,6 +74,7 @@ public class LoginActivityVB extends BaseActivityViewBinder{
     private ProgressDialog dialog;
     private KeepTrax keepTrax;
     private final String LOG_TAG = getClass().getSimpleName();
+    private EntryController mEntryController;
 
     public LoginActivityVB(AppCompatActivity activity) {
         super(activity);
@@ -204,7 +209,7 @@ public class LoginActivityVB extends BaseActivityViewBinder{
                 public void onSuccess() {
                     dialog.dismiss();
                     initSdk();
-                    AppPreferences.saveValue("LOGIN", true, context);
+                    AppPreferences.setBooleanValue("LOGIN", true, context);
                     gotoHome();
 //                    getEvents();
                 }
@@ -274,9 +279,9 @@ public class LoginActivityVB extends BaseActivityViewBinder{
     }
 
     private void gotoHome() {
-        Intent intent = new Intent(activity, HomeActivity.class);
-        activity.startActivity(intent);
-        finishActivity();
+        mEntryController = new EntryController(activity);
+        mEntryController.init(this);
+
     }
 
     private void saveAppPreferences() {
@@ -430,4 +435,13 @@ public class LoginActivityVB extends BaseActivityViewBinder{
         setting.save(null);
     }
 
+
+    @Override
+    public void loadListOfShows() {
+        if (Globals.dialog!=null && Globals.dialog.isShowing())
+            Globals.dialog.dismiss();
+        Intent intent = new Intent(activity, MainActivity.class);
+        activity.startActivity(intent);
+        finishActivity();
+    }
 }

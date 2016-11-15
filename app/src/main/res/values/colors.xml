@@ -24,7 +24,12 @@
     <color name="red">#ff0000</color>
     <color name="statusbar_color">#105D93</color>
 
-    <color name="white">#FFFFFFFF</color>
     <color name="green">#19d166</color>
     <color name="trans">#c0000000</color>
+    <color name="black">#000</color>
+    <color name="orange">#FA0</color>
+    <color name="white">#FFF</color>
+    <color name="primaryColor">#3F51B5</color>
+    <color name="primaryColorDark">#303F9F</color>
+    <color name="accentColor">#F44336</color>
 </resources>

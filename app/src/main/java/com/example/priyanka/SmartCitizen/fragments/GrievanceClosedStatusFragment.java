@@ -73,6 +73,13 @@ public class GrievanceClosedStatusFragment extends Fragment implements ClickList
                 loadAdapter();
             }*//*
         }*/
+        Globals.populateAdapterDataSet(Constants.STARTED);
+        if (Globals.allClosedSampleData.size() > 0) {
+            mEventAvailableTV.setVisibility(View.GONE);
+            loadAdapter();
+        } else{
+            mEventAvailableTV.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initialization() {

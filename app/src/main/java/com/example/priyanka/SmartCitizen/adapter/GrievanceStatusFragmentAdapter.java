@@ -12,6 +12,7 @@ import com.example.priyanka.SmartCitizen.fragments.GrievanceOpenStatusFragment;
  */
 
 public class GrievanceStatusFragmentAdapter extends FragmentPagerAdapter {
+    public static int int_items = 2 ;
     public GrievanceStatusFragmentAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -23,25 +24,23 @@ public class GrievanceStatusFragmentAdapter extends FragmentPagerAdapter {
                 return GrievanceOpenStatusFragment.newInstance();
             case 1:
                 return GrievanceClosedStatusFragment.newInstance();
-            default:
-                return GrievanceOpenStatusFragment.newInstance();
         }
+        return null;
     }
 
     @Override
     public int getCount() {
         return 2;
     }
-/* Commenting code for scrollable tabs*/
-   /* @Override
+
+    @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
                 return "Open";
             case 1:
                 return "Closed";
-            default:
-                return "Open";
         }
-    }*/
+        return null;
+    }
 }

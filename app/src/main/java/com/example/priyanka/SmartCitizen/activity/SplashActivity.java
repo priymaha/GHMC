@@ -7,15 +7,19 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.priyanka.SmartCitizen.R;
+import com.example.priyanka.SmartCitizen.callback.LoadEventCallback;
+import com.example.priyanka.SmartCitizen.controller.EntryController;
+import com.example.priyanka.SmartCitizen.utils.Globals;
 import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
 import com.keeptraxinc.cachemanager.dao.User;
 import com.keeptraxinc.sdk.KeepTrax;
 import com.keeptraxinc.sdk.impl.KeepTraxImpl;
 import com.keeptraxinc.utils.logger.Logger;
 
-public class SplashActivity extends AppCompatActivity {
-    Boolean mBackPress = false;
+public class SplashActivity extends AppCompatActivity implements LoadEventCallback {
     private static final String LOG_TAG = SplashActivity.class.getSimpleName();
+    Boolean mBackPress = false;
+    private EntryController mEntryController;
     //q7nt8q5b
 
     @Override
@@ -42,7 +46,7 @@ public class SplashActivity extends AppCompatActivity {
                     KeepTrax keepTrax = KeepTraxImpl.getInstance(SplashActivity.this, url, UrlBuilder.getApiKey(SplashActivity.this));
                     final User user = keepTrax.getUser();
                     try {
-                        Logger.debug(SplashActivity.this,LOG_TAG,"versionName "+getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+                        Logger.debug(SplashActivity.this, LOG_TAG, "versionName " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -67,11 +71,13 @@ public class SplashActivity extends AppCompatActivity {
         finish();
     }
 
+
     private void gotoHome() {
-        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-        startActivity(intent);
-        finish();
+        mEntryController = new EntryController(this);
+        mEntryController.init(this);
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -79,4 +85,12 @@ public class SplashActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void loadListOfShows() {
+        if (Globals.dialog != null && Globals.dialog.isShowing())
+            Globals.dialog.dismiss();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
