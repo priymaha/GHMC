@@ -1,5 +1,6 @@
 package com.example.priyanka.SmartCitizen.viewbinder.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -30,7 +31,6 @@ import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
 import com.keeptraxinc.sdk.KeepTrax;
 import com.keeptraxinc.sdk.impl.KeepTraxImpl;
 import com.keeptraxinc.utils.helper.NetworkInfo;
-
 import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 import java.util.HashMap;
@@ -92,6 +92,7 @@ public class SignupActivityVB extends BaseActivityViewBinder{
 
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void initViewListeners() {
         if (mSignupB != null) {
@@ -185,6 +186,7 @@ public class SignupActivityVB extends BaseActivityViewBinder{
         }
     }
 
+    @SuppressLint("NewApi")
     private void showSuccessAlert() {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

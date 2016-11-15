@@ -3,90 +3,90 @@
     android:id="@+id/activity_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#E2E4E3"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:background="#E2E4E3">
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:orientation="horizontal"
         android:layout_marginTop="40dp"
-        android:background="#fff">
+        android:background="#fff"
+        android:orientation="horizontal">
 
         <View
             android:layout_width="8dp"
             android:layout_height="wrap_content"
-            android:background="#FEF200"/>
+            android:background="#FEF200" />
 
         <TextView
             android:id="@+id/home_grievance_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="GRIEVANCE"
             android:gravity="center_vertical"
-            android:textSize="25sp"
+            android:paddingLeft="30dp"
+            android:text="GRIEVANCE"
             android:textColor="#000"
-            android:paddingLeft="30dp"/>
+            android:textSize="25sp" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#E2E4E3"/>
+        android:background="#E2E4E3" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:orientation="horizontal"
-        android:background="#fff">
+        android:background="#fff"
+        android:orientation="horizontal">
 
         <View
             android:layout_width="8dp"
             android:layout_height="wrap_content"
-            android:background="#17C800"/>
+            android:background="#17C800" />
 
         <TextView
             android:id="@+id/home_volunteer_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="VOLUNTEER"
             android:gravity="center_vertical"
-            android:textSize="25sp"
+            android:paddingLeft="25dp"
+            android:text="VOLUNTEER"
             android:textColor="#000"
-            android:paddingLeft="25dp"/>
+            android:textSize="25sp" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#E2E4E3"/>
+        android:background="#E2E4E3" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:orientation="horizontal"
-        android:background="#fff">
+        android:background="#fff"
+        android:orientation="horizontal">
 
         <View
             android:layout_width="8dp"
             android:layout_height="wrap_content"
-            android:background="#1779DC"/>
+            android:background="#1779DC" />
 
         <TextView
             android:id="@+id/home_points_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="MY POINTS"
             android:gravity="center_vertical"
-            android:textSize="25sp"
+            android:paddingLeft="25dp"
+            android:text="MY POINTS"
             android:textColor="#000"
-            android:paddingLeft="25dp"/>
+            android:textSize="25sp" />
 
     </LinearLayout>
 

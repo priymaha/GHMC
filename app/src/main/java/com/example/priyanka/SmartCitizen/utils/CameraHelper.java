@@ -96,6 +96,7 @@ public class CameraHelper {
                 }
             }
         }
+        cursor.close();
     }
 
     private static void broadcastScanFile(Context context, File f) {

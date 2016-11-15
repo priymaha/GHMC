@@ -50,12 +50,12 @@ public class AppUtils {
         @Override
         protected Boolean doInBackground(String... params) {
             try {
-                HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
-                urlc.setRequestProperty("User-Agent", "Test");
-                urlc.setRequestProperty("Connection", "close");
-                urlc.setConnectTimeout(1500);
-                urlc.connect();
-                return (urlc.getResponseCode() == 200);
+                HttpURLConnection url = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
+                url.setRequestProperty("User-Agent", "Test");
+                url.setRequestProperty("Connection", "close");
+                url.setConnectTimeout(1500);
+                url.connect();
+                return (url.getResponseCode() == 200);
             } catch (IOException e) {
                 Logger.error("isInternetAccessible", "Couldn't check internet connection", e);
             }

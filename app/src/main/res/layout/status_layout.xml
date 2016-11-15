@@ -4,20 +4,20 @@
     android:layout_height="48dp">
 
     <TextView
+        android:id="@+id/ic_actionbar_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:text="@string/report_grievance"
         android:textColor="#ffffff"
-        android:id="@+id/ic_actionbar_title"
-        android:textSize="20sp"
-        android:gravity="center"/>
+        android:textSize="20sp" />
 
     <ImageView
         android:id="@+id/customIv"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_actionbar_add"
+        android:layout_gravity="end"
         android:padding="5dp"
-        android:layout_gravity="end" />
+        android:src="@drawable/ic_actionbar_add" />
 
 </FrameLayout>

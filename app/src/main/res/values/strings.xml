@@ -119,4 +119,8 @@
     <string name="please_wait_submit_grievance">Please Wait, Submitting Grievance!!!</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="open_grievances">Open Grievances</string>
+    <string name="closed_grievances">Closed Grievances</string>
+    <string name="detail_grievance">Grievance Detail</string>
+    <string name="grievances">Grievances</string>
 </resources>

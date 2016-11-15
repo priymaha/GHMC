@@ -8,11 +8,11 @@
         android:id="@+id/grievance_status_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="THURSDAY, OCTOBER 6"
         android:background="#E2E4E3"
-        android:textColor="#666666"
-        android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
-        android:textSize="17sp"/>
+        android:paddingTop="10dp"
+        android:text="THURSDAY, OCTOBER 6"
+        android:textColor="#666666"
+        android:textSize="17sp" />
 </LinearLayout>

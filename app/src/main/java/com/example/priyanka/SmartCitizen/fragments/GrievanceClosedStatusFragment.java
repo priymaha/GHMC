@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.example.priyanka.SmartCitizen.utils.Globals;
 import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
 import com.keeptraxinc.sdk.KeepTrax;
 import com.keeptraxinc.sdk.impl.KeepTraxImpl;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -40,8 +42,7 @@ public class GrievanceClosedStatusFragment extends Fragment implements ClickList
 
 
     public static GrievanceClosedStatusFragment newInstance() {
-        GrievanceClosedStatusFragment fragment = new GrievanceClosedStatusFragment();
-        return fragment;
+        return new GrievanceClosedStatusFragment();
     }
 
     @Nullable
@@ -50,6 +51,7 @@ public class GrievanceClosedStatusFragment extends Fragment implements ClickList
         View layout = inflater.inflate(R.layout.fragment_grievance_status, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.my_recycler_view);
         mEventAvailableTV = (TextView) layout.findViewById(R.id.grievance_noevents_tv);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.grievances));
         return layout;
     }
 
@@ -62,17 +64,6 @@ public class GrievanceClosedStatusFragment extends Fragment implements ClickList
     @Override
     public void onResume() {
         super.onResume();
-
-//        mEventAvailableTV.setVisibility(View.VISIBLE);
-      /*  if (AppPreferences.getBooleanValue(Constants.NO_SHOWS, getActivity())) {
-            mEventAvailableTV.setVisibility(View.VISIBLE);
-        } else {
-            mEventAvailableTV.setVisibility(View.GONE);
-           *//* Globals.populateAdapterDataSet();
-            if (Globals.allSampleData.size() > 0) {
-                loadAdapter();
-            }*//*
-        }*/
         Globals.populateAdapterDataSet(Constants.STARTED);
         if (Globals.allClosedSampleData.size() > 0) {
             mEventAvailableTV.setVisibility(View.GONE);

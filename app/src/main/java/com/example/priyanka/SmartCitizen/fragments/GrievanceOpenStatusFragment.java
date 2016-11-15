@@ -55,7 +55,7 @@ public class GrievanceOpenStatusFragment extends Fragment implements ClickListen
         View layout = inflater.inflate(R.layout.fragment_grievance_status, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.my_recycler_view);
         mEventAvailableTV = (TextView) layout.findViewById(R.id.grievance_noevents_tv);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Open Grievances");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.grievances));
         return layout;
     }
 

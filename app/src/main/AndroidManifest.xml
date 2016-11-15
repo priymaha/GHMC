@@ -41,8 +41,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.GrievancePostActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".activity.MainActivity"/>
+            android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait" />
 
 
         <meta-data

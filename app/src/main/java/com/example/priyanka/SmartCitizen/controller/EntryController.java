@@ -13,11 +13,8 @@
 package com.example.priyanka.SmartCitizen.controller;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
 
 import com.example.priyanka.SmartCitizen.callback.LoadEventCallback;
-import com.example.priyanka.SmartCitizen.callback.ViewCallback;
 import com.example.priyanka.SmartCitizen.utils.Globals;
 import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
 import com.keeptraxinc.cachemanager.dao.EventDao;
@@ -25,7 +22,6 @@ import com.keeptraxinc.cachemanager.query.WhereClause;
 import com.keeptraxinc.cachemanager.query.WhereSimple;
 import com.keeptraxinc.sdk.KeepTrax;
 import com.keeptraxinc.sdk.impl.KeepTraxImpl;
-
 import com.keeptraxinc.utils.helper.DateUtils;
 
 /**

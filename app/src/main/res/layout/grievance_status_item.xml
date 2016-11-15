@@ -63,7 +63,7 @@
             android:layout_marginTop="10dp"
             android:text="243 members going"
             android:textColor="#77cb00"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 
     <View

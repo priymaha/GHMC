@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -54,7 +55,6 @@ import com.strongloop.android.loopback.callbacks.ObjectCallback;
 import com.strongloop.android.loopback.callbacks.VoidCallback;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -320,7 +320,9 @@ public class LoginActivityVB extends BaseActivityViewBinder implements LoadEvent
             mEmailET = (EditText) dialog.findViewById(R.id.fp_alert_email_et);
             mOkB = (Button) dialog.findViewById(R.id.fp_alert_submit_b);
 
-        mOkB.setBackground(activity.getResources().getDrawable(R.drawable.status_alert_button_background));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mOkB.setBackground(activity.getResources().getDrawable(R.drawable.status_alert_button_background));
+        }
         GradientDrawable bgShape = (GradientDrawable) mOkB.getBackground();
         bgShape.setColor(Color.parseColor("#105D91"));
         mEmailET.setOnEditorActionListener(new TextView.OnEditorActionListener() {

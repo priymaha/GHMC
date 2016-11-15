@@ -12,10 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
+import com.example.priyanka.SmartCitizen.R;
 import com.example.priyanka.SmartCitizen.listener.ClickListener;
 import com.example.priyanka.SmartCitizen.model.DataModel;
 import com.example.priyanka.SmartCitizen.model.GrievanceStatusModel;
-import com.example.priyanka.SmartCitizen.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

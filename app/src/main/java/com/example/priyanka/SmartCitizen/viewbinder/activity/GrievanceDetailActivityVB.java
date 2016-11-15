@@ -2,13 +2,11 @@ package com.example.priyanka.SmartCitizen.viewbinder.activity;
 
 import android.content.Intent;
 import android.media.ExifInterface;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -50,6 +48,7 @@ public class GrievanceDetailActivityVB extends BaseActivityViewBinder implements
     private ImageView mEventPic;
     private long eventId;
     private ExifInterface exif;
+    private Toolbar toolbar;
 
 
     public GrievanceDetailActivityVB(AppCompatActivity activity) {
@@ -64,12 +63,14 @@ public class GrievanceDetailActivityVB extends BaseActivityViewBinder implements
         if (contentView != null) {
             activity.setContentView(contentView);
         }
-        activity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        activity.getSupportActionBar().setCustomView(R.layout.status_layout);
-        activity.getSupportActionBar().getCustomView().findViewById(R.id.customIv).setVisibility(View.GONE);
-        TextView mTitleTV = (TextView) activity.getSupportActionBar().getCustomView().findViewById(R.id.ic_actionbar_title);
-        mTitleTV.setText("Grievance Detail");
+        toolbar = (Toolbar) contentView.findViewById(R.id.toolbar);
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        activity.getSupportActionBar().setHomeButtonEnabled(true);
+
+        activity.getSupportActionBar().setTitle(activity.getResources().getString(R.string.detail_grievance));
     }
+
 
     @Override
     public void initViews() {
@@ -210,7 +211,6 @@ public class GrievanceDetailActivityVB extends BaseActivityViewBinder implements
                 });
 
             }
-            return;
         }
 
 

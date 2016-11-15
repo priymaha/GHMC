@@ -18,10 +18,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
+            android:text="@string/signup_alert_title"
             android:textColor="#101010"
             android:textSize="20dp"
-            android:textStyle="bold"
-            android:text="@string/signup_alert_title"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/signup_alert_status_tv"
@@ -33,17 +33,17 @@
             android:layout_marginRight="12dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
+            android:text="@string/signup_alert_status"
             android:textAlignment="center"
             android:textColor="#101010"
-            android:textSize="12dp"
-            android:text="@string/signup_alert_status"/>
+            android:textSize="12dp" />
 
         <ImageView
             android:id="@+id/signup_alert_status_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/img_email_sent"/>
+            android:src="@drawable/img_email_sent" />
 
         <Button
             android:id="@+id/signup_alert_ok_b"
@@ -54,7 +54,7 @@
             android:text="OK"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

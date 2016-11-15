@@ -104,7 +104,6 @@ public class AppPreferences {
     public static ArrayList<Long> loadArray(Context context) {
         SharedPreferences sp = context.getSharedPreferences(APP_SHARED_PREFS, Activity.MODE_PRIVATE);
         String data = sp.getString(Constants.PHOTO_ARRAY,"");
-        ArrayList arrayList = new Gson().fromJson(data,new TypeToken<ArrayList<Long>>() {}.getType());
-        return arrayList;
+        return new Gson().<ArrayList>fromJson(data,new TypeToken<ArrayList<Long>>() {}.getType());
     }
 }

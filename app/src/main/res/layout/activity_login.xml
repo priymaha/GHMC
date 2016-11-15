@@ -98,9 +98,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="horizontal"
+                android:layout_marginBottom="15dp"
                 android:layout_marginTop="35dp"
-                android:layout_marginBottom="15dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/login_sign_up1_tv"

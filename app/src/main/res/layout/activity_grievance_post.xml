@@ -3,156 +3,157 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <include layout="@layout/app_bar"></include>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/form"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <EditText
-            android:id="@+id/grievanceTitle"
+        <LinearLayout
+            android:id="@+id/form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/grievanceTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="20dp"
+                android:background="@null"
+                android:hint="@string/postname"
+                android:inputType="textPersonName"
+                android:paddingLeft="8dp"
+                android:textColorHint="#999999"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="2dp"
+                android:background="#DBDBDB" />
+
+            <Spinner
+                android:id="@+id/feedbackType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="30dp"
+                android:entries="@array/feedbacktypelist"
+                android:prompt="@string/feedbacktype" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="2dp"
+                android:background="#DBDBDB" />
+
+            <Spinner
+                android:id="@+id/grievance_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="30dp"
+                android:entries="@array/status"
+                android:prompt="@string/feedbacktype" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="2dp"
+                android:background="#DBDBDB" />
+
+            <EditText
+                android:id="@+id/feedbackBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="30dp"
+                android:background="@null"
+                android:hint="@string/postdescription"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:maxLines="10"
+                android:minLines="1"
+                android:paddingLeft="8dp"
+                android:textColorHint="#999999"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="2dp"
+                android:background="#E0E0E0" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@null"
-            android:hint="@string/postname"
-            android:inputType="textPersonName"
-            android:paddingLeft="8dp"
-            android:textColorHint="#999999"
-            android:textSize="18sp"/>
+            android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="2dp"
-            android:background="#DBDBDB" />
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rl_photogrid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
 
-        <Spinner
-            android:id="@+id/feedbackType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="30dp"
-            android:entries="@array/feedbacktypelist"
-            android:prompt="@string/feedbacktype" />
+                <RelativeLayout
+                    android:id="@+id/rl_photogrid_parent"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/photo_grid_border"
+                    android:visibility="visible">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="2dp"
-            android:background="#DBDBDB" />
+                    <TextView
+                        android:id="@+id/tv_watermark"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Take Pic"
+                        android:textColor="#d4d4d4"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/grievance_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="30dp"
-            android:entries="@array/status"
-            android:prompt="@string/feedbacktype" />
+                    <ImageView
+                        android:id="@+id/image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/cam_img_border"
+                        android:padding="1dp"
+                        android:src="@drawable/ico_cam" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="2dp"
-            android:background="#DBDBDB" />
+                </RelativeLayout>
 
-        <EditText
-            android:id="@+id/feedbackBody"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="30dp"
-            android:background="@null"
-            android:hint="@string/postdescription"
-            android:inputType="textMultiLine"
-            android:lines="3"
-            android:maxLines="10"
-            android:minLines="1"
-            android:paddingLeft="8dp"
-            android:textColorHint="#999999"
-            android:textSize="18sp"/>
+                <RelativeLayout
+                    android:id="@+id/rl_photogrid_bitmap"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/photo_grid_border"
+                    android:visibility="gone">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="2dp"
-            android:background="#E0E0E0" />
+                    <com.example.priyanka.SmartCitizen.view.roundedimageview.RoundedImageView
+                        android:id="@+id/bitmap_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/round_corner_shows"
+                        android:scaleType="centerCrop" />
 
-    </LinearLayout>
+                </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp">
+            </FrameLayout>
 
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/rl_photogrid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
-
-            <RelativeLayout
-                android:id="@+id/rl_photogrid_parent"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/photo_grid_border"
-                android:visibility="visible">
-
-                <TextView
-                    android:id="@+id/tv_watermark"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Take Pic"
-                    android:textColor="#d4d4d4"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/cam_img_border"
-                    android:padding="1dp"
-                    android:src="@drawable/ico_cam" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_photogrid_bitmap"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/photo_grid_border"
-                android:visibility="gone">
-
-                <com.example.priyanka.SmartCitizen.view.roundedimageview.RoundedImageView
-                    android:id="@+id/bitmap_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/round_corner_shows"
-                    android:scaleType="centerCrop" />
-
-            </RelativeLayout>
-
-        </FrameLayout>
-
-    </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

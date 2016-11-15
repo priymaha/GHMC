@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,7 +23,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -40,11 +38,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.example.priyanka.SmartCitizen.R;
-import com.example.priyanka.SmartCitizen.activity.GrievancePostActivity;
 import com.example.priyanka.SmartCitizen.utils.AppUtils;
 import com.example.priyanka.SmartCitizen.utils.CameraHelper;
 import com.example.priyanka.SmartCitizen.utils.Constants;
-import com.example.priyanka.SmartCitizen.utils.Globals;
 import com.example.priyanka.SmartCitizen.utils.UIValidator;
 import com.example.priyanka.SmartCitizen.utils.UrlBuilder;
 import com.example.priyanka.SmartCitizen.utils.VolleySingleton;
@@ -118,12 +114,9 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         toolbar = (Toolbar) contentView.findViewById(R.id.toolbar);
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         activity.getSupportActionBar().setHomeButtonEnabled(true);
 
-       /* activity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        activity.getSupportActionBar().setCustomView(R.layout.status_layout);
-        activity.getSupportActionBar().getCustomView().findViewById(R.id.customIv).setVisibility(View.GONE);*/
+       activity.getSupportActionBar().setTitle(activity.getResources().getString(R.string.report_grievance));
     }
 
     @Override
@@ -216,7 +209,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
 
 
     private void postEvent() {
-        JSONObject jsonObject = null;
+
         Map<String, String> params = new HashMap<String, String>();
         params.put("start", DateUtils.getISOTime(System.currentTimeMillis()));
         params.put("end", "2016-10-14T16:10:00.000Z");
@@ -226,19 +219,7 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
         params.put("enterpriseId", Constants.ENTERPRISE);
         getKeepTraxInstance(context);
         params.put("userId",keepTrax.getUser().getId());
-  /*      jsonObject = new JSONObject();
-        try {
-                jsonObject.put(Constants.GRIEVANCE_TYPE, grievanceType.getSelectedItem().toString());
-                jsonObject.put(Constants.GRIEVANCE_DESCRIPTION, grievanceDescription.getText().toString());
-            if (mLastLocation != null) {
-                jsonObject.put(Constants.LATITUDE, String.valueOf(mLastLocation.getLatitude()));
-                jsonObject.put(Constants.LONGITUDE, String.valueOf(mLastLocation.getLongitude()));
-            }
-            params.put("extras", jsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-*/
+
         JSONObject jsonObj = new JSONObject(params);
         JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.POST, "http://52.34.54.113/api/v4/events", jsonObj,
                 new Response.Listener<JSONObject>() {
@@ -279,7 +260,6 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
     }
 
     private void getEvent(String eventId) {
-        KeepTrax keepTrax = KeepTraxImpl.getInstance(activity, UrlBuilder.getUrl(context), UrlBuilder.getApiKey(context));
         WhereClause wc = WhereSimple.eq(EventDao.Properties.Id.name, eventId);
         getEvents(context, wc);
     }
@@ -342,19 +322,6 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
     }
 
 
-    @Override
-    public void onPause() {
-        super.onPause();
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
-    }
-
     private void captureImage() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         fileUri = CameraHelper.getOutputMediaFileUri(context);
@@ -371,33 +338,6 @@ public class GrievancePostActivityVB extends BaseActivityViewBinder implements
 
     }
 
-    /*private void updatePhoto() throws JSONException {
-        String[] path = fileUri.getPath().split("/");
-        String name = path[path.length - 1];
-        if (!name.equals(photo.getName())) {
-            File imageFile = new File(context.getExternalFilesDir(null) + "/" + photo.getLocalUrl());
-            if (imageFile.exists()) {
-                imageFile.delete();
-            }
-
-        }
-        photo.setLocalUrl(path[path.length - 2] + "/" + path[path.length - 1]);   // Setting the local path in photo model
-        photo.setTime(DateUtils.getISOTime(System.currentTimeMillis()));
-        photo.setName(name);
-        photo.setType(Constants.IMAGE_JPEG);
-
-        try {
-            exif = new ExifInterface(fileUri.getPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Logger.debug(null, LOG_TAG, "ORIENTATION OF PHOTO " + exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0));
-        changeOrientation(fileUri.getPath());
-        savePhoto();
-
-
-    }*/
 
     private void createPhoto() {
         KeepTrax keepTrax = KeepTraxImpl.getInstance(activity, UrlBuilder.getUrl(context), UrlBuilder.getApiKey(context));
